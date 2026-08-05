@@ -1,0 +1,1100 @@
+[
+  {
+    "id": "end-kq-vs-k-black",
+    "source": "Silman, Complete Endgame Course, Part One: basic mates (K+Q vs K) (color-mirrored derivative)",
+    "fen": "8/4k3/3q4/8/4K3/8/8/8 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "e7f6",
+      "e7e6"
+    ],
+    "expected_result": "win",
+    "reference_explanation": "Color-mirrored version of end-kq-vs-k. The same idea applies for the side to move with colors reversed: basic mate, drive the king to the edge, avoid stalemate, bring the king up. Correct mirrored answer: win with Kf6.",
+    "key_ideas": [
+      "basic mate",
+      "drive the king to the edge",
+      "avoid stalemate",
+      "bring the king up"
+    ],
+    "theme": [
+      "basic-mate",
+      "queen"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-kr-vs-k-black",
+    "source": "Silman, Complete Endgame Course, Part One: basic mates (K+R vs K) (color-mirrored derivative)",
+    "fen": "8/4kr2/8/8/4K3/8/8/8 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "e7d6",
+      "e7e8"
+    ],
+    "expected_result": "win",
+    "reference_explanation": "Color-mirrored version of end-kr-vs-k. The same idea applies for the side to move with colors reversed: basic mate, cut the king off with the rook, use the opposition, mate on the edge. Correct mirrored answer: win with Kd6.",
+    "key_ideas": [
+      "basic mate",
+      "cut the king off with the rook",
+      "use the opposition",
+      "mate on the edge"
+    ],
+    "theme": [
+      "basic-mate",
+      "rook"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-kpvk-draw-black",
+    "source": "Silman, Complete Endgame Course, Class C: King and Pawn vs Lone King (color-mirrored derivative)",
+    "fen": "8/8/3k4/3p4/3K4/8/8/8 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "d6c6",
+      "d6e6"
+    ],
+    "expected_result": "draw",
+    "reference_explanation": "Color-mirrored version of end-kpvk-draw. The same idea applies for the side to move with colors reversed: opposition, defender in front of the pawn draws, extra pawn is not always a win. Correct mirrored answer: draw with Kc6.",
+    "key_ideas": [
+      "opposition",
+      "defender in front of the pawn draws",
+      "extra pawn is not always a win"
+    ],
+    "theme": [
+      "king-and-pawn",
+      "opposition",
+      "fortress"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-square-of-the-pawn-black",
+    "source": "Silman, Complete Endgame Course, Class C: Entering the Square of the Pawn (book p.106) (color-mirrored derivative)",
+    "fen": "4K3/8/8/8/p7/8/8/7k b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "a4a3",
+      "h1g2"
+    ],
+    "expected_result": "win",
+    "reference_explanation": "Color-mirrored version of end-square-of-the-pawn. The same idea applies for the side to move with colors reversed: square of the pawn, king outside the square cannot catch it, run the passed pawn. Correct mirrored answer: win with a3.",
+    "key_ideas": [
+      "square of the pawn",
+      "king outside the square cannot catch it",
+      "run the passed pawn"
+    ],
+    "theme": [
+      "king-and-pawn",
+      "square-rule",
+      "passed-pawn"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-opposition-win-black",
+    "source": "Silman, Complete Endgame Course, Class C: King and Pawn vs Lone King (key squares) (color-mirrored derivative)",
+    "fen": "8/8/8/8/4p3/4k3/8/4K3 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "e3d3",
+      "e3f3"
+    ],
+    "expected_result": "win",
+    "reference_explanation": "Color-mirrored version of end-opposition-win. The same idea applies for the side to move with colors reversed: opposition, key squares, king on the sixth rank ahead of the pawn wins, shoulder the enemy king away. Correct mirrored answer: win with Kd3 or Kf3.",
+    "key_ideas": [
+      "opposition",
+      "key squares",
+      "king on the sixth rank ahead of the pawn wins",
+      "shoulder the enemy king away"
+    ],
+    "theme": [
+      "king-and-pawn",
+      "opposition",
+      "key-squares"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-wrong-bishop-rook-pawn-black",
+    "source": "Silman, Complete Endgame Course, Class C: Bishop and Wrong Colored Rook-Pawn vs Lone King (book p.112) (color-mirrored derivative)",
+    "fen": "8/7B/8/8/8/p1k5/8/K7 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "c3b3",
+      "c3d4"
+    ],
+    "expected_result": "draw",
+    "reference_explanation": "Color-mirrored version of end-wrong-bishop-rook-pawn. The same idea applies for the side to move with colors reversed: wrong-colored bishop, rook-pawn, defending king reaches the corner, stalemate resource. Correct mirrored answer: draw with Kb3 or Kd4.",
+    "key_ideas": [
+      "wrong-colored bishop",
+      "rook-pawn",
+      "defending king reaches the corner",
+      "stalemate resource"
+    ],
+    "theme": [
+      "minor-piece-endgame",
+      "wrong-bishop",
+      "fortress"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-philidor-draw-white",
+    "source": "Silman, Complete Endgame Course, Class C: The Philidor Position (book p.126, diagram 130) (color-mirrored derivative)",
+    "fen": "8/8/8/8/3kp3/8/4K2R/6r1 w - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "h2h3"
+    ],
+    "expected_result": "draw",
+    "reference_explanation": "Color-mirrored version of end-philidor-draw. The same idea applies for the side to move with colors reversed: Philidor position, third-rank defense, stop the king reaching the sixth, checks from the rear once the pawn advances. Correct mirrored answer: draw with Rh3.",
+    "key_ideas": [
+      "Philidor position",
+      "third-rank defense",
+      "stop the king reaching the sixth",
+      "checks from the rear once the pawn advances"
+    ],
+    "theme": [
+      "rook-endgame",
+      "philidor",
+      "defense"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-diagram-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-lucena-win-black",
+    "source": "Silman, Complete Endgame Course, Class C: The Lucena Position (book p.121, diagram 125) (color-mirrored derivative)",
+    "fen": "2R5/4r3/8/8/8/8/3p1K2/3k4 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "e7f7",
+      "e7e2"
+    ],
+    "expected_result": "win",
+    "reference_explanation": "Color-mirrored version of end-lucena-win. The same idea applies for the side to move with colors reversed: Lucena position, extra pawn on the seventh with king in front, drive the enemy king away with a rook check, build a bridge on the fourth rank. Correct mirrored answer: win with Rf7+ or Re2+.",
+    "key_ideas": [
+      "Lucena position",
+      "extra pawn on the seventh with king in front",
+      "drive the enemy king away with a rook check",
+      "build a bridge on the fourth rank"
+    ],
+    "theme": [
+      "rook-endgame",
+      "lucena",
+      "building-a-bridge"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "book-diagram-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-opposite-bishops-draw-black",
+    "source": "Silman, Complete Endgame Course, Class C: Bishops of Opposite Colors (book p.120, diagram 124) (color-mirrored derivative)",
+    "fen": "5b2/8/8/3k4/3p4/3K4/6B1/8 b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "d5e5"
+    ],
+    "expected_result": "draw",
+    "reference_explanation": "Color-mirrored version of end-opposite-bishops-draw. The same idea applies for the side to move with colors reversed: opposite-colored bishops, blockade the passed pawn, wrong-color bishop cannot evict the king, drawing tendency. Correct mirrored answer: draw with Ke5.",
+    "key_ideas": [
+      "opposite-colored bishops",
+      "blockade the passed pawn",
+      "wrong-color bishop cannot evict the king",
+      "drawing tendency"
+    ],
+    "theme": [
+      "minor-piece-endgame",
+      "opposite-colored-bishops",
+      "fortress"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "book-diagram-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "end-reti-draw-black",
+    "source": "Reti 1928 study (a staple of endgame courses): the king on two errands (color-mirrored derivative)",
+    "fen": "8/8/8/8/7P/K1p5/8/7k b - - 0 1",
+    "task": "endgame",
+    "solution_moves": [
+      "h1g2"
+    ],
+    "expected_result": "draw",
+    "reference_explanation": "Color-mirrored version of end-reti-draw. The same idea applies for the side to move with colors reversed: king on two errands, enter the square of the pawn, support your own passed pawn, diagonal king path. Correct mirrored answer: draw with Kg2.",
+    "key_ideas": [
+      "king on two errands",
+      "enter the square of the pawn",
+      "support your own passed pawn",
+      "diagonal king path"
+    ],
+    "theme": [
+      "king-and-pawn",
+      "study",
+      "geometry"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "canonical-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "eval-up-a-piece-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material) (color-mirrored derivative)",
+    "fen": "6k1/pp3ppp/2n5/8/8/8/PP3PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "winning",
+    "reference_explanation": "Color-mirrored version of eval-up-a-piece. The same idea applies for the side to move with colors reversed: material imbalance, up a whole piece, trade pieces to simplify a winning game. Correct mirrored answer: winning.",
+    "key_ideas": [
+      "material imbalance",
+      "up a whole piece",
+      "trade pieces to simplify a winning game"
+    ],
+    "theme": [
+      "material",
+      "winning"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-up-a-rook-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material) (color-mirrored derivative)",
+    "fen": "r5k1/pp3ppp/8/8/8/8/PP3PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "winning",
+    "reference_explanation": "Color-mirrored version of eval-up-a-rook. The same idea applies for the side to move with colors reversed: large material advantage, up a rook, no compensation for the opponent. Correct mirrored answer: winning.",
+    "key_ideas": [
+      "large material advantage",
+      "up a rook",
+      "no compensation for the opponent"
+    ],
+    "theme": [
+      "material",
+      "winning"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-extra-pawn-rook-ending-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material \u2014 a small but lasting edge) (color-mirrored derivative)",
+    "fen": "6k1/pr3ppp/8/8/8/8/5PPP/R5K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "better",
+    "reference_explanation": "Color-mirrored version of eval-extra-pawn-rook-ending. The same idea applies for the side to move with colors reversed: extra pawn, small lasting advantage, Black presses but it is not yet decisive. Correct mirrored answer: better.",
+    "key_ideas": [
+      "extra pawn",
+      "small lasting advantage",
+      "Black presses but it is not yet decisive"
+    ],
+    "theme": [
+      "material",
+      "rook-endgame"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-extra-pawn-minors-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material) (color-mirrored derivative)",
+    "fen": "2n3k1/pp3ppp/8/8/3N4/8/1P3PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "better",
+    "reference_explanation": "Color-mirrored version of eval-extra-pawn-minors. The same idea applies for the side to move with colors reversed: extra pawn, superior chances, create a passed pawn on the majority side. Correct mirrored answer: better.",
+    "key_ideas": [
+      "extra pawn",
+      "superior chances",
+      "create a passed pawn on the majority side"
+    ],
+    "theme": [
+      "material",
+      "minor-pieces"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-dynamic-equality-black",
+    "source": "Adams & Hurtado, Think Like a Super-GM / Silman, The Amateur's Mind: assessing the imbalances (color-mirrored derivative)",
+    "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R b KQkq - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "equal",
+    "reference_explanation": "Color-mirrored version of eval-dynamic-equality. The same idea applies for the side to move with colors reversed: symmetry, no imbalance favours either side, dynamic equality. Correct mirrored answer: equal.",
+    "key_ideas": [
+      "symmetry",
+      "no imbalance favours either side",
+      "dynamic equality"
+    ],
+    "theme": [
+      "equality",
+      "opening"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-balanced-minor-ending-black",
+    "source": "Silman, The Amateur's Mind: assessing the imbalances (recognising equality) (color-mirrored derivative)",
+    "fen": "6k1/5ppp/5n2/8/8/5N2/5PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "equal",
+    "reference_explanation": "Color-mirrored version of eval-balanced-minor-ending. The same idea applies for the side to move with colors reversed: level material, symmetrical structure, no exploitable imbalance. Correct mirrored answer: equal.",
+    "key_ideas": [
+      "level material",
+      "symmetrical structure",
+      "no exploitable imbalance"
+    ],
+    "theme": [
+      "equality",
+      "minor-pieces"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-down-a-pawn-minors-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material deficit) (color-mirrored derivative)",
+    "fen": "6k1/1p3ppp/5n2/8/8/3N4/PP3PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "worse",
+    "reference_explanation": "Color-mirrored version of eval-down-a-pawn-minors. The same idea applies for the side to move with colors reversed: down a pawn, concrete disadvantage, defend actively and seek counterplay. Correct mirrored answer: worse.",
+    "key_ideas": [
+      "down a pawn",
+      "concrete disadvantage",
+      "defend actively and seek counterplay"
+    ],
+    "theme": [
+      "material",
+      "minor-pieces"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-down-a-pawn-queens-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material vs activity) (color-mirrored derivative)",
+    "fen": "2q3k1/1p3ppp/8/8/8/8/PP3PPP/3Q2K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "worse",
+    "reference_explanation": "Color-mirrored version of eval-down-a-pawn-queens. The same idea applies for the side to move with colors reversed: down a pawn, queens on gives dynamic chances, activity as compensation. Correct mirrored answer: worse.",
+    "key_ideas": [
+      "down a pawn",
+      "queens on gives dynamic chances",
+      "activity as compensation"
+    ],
+    "theme": [
+      "material",
+      "dynamics"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-down-a-piece-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material) (color-mirrored derivative)",
+    "fen": "6k1/pp3ppp/8/8/4N3/8/PP3PPP/6K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "losing",
+    "reference_explanation": "Color-mirrored version of eval-down-a-piece. The same idea applies for the side to move with colors reversed: down a piece, strategically lost, complicate as a practical try. Correct mirrored answer: losing.",
+    "key_ideas": [
+      "down a piece",
+      "strategically lost",
+      "complicate as a practical try"
+    ],
+    "theme": [
+      "material",
+      "losing"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "eval-down-a-rook-black",
+    "source": "Silman, The Amateur's Mind: imbalances (material) (color-mirrored derivative)",
+    "fen": "6k1/pp3ppp/8/8/8/8/PP3PPP/1R4K1 b - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "losing",
+    "reference_explanation": "Color-mirrored version of eval-down-a-rook. The same idea applies for the side to move with colors reversed: down a rook, decisive material deficit, only swindling chances remain. Correct mirrored answer: losing.",
+    "key_ideas": [
+      "down a rook",
+      "decisive material deficit",
+      "only swindling chances remain"
+    ],
+    "theme": [
+      "material",
+      "losing"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "imbalance-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": [],
+    "student_message": null
+  },
+  {
+    "id": "tac-back-rank-mate-black",
+    "source": "Yusupov, Build Up Your Chess 1: The Fundamentals, Ch.1 Mating motifs (back-rank mate) (color-mirrored derivative)",
+    "fen": "4r1k1/5ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "e8e1"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-back-rank-mate. The same idea applies for the side to move with colors reversed: back-rank weakness, no luft for the king, rook penetrates to the 8th rank. Correct mirrored answer: Re1#.",
+    "key_ideas": [
+      "back-rank weakness",
+      "no luft for the king",
+      "rook penetrates to the 8th rank"
+    ],
+    "theme": [
+      "back-rank",
+      "mate-in-1"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-double-attack-queen-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.12 The double attack / Ch.13 Realizing a material advantage (color-mirrored derivative)",
+    "fen": "6k1/pp4pp/2n5/8/3Q4/8/PP4PP/6K1 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "c6d4"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-double-attack-queen. The same idea applies for the side to move with colors reversed: win material, capture the undefended queen, check what is hanging. Correct mirrored answer: Nxd4.",
+    "key_ideas": [
+      "win material",
+      "capture the undefended queen",
+      "check what is hanging"
+    ],
+    "theme": [
+      "winning-material",
+      "double-attack"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-knight-fork-exchange-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.12 The double attack (knight fork) (color-mirrored derivative)",
+    "fen": "6k1/pp4pp/8/8/8/2n5/PP4PP/2R3K1 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "c3e2"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-knight-fork-exchange. The same idea applies for the side to move with colors reversed: knight fork, double attack with check, win the exchange. Correct mirrored answer: Ne2+.",
+    "key_ideas": [
+      "knight fork",
+      "double attack with check",
+      "win the exchange"
+    ],
+    "theme": [
+      "fork",
+      "double-attack"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-arabian-mate-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1 Mating motifs (the Arabian mate) (color-mirrored derivative)",
+    "fen": "2r3k1/8/8/8/8/5n2/6P1/7K b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "c8c1"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-arabian-mate. The same idea applies for the side to move with colors reversed: rook and knight coordinate, knight covers the flight squares, mate on the edge. Correct mirrored answer: Rc1#.",
+    "key_ideas": [
+      "rook and knight coordinate",
+      "knight covers the flight squares",
+      "mate on the edge"
+    ],
+    "theme": [
+      "arabian-mate",
+      "mate-in-1"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-remove-the-defender-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.15 Combinations (removing the defender) (color-mirrored derivative)",
+    "fen": "3rr1k1/5ppp/8/8/8/8/5PPP/3R2K1 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "d8d1"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-remove-the-defender. The same idea applies for the side to move with colors reversed: remove the defender, overloaded guard, back-rank mate. Correct mirrored answer: Rxd1#.",
+    "key_ideas": [
+      "remove the defender",
+      "overloaded guard",
+      "back-rank mate"
+    ],
+    "theme": [
+      "back-rank",
+      "deflection",
+      "mate-in-1"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-discovered-check-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.7 The discovered attack (discovered check) (color-mirrored derivative)",
+    "fen": "4r1k1/8/8/8/4n3/6Q1/7P/4K3 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "e4g3"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-discovered-check. The same idea applies for the side to move with colors reversed: discovered check, capture with tempo, the rook checks while the knight takes the queen. Correct mirrored answer: Nxg3+.",
+    "key_ideas": [
+      "discovered check",
+      "capture with tempo",
+      "the rook checks while the knight takes the queen"
+    ],
+    "theme": [
+      "discovered-check",
+      "winning-material"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-the-pin-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.11 The pin (color-mirrored derivative)",
+    "fen": "4r1k1/3p1p2/2n5/8/4N3/3P4/8/4K2R b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "d7d5",
+      "f7f5"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-the-pin. The same idea applies for the side to move with colors reversed: absolute pin, the pinned piece cannot move, attack the pinned piece to win it. Correct mirrored answer: d5 or f5.",
+    "key_ideas": [
+      "absolute pin",
+      "the pinned piece cannot move",
+      "attack the pinned piece to win it"
+    ],
+    "theme": [
+      "pin",
+      "winning-material"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-smothered-mate-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1 Mating motifs (smothered mate) (color-mirrored derivative)",
+    "fen": "6k1/8/1q6/8/8/7n/6PP/5R1K b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "b6g1"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-smothered-mate. The same idea applies for the side to move with colors reversed: smothered mate, queen sacrifice to block g1, knight delivers mate, king trapped by its own pieces. Correct mirrored answer: Qg1+.",
+    "key_ideas": [
+      "smothered mate",
+      "queen sacrifice to block g1",
+      "knight delivers mate",
+      "king trapped by its own pieces"
+    ],
+    "theme": [
+      "smothered-mate",
+      "sacrifice",
+      "mate-in-2"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-underpromotion-fork-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.19 Combinations involving promotion (underpromotion) (color-mirrored derivative)",
+    "fen": "6k1/5pp1/8/8/8/8/K1p1Q3/8 b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "c2c1n"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-underpromotion-fork. The same idea applies for the side to move with colors reversed: underpromotion to a knight, promote with check, knight fork wins the queen. Correct mirrored answer: c1=N+.",
+    "key_ideas": [
+      "underpromotion to a knight",
+      "promote with check",
+      "knight fork wins the queen"
+    ],
+    "theme": [
+      "promotion",
+      "underpromotion",
+      "fork"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "tac-supported-queen-mate-black",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1-2 Mating motifs (supported queen mate) (color-mirrored derivative)",
+    "fen": "6qk/8/8/8/5n2/8/7P/7K b - - 0 1",
+    "task": "best_move",
+    "solution_moves": [
+      "g8g2"
+    ],
+    "reference_explanation": "Color-mirrored version of tac-supported-queen-mate. The same idea applies for the side to move with colors reversed: supported mate, queen beside the king, knight protects the queen, the king has no escape. Correct mirrored answer: Qg2#.",
+    "key_ideas": [
+      "supported mate",
+      "queen beside the king",
+      "knight protects the queen",
+      "the king has no escape"
+    ],
+    "theme": [
+      "support-mate",
+      "mate-in-1"
+    ],
+    "level": "advanced",
+    "extraction": {
+      "method": "motif-illustration-mirrored",
+      "model": null,
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "student_message": null
+  },
+  {
+    "id": "teach-back-rank-hint-black",
+    "source": "Teaching scenario: quick-sight, checks first (four-phase decision method) (color-mirrored derivative)",
+    "fen": "4r1k1/5ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+    "task": "teaching",
+    "solution_moves": [
+      "e8e1"
+    ],
+    "student_message": "Give me a hint about what to look for here \u2014 don't tell me the move yet.",
+    "spoiler_forbidden": true,
+    "reference_explanation": "Color-mirrored version of teach-back-rank-hint. The same idea applies for the side to move with colors reversed: back-rank mate, look for checks first, the king is trapped by its own pawns. Correct mirrored answer: Re1#.",
+    "key_ideas": [
+      "back-rank mate",
+      "look for checks first",
+      "the king is trapped by its own pawns"
+    ],
+    "theme": [
+      "mate",
+      "back-rank"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    }
+  },
+  {
+    "id": "teach-fork-check-hint-black",
+    "source": "Teaching scenario: candidate moves, forcing checks (four-phase decision method) (color-mirrored derivative)",
+    "fen": "4k3/1p6/8/8/1n1Q4/8/8/4K3 b - - 0 1",
+    "task": "teaching",
+    "solution_moves": [
+      "b4c2"
+    ],
+    "student_message": "How do I win material here? Point me in the right direction.",
+    "spoiler_forbidden": true,
+    "reference_explanation": "Color-mirrored version of teach-fork-check-hint. The same idea applies for the side to move with colors reversed: knight fork with check, a forcing check wins the queen, the check comes together with the fork. Correct mirrored answer: Nc2+.",
+    "key_ideas": [
+      "knight fork with check",
+      "a forcing check wins the queen",
+      "the check comes together with the fork"
+    ],
+    "theme": [
+      "fork",
+      "tactics"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    }
+  },
+  {
+    "id": "teach-supported-mate-reveal-black",
+    "source": "Teaching scenario: forcing moves, supported mate (four-phase decision method) (color-mirrored derivative)",
+    "fen": "3r2k1/8/2b5/3q4/8/8/5P1P/R2Q2K1 b - - 0 1",
+    "task": "teaching",
+    "solution_moves": [
+      "d5g2"
+    ],
+    "student_message": "Is there a forced mate here? What is the best move?",
+    "spoiler_forbidden": false,
+    "reference_explanation": "Color-mirrored version of teach-supported-mate-reveal. The same idea applies for the side to move with colors reversed: supported mate on g2, the bishop guards the mating square, the king has no escape. Correct mirrored answer: Qg2#.",
+    "key_ideas": [
+      "supported mate on g2",
+      "the bishop guards the mating square",
+      "the king has no escape"
+    ],
+    "theme": [
+      "mate",
+      "battery"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    }
+  },
+  {
+    "id": "teach-up-a-piece-assess-black",
+    "source": "Teaching scenario: understanding the position, material imbalance (color-mirrored derivative)",
+    "fen": "6k1/pp3ppp/2n5/8/8/8/PP3PPP/6K1 b - - 0 1",
+    "task": "teaching",
+    "expected_bucket": "winning",
+    "student_message": "Who is better in this position, and why?",
+    "spoiler_forbidden": false,
+    "reference_explanation": "Color-mirrored version of teach-up-a-piece-assess. The same idea applies for the side to move with colors reversed: up a whole piece, decisive material advantage, trade pieces to simplify a winning game. Correct mirrored answer: winning.",
+    "key_ideas": [
+      "up a whole piece",
+      "decisive material advantage",
+      "trade pieces to simplify a winning game"
+    ],
+    "theme": [
+      "material",
+      "assessment"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    },
+    "solution_moves": []
+  },
+  {
+    "id": "teach-scholars-candidate-black",
+    "source": "Teaching scenario: evaluating the student's own move (Scholar's Mate) (color-mirrored derivative)",
+    "fen": "rnb1k1nr/pppp1ppp/5q2/2b1p3/4P3/2N5/PPPP1PPP/R1BQKBNR b KQkq - 4 4",
+    "task": "teaching",
+    "solution_moves": [
+      "f6f2"
+    ],
+    "student_message": "I'm thinking about playing Qxf2. Is that a good move?",
+    "spoiler_forbidden": false,
+    "reference_explanation": "Color-mirrored version of teach-scholars-candidate. The same idea applies for the side to move with colors reversed: Scholar's Mate, Qxf2 is defended by the bishop on c5, checkmate ends the game. Correct mirrored answer: Qxf2#.",
+    "key_ideas": [
+      "Scholar's Mate",
+      "Qxf2 is defended by the bishop on c5",
+      "checkmate ends the game"
+    ],
+    "theme": [
+      "mate",
+      "opening-trap"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    }
+  },
+  {
+    "id": "teach-promotion-hint-black",
+    "source": "Teaching scenario: promote the passed pawn, forcing checks (color-mirrored derivative)",
+    "fen": "6k1/8/8/8/8/8/p7/1N5K b - - 0 1",
+    "task": "teaching",
+    "solution_moves": [
+      "a2b1q"
+    ],
+    "student_message": "What should I be trying to do here? Give me a nudge, not the answer.",
+    "spoiler_forbidden": true,
+    "reference_explanation": "Color-mirrored version of teach-promotion-hint. The same idea applies for the side to move with colors reversed: promote the passed pawn, the promotion captures the knight with check, a new queen is decisive. Correct mirrored answer: axb1=Q+.",
+    "key_ideas": [
+      "promote the passed pawn",
+      "the promotion captures the knight with check",
+      "a new queen is decisive"
+    ],
+    "theme": [
+      "endgame",
+      "promotion"
+    ],
+    "level": "beginner",
+    "extraction": {
+      "method": "hand-mirrored",
+      "validated_by": [
+        "python-chess",
+        "stockfish",
+        "python-chess mirror"
+      ]
+    }
+  }
+]

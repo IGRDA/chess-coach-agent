@@ -1,0 +1,24 @@
+.coverage
+.coverage.*
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+.deepeval/
+__pycache__/
+*.py[cod]
+
+# Local/generated data (top-level app data only; NOT evals/data/).
+/data/
+
+# Eval framework: track code + curated goldens, ignore generated artifacts.
+evals/results/
+evals/data/staged.json
+
+# Packaging metadata from editable installs.
+*.egg-info/
+build/
+dist/
+
+# Git worktrees created under .trees/ (each is a full checkout, not project code).
+/.trees/

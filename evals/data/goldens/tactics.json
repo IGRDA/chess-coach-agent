@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tac-back-rank-mate",
+    "source": "Yusupov, Build Up Your Chess 1: The Fundamentals, Ch.1 Mating motifs (back-rank mate)",
+    "fen": "6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Re8#"],
+    "reference_explanation": "The classic back-rank mate. Black's king is boxed in behind its own three unmoved pawns and has never made 'luft' (an escape square). White simply penetrates to the eighth rank with 1.Re8#: the rook gives check along the back rank and the king, walled in by the f7-, g7- and h7-pawns, has no flight square.",
+    "key_ideas": ["back-rank weakness", "no luft for the king", "rook penetrates to the 8th rank"],
+    "theme": ["back-rank", "mate-in-1"],
+    "level": "beginner",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-double-attack-queen",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.12 The double attack / Ch.13 Realizing a material advantage",
+    "fen": "6k1/pp4pp/8/3q4/8/2N5/PP4PP/6K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Nxd5"],
+    "reference_explanation": "The most basic way to win material is to capture something that cannot be defended. Here Black's queen has wandered to d5 where nothing guards it, and 1.Nxd5 simply wins it. Always check whether the opponent's most valuable pieces are safely defended before doing anything else.",
+    "key_ideas": ["win material", "capture the undefended queen", "check what is hanging"],
+    "theme": ["winning-material", "double-attack"],
+    "level": "beginner",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-knight-fork-exchange",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.12 The double attack (knight fork)",
+    "fen": "2r3k1/pp4pp/2N5/8/8/8/PP4PP/6K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Ne7+"],
+    "reference_explanation": "A knight forks two targets at once. With 1.Ne7+ the knight attacks the king and the rook on c8 simultaneously; because it is check, Black must move the king, and then 2.Nxc8 wins the exchange (a rook for the knight). The fork with check is the cleanest double attack because the opponent gets no time to save both pieces.",
+    "key_ideas": ["knight fork", "double attack with check", "win the exchange"],
+    "theme": ["fork", "double-attack"],
+    "level": "beginner",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-arabian-mate",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1 Mating motifs (the Arabian mate)",
+    "fen": "7k/6p1/5N2/8/8/8/8/2R3K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Rc8#"],
+    "reference_explanation": "The Arabian mate, a very old motif in which rook and knight combine. The knight on f6 covers the king's flight squares g8 and h7, while its own g7-pawn takes away g7. 1.Rc8# swings the rook to the back rank, and with every escape square controlled the king is mated by rook and knight working together.",
+    "key_ideas": ["rook and knight coordinate", "knight covers the flight squares", "mate on the edge"],
+    "theme": ["arabian-mate", "mate-in-1"],
+    "level": "intermediate",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-remove-the-defender",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.15 Combinations (removing the defender)",
+    "fen": "3r2k1/5ppp/8/8/8/8/5PPP/3RR1K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Rxd8#"],
+    "reference_explanation": "Black's back rank is weak; the only thing defending it is the rook on d8. Removing that defender ends the game at once: 1.Rxd8# captures the guard with check, and since the king is still shut in by its own pawns it is mate. When a mating square is held by a single defender, eliminate it.",
+    "key_ideas": ["remove the defender", "overloaded guard", "back-rank mate"],
+    "theme": ["back-rank", "deflection", "mate-in-1"],
+    "level": "intermediate",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-discovered-check",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.7 The discovered attack (discovered check)",
+    "fen": "4k3/7p/6q1/4N3/8/8/8/4R1K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Nxg6+"],
+    "reference_explanation": "The knight on e5 masks a rook on the e-file that is aimed at the black king. Moving the knight uncovers that rook, so 1.Nxg6+ captures the queen and gives check at the same time. Because Black must answer the discovered check to the king, there is no time to recapture the knight — it escapes having won the queen. A discovered check lets the moving piece grab material 'for free'.",
+    "key_ideas": ["discovered check", "capture with tempo", "the rook checks while the knight takes the queen"],
+    "theme": ["discovered-check", "winning-material"],
+    "level": "intermediate",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-the-pin",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.11 The pin",
+    "fen": "4k2r/8/3p4/4n3/8/2N5/3P1P2/4R1K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["d4", "f4"],
+    "reference_explanation": "The black knight on e5 is pinned against its king by the rook on e1 and cannot legally move. A pinned piece is a helpless target: 1.d4 attacks the knight, and since it is only defended once (by the d6-pawn) and cannot flee, White wins it — the pawn takes and, after the recapture, White has won a knight for a pawn. Pile up on a pinned piece and it falls.",
+    "key_ideas": ["absolute pin", "the pinned piece cannot move", "attack the pinned piece to win it"],
+    "theme": ["pin", "winning-material"],
+    "level": "intermediate",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-smothered-mate",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1 Mating motifs (smothered mate)",
+    "fen": "5r1k/6pp/7N/8/8/1Q6/8/6K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Qg8+"],
+    "reference_explanation": "Philidor's smothered mate. The king on h8 is hemmed in by its own g7- and h7-pawns, and the knight on h6 guards g8. White sacrifices the queen with 1.Qg8+!!, forcing 1...Rxg8 (the king cannot take, the knight defends g8). Now the rook blocks the king's last escape square, and 2.Nf7# is a smothered mate — the king is checkmated by the knight while surrounded by its own men.",
+    "key_ideas": ["smothered mate", "queen sacrifice to block g8", "knight delivers mate", "king trapped by its own pieces"],
+    "theme": ["smothered-mate", "sacrifice", "mate-in-2"],
+    "level": "advanced",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-underpromotion-fork",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.19 Combinations involving promotion (underpromotion)",
+    "fen": "8/k1P1q3/8/8/8/8/5PP1/6K1 w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["c8=N+"],
+    "reference_explanation": "Promoting the c-pawn to a queen would achieve nothing special, but underpromotion wins on the spot: 1.c8=N+! makes a knight with check, forking the king on a7 and the queen on e7. Black must deal with the check, and then the knight takes the queen. When a straight promotion does not help, look for a knight-promotion that gives check or a fork.",
+    "key_ideas": ["underpromotion to a knight", "promote with check", "knight fork wins the queen"],
+    "theme": ["promotion", "underpromotion", "fork"],
+    "level": "advanced",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "tac-supported-queen-mate",
+    "source": "Yusupov, Build Up Your Chess 1, Ch.1-2 Mating motifs (supported queen mate)",
+    "fen": "7k/7p/8/5N2/8/8/8/6QK w - - 0 1",
+    "task": "best_move",
+    "solution_moves": ["Qg7#"],
+    "reference_explanation": "A queen delivers mate from right beside the enemy king when it is protected. 1.Qg7# places the queen next to the king on h8, defended by the knight on f5 so that ...Kxg7 is illegal. The king's own h7-pawn denies it the only other flight square, so it is checkmate. The key to this mating pattern is that the mating piece must be supported.",
+    "key_ideas": ["supported mate", "queen beside the king", "knight protects the queen", "the king has no escape"],
+    "theme": ["support-mate", "mate-in-1"],
+    "level": "advanced",
+    "extraction": {"method": "motif-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  }
+]

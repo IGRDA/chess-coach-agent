@@ -1,0 +1,1017 @@
+[
+  {
+    "id": "conv-two-bishops-001",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I want to push f4 because it looks active."},
+      {"role": "coach", "text": "Before a pawn push, ask whether it improves or restricts your pieces."},
+      {"role": "student", "text": "It does restrict my knight, but it gains space."},
+      {"role": "coach", "text": "Then the gain must be compared against that restriction."}
+    ],
+    "student_message": "So should I still play for the kingside attack?",
+    "reference_explanation": "Do not force a fantasy attack when your own knight and bishop are restricted. First improve pieces and challenge the center; activity should serve the position, not just look aggressive.",
+    "key_ideas": ["improve pieces before pawn pushes", "do not build a fantasy attack", "challenge the center"],
+    "required_facts": ["improve pieces", "pawn push", "center"],
+    "forbidden_claims": ["always push the f-pawn"],
+    "spoiler_policy": "none",
+    "theme": ["piece activity", "pawn discipline", "student misconception"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-two-bishops-002",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I like my bishop move because it pins a knight."},
+      {"role": "coach", "text": "A pin is not enough by itself; compare it with the main imbalance."},
+      {"role": "student", "text": "The bishop pair might be more important than the pin."},
+      {"role": "coach", "text": "Good; now decide whether your move preserves that advantage."}
+    ],
+    "student_message": "What should I look at before deciding?",
+    "reference_explanation": "Start with the main imbalance and only then choose a move. If the bishop pair or central tension is the key feature, a move that merely looks forcing may give away the real advantage.",
+    "key_ideas": ["identify the main imbalance", "do not overvalue a cosmetic pin", "preserve the useful bishop"],
+    "required_facts": ["main imbalance", "pin", "bishop"],
+    "forbidden_claims": ["a pin is always worth playing"],
+    "spoiler_policy": "none",
+    "theme": ["imbalances", "bishop pair", "candidate moves"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-center-break-003",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My original plan was a knight maneuver to a good square."},
+      {"role": "coach", "text": "Plans must adapt when the opponent changes the central structure."},
+      {"role": "student", "text": "I am worried that changing plans means I miscalculated."},
+      {"role": "coach", "text": "Changing plans can be a sign that you understood the new position."}
+    ],
+    "student_message": "How do I know when to shift gears?",
+    "reference_explanation": "A plan is not a promise. Shift gears when the opponent's setup changes the main problem, especially when a central break or recapture can improve your pieces more directly than the original maneuver.",
+    "key_ideas": ["plans must adapt", "central structure can change priorities", "piece improvement beats loyalty to an old plan"],
+    "required_facts": ["adapt", "central", "pieces"],
+    "forbidden_claims": ["never abandon your original plan"],
+    "spoiler_policy": "none",
+    "theme": ["planning", "center", "flexibility"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-candidate-comparison-004",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I found two candidate moves: one grabs space, one improves a piece."},
+      {"role": "coach", "text": "Good. Now compare what each move leaves behind."},
+      {"role": "student", "text": "The space move leaves a square weak."},
+      {"role": "coach", "text": "That hidden cost belongs in the comparison."}
+    ],
+    "student_message": "The space-gaining move feels more ambitious. Is that enough?",
+    "reference_explanation": "Ambition is not a reason. A candidate move must be judged by its consequences: whether it restricts your own pieces, weakens squares, helps the opponent, or supports the position's main need.",
+    "key_ideas": ["compare consequences", "ambition is not sufficient", "watch self-restriction"],
+    "required_facts": ["consequences", "restricts", "main need"],
+    "forbidden_claims": ["the most ambitious move is best"],
+    "spoiler_policy": "none",
+    "theme": ["candidate moves", "calculation", "self-restriction"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-dont-spoil-005",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I am solving this exercise and I want only a hint."},
+      {"role": "coach", "text": "Then I will point you toward the idea, not the move."},
+      {"role": "student", "text": "I keep wanting to attack the king immediately."},
+      {"role": "coach", "text": "Before attacking, test whether your pieces are ready."}
+    ],
+    "student_message": "Give me the next hint, but not the answer.",
+    "reference_explanation": "Withhold the exact move. The useful hint is to ask whether the attacking move improves the pieces and whether there is a central or positional problem that must be solved first.",
+    "key_ideas": ["withhold the answer", "hint through questions", "test attack against piece improvement"],
+    "required_facts": ["hint", "improves the pieces"],
+    "forbidden_claims": ["the answer is"],
+    "spoiler_policy": "withhold",
+    "theme": ["spoiler control", "socratic coaching", "piece activity"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-bishop-vs-knight-006",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I see bishop versus knight as a permanent advantage."},
+      {"role": "coach", "text": "It is an advantage only if the position lets the bishop work."},
+      {"role": "student", "text": "So I should avoid trading it automatically?"},
+      {"role": "coach", "text": "Exactly; trade only for a concrete reason."}
+    ],
+    "student_message": "How should I decide whether to keep the bishop?",
+    "reference_explanation": "Keep the bishop when open lines, central tension, or targets make it active. Trading can be right if it wins something concrete, but do not give up a useful bishop just because a forcing move is available.",
+    "key_ideas": ["bishop value depends on activity", "do not trade automatically", "forcing moves still need a purpose"],
+    "required_facts": ["activity", "trade", "purpose"],
+    "forbidden_claims": ["never trade a bishop for a knight"],
+    "spoiler_policy": "none",
+    "theme": ["minor pieces", "bishop pair", "trades"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-student-overconfidence-007",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My move looked aggressive, so I assumed it had to be good."},
+      {"role": "coach", "text": "Aggression must be connected to a real target."},
+      {"role": "student", "text": "I did not name the target before moving."},
+      {"role": "coach", "text": "That is the habit we are training."}
+    ],
+    "student_message": "What should I say to myself during a game to avoid that mistake?",
+    "reference_explanation": "Use a checklist: what is the target, what does the opponent reply, what piece becomes worse, and does the move solve the main positional problem. That turns confidence into calculation.",
+    "key_ideas": ["aggression needs a real target", "ask for opponent reply", "use a checklist"],
+    "required_facts": ["target", "opponent", "checklist"],
+    "forbidden_claims": ["aggressive moves are usually correct"],
+    "spoiler_policy": "none",
+    "theme": ["thinking process", "aggression", "calculation"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-reveal-after-effort-008",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I tried the candidate move you hinted at."},
+      {"role": "coach", "text": "Good. Tell me the follow-up you calculated."},
+      {"role": "student", "text": "I calculated the recapture but missed the piece restriction."},
+      {"role": "coach", "text": "Then the answer should connect calculation to that restriction."}
+    ],
+    "student_message": "I am stuck now. Please tell me the answer and why.",
+    "reference_explanation": "Reveal the answer plainly because the student asked after trying. Then connect it to the recurring lesson: improve piece activity, avoid self-restriction, and make the central problem harder for the opponent.",
+    "key_ideas": ["reveal after effort", "connect answer to prior misconception", "piece activity and center"],
+    "required_facts": ["piece activity", "center"],
+    "forbidden_claims": ["you should have seen this instantly"],
+    "spoiler_policy": "reveal",
+    "theme": ["reveal policy", "feedback", "student effort"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-memory-misconception-009",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "Earlier I kept choosing moves that attacked something."},
+      {"role": "coach", "text": "Yes, and we noticed those moves often ignored your worst piece."},
+      {"role": "student", "text": "Now I see a forcing move again."},
+      {"role": "coach", "text": "Use the same diagnostic before trusting it."}
+    ],
+    "student_message": "Should I trust the forcing move this time?",
+    "reference_explanation": "Do not reject forcing moves, but test them against the earlier pattern. If the forcing move also improves the worst piece or solves the central issue, it may be right; if it only looks active, be skeptical.",
+    "key_ideas": ["remember the student's pattern", "forcing moves need verification", "worst-piece improvement"],
+    "required_facts": ["forcing", "worst piece", "verify"],
+    "forbidden_claims": ["never play forcing moves"],
+    "spoiler_policy": "none",
+    "theme": ["memory", "forcing moves", "worst piece"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-center-vs-wing-010",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I want to start play on the wing."},
+      {"role": "coach", "text": "What is happening in the center?"},
+      {"role": "student", "text": "The center is tense, but my wing move is tempting."},
+      {"role": "coach", "text": "Tempting wing play must answer the central question."}
+    ],
+    "student_message": "Why does the center matter so much here?",
+    "reference_explanation": "A wing operation is often premature when the center can open or be challenged. The center determines piece mobility and king safety; solve or stabilize it before spending tempi on side play.",
+    "key_ideas": ["center before wing play", "central tension affects mobility", "avoid premature side play"],
+    "required_facts": ["center", "mobility", "premature"],
+    "forbidden_claims": ["wing attacks ignore the center"],
+    "spoiler_policy": "none",
+    "theme": ["center", "wing play", "timing"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-piece-plan-011",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I first wanted a direct attack."},
+      {"role": "coach", "text": "We checked that the attack had no concrete target."},
+      {"role": "student", "text": "Then I looked at a pin."},
+      {"role": "coach", "text": "The pin looked active but did not solve your worst piece."},
+      {"role": "student", "text": "So the real issue is piece placement."},
+      {"role": "coach", "text": "Exactly. Now choose a move that changes the position in your pieces' favor."},
+      {"role": "student", "text": "I still feel drawn to the flashy move."}
+    ],
+    "student_message": "Can you summarize the lesson before I choose?",
+    "reference_explanation": "The lesson is to rank moves by the position's need, not by appearance. Reject the flashy move if it leaves the worst piece bad; prefer the move that improves coordination and challenges the center.",
+    "key_ideas": ["position need over appearance", "improve worst piece", "coordination and center"],
+    "required_facts": ["worst piece", "coordination", "center"],
+    "forbidden_claims": ["choose the flashy move"],
+    "spoiler_policy": "withhold",
+    "theme": ["long context", "summary", "piece coordination"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-adapt-plan-012",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I chose a plan based on occupying a square."},
+      {"role": "coach", "text": "That was reasonable before Black changed the structure."},
+      {"role": "student", "text": "Black's last move blocks my old route."},
+      {"role": "coach", "text": "Then ask what new weakness or break appeared."},
+      {"role": "student", "text": "I see a central break but it feels like abandoning my plan."},
+      {"role": "coach", "text": "Adapting is not abandoning; it is using new information."},
+      {"role": "student", "text": "So I should calculate the break first?"}
+    ],
+    "student_message": "What should my final decision be based on?",
+    "reference_explanation": "Base it on the changed position: whether the central break improves your pieces, opens useful lines, or makes the old square available later. A flexible plan can return to the original goal after solving the urgent issue.",
+    "key_ideas": ["adapt to changed structure", "central break can improve pieces", "flexible plan may return to original goal"],
+    "required_facts": ["changed position", "central break", "flexible"],
+    "forbidden_claims": ["stick to the old plan no matter what"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "adaptation", "central break"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-student-anxiety-013",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I missed the opponent's last idea and started to panic."},
+      {"role": "coach", "text": "Panic narrows calculation. First identify whether there is a defensive resource."},
+      {"role": "student", "text": "I tend to assume the tactic is fatal."},
+      {"role": "coach", "text": "That assumption needs to be checked, not obeyed."}
+    ],
+    "student_message": "How should I recover during the game?",
+    "reference_explanation": "Slow the position down. Look for forcing threats, defended pieces, and waiting resources before assuming the tactic is lethal. The goal is to move from panic back to concrete calculation.",
+    "key_ideas": ["recover from panic", "check defensive resources", "return to concrete calculation"],
+    "required_facts": ["panic", "defensive", "calculation"],
+    "forbidden_claims": ["resign when you miss an idea"],
+    "spoiler_policy": "none",
+    "theme": ["defense", "psychology", "calculation"],
+    "level": "intermediate",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-grind-mindset-014",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "This endgame looks drawn, so I want to offer a draw."},
+      {"role": "coach", "text": "A drawn evaluation is not the same as an easy hold for your opponent."},
+      {"role": "student", "text": "But I do not see a winning tactic."},
+      {"role": "coach", "text": "Then look for practical questions rather than a tactic."}
+    ],
+    "student_message": "What does it mean to grind here?",
+    "reference_explanation": "Grinding means keeping the game alive, improving pieces, asking small practical questions, and making the opponent solve problems. It is not about a magic tactic; it is about process and patience.",
+    "key_ideas": ["drawn does not mean no practical chances", "ask small questions", "patience and process"],
+    "required_facts": ["practical", "patience", "problems"],
+    "forbidden_claims": ["a drawn position cannot be played for a win"],
+    "spoiler_policy": "none",
+    "theme": ["grinding", "endgame mindset", "practical chances"],
+    "level": "beginner",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-small-advantages-015",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I only have a tiny edge."},
+      {"role": "coach", "text": "Then your job is to accumulate, not rush."},
+      {"role": "student", "text": "I am not sure what accumulation means move by move."},
+      {"role": "coach", "text": "It means improving one constraint at a time."}
+    ],
+    "student_message": "What should I improve first?",
+    "reference_explanation": "Improve the worst-placed piece, restrict counterplay, and avoid releasing tension too early. Small advantages grow when each move asks the opponent another practical question.",
+    "key_ideas": ["accumulate small advantages", "improve worst piece", "restrict counterplay"],
+    "required_facts": ["worst", "counterplay", "small"],
+    "forbidden_claims": ["force the win immediately"],
+    "spoiler_policy": "none",
+    "theme": ["small advantages", "conversion", "grinding"],
+    "level": "intermediate",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-defensive-grind-016",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I am worse and just want to find tricks."},
+      {"role": "coach", "text": "Tricks help only after you identify the defensive task."},
+      {"role": "student", "text": "The opponent has pressure but no immediate mate."}
+    ],
+    "student_message": "What is a good defensive plan?",
+    "reference_explanation": "A good defensive grind reduces the opponent's active ideas, keeps pieces defended, creates waiting moves when possible, and forces the opponent to prove progress without giving them a clear break.",
+    "key_ideas": ["reduce active ideas", "keep pieces defended", "make opponent prove progress"],
+    "required_facts": ["defended", "active ideas", "progress"],
+    "forbidden_claims": ["only look for tricks"],
+    "spoiler_policy": "none",
+    "theme": ["defense", "grinding", "waiting moves"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-grind-017",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "We said there is no direct win."},
+      {"role": "coach", "text": "Right, so you should not force matters yet."},
+      {"role": "student", "text": "I improved my king."},
+      {"role": "coach", "text": "Good. Now look for a second improvement."},
+      {"role": "student", "text": "My opponent still has one active defender."},
+      {"role": "coach", "text": "Then restrict it before transforming the advantage."},
+      {"role": "student", "text": "I am worried this is too slow."}
+    ],
+    "student_message": "Why is slow play right here?",
+    "reference_explanation": "Slow play is right when there is no forcing win and your improvements are risk-free. The point is to maximize pieces, restrict counterplay, and only transform the advantage when the opponent has fewer resources.",
+    "key_ideas": ["no forcing win", "risk-free improvement", "transform only after restricting counterplay"],
+    "required_facts": ["risk-free", "counterplay", "transform"],
+    "forbidden_claims": ["slow play is always passive"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "grinding", "transformation"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-piece-before-pawn-018",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My pawn push gains space."},
+      {"role": "coach", "text": "It also fixes squares and can trap your own pieces."},
+      {"role": "student", "text": "So I should look for a piece move first?"},
+      {"role": "coach", "text": "Yes, especially if the pawn would reduce your own mobility."}
+    ],
+    "student_message": "What is the safer improvement?",
+    "reference_explanation": "A safer improvement is to develop or reroute the piece that the pawn would restrict. Once the pieces are coordinated, a pawn break can be stronger because it supports a concrete plan.",
+    "key_ideas": ["piece improvement before pawn expansion", "coordinate first", "pawn break later"],
+    "required_facts": ["coordinate", "pawn", "piece"],
+    "forbidden_claims": ["space always helps"],
+    "spoiler_policy": "none",
+    "theme": ["piece activity", "space", "pawn breaks"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-open-file-019",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I can put a rook on an open file."},
+      {"role": "coach", "text": "Good, but ask whether the file leads to an entry point."},
+      {"role": "student", "text": "There is pressure, but I do not see a target yet."}
+    ],
+    "student_message": "Is occupying the file still useful?",
+    "reference_explanation": "Yes if it increases pressure, prepares an invasion square, or supports a central break. An open file is a route, not a destination; connect it to a target or restriction.",
+    "key_ideas": ["open file needs entry point", "pressure must connect to target", "route not destination"],
+    "required_facts": ["entry", "target", "file"],
+    "forbidden_claims": ["any open file is decisive"],
+    "spoiler_policy": "none",
+    "theme": ["open files", "rook activity", "targets"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-outpost-020",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I want to jump my knight to the outpost."},
+      {"role": "coach", "text": "Check whether it can be chased and what it attacks."},
+      {"role": "student", "text": "It looks stable but maybe it blocks my bishop."}
+    ],
+    "student_message": "How do I judge the outpost?",
+    "reference_explanation": "Judge an outpost by stability, targets, and harmony with the rest of your pieces. A stable square is not enough if the knight blocks your bishop or attacks nothing important.",
+    "key_ideas": ["outpost needs stability and targets", "piece harmony matters", "avoid blocking another piece"],
+    "required_facts": ["stability", "targets", "harmony"],
+    "forbidden_claims": ["an outpost is always good"],
+    "spoiler_policy": "none",
+    "theme": ["outposts", "knights", "coordination"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-defender-removal-021",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I see a defender I might remove."},
+      {"role": "coach", "text": "Good. What changes after the defender disappears?"},
+      {"role": "student", "text": "The target becomes loose but my piece also moves away."},
+      {"role": "coach", "text": "Then calculate both consequences, not just the first one."}
+    ],
+    "student_message": "What is the coaching point here?",
+    "reference_explanation": "Removing a defender is useful only if the follow-up works after both sides reply. The student should calculate the target, the recapture, and whether their own piece activity improves or declines.",
+    "key_ideas": ["remove defender only with follow-up", "calculate recapture", "piece activity after exchange"],
+    "required_facts": ["follow-up", "recapture", "activity"],
+    "forbidden_claims": ["removing a defender always wins"],
+    "spoiler_policy": "none",
+    "theme": ["calculation", "defenders", "exchanges"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-pawn-break-timing-022",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I know the pawn break is thematic."},
+      {"role": "coach", "text": "Thematic is not the same as timed correctly."},
+      {"role": "student", "text": "My pieces are almost ready."},
+      {"role": "coach", "text": "Almost ready often means one move short."}
+    ],
+    "student_message": "How do I decide whether to play it now?",
+    "reference_explanation": "Check whether the break opens lines for your prepared pieces or for the opponent. If one piece still needs improvement, prepare first; if waiting lets the opponent stop it, calculate the immediate break.",
+    "key_ideas": ["thematic break needs timing", "prepared pieces", "opponent counterplay"],
+    "required_facts": ["timing", "prepared", "counterplay"],
+    "forbidden_claims": ["thematic breaks are automatic"],
+    "spoiler_policy": "none",
+    "theme": ["pawn breaks", "timing", "preparation"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-calculate-opponent-023",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My line works if Black cooperates."},
+      {"role": "coach", "text": "A line must survive the opponent's best try."}
+    ],
+    "student_message": "What should I calculate first?",
+    "reference_explanation": "Calculate the opponent's most annoying reply first: checks, captures, threats, and moves that challenge your idea. If your plan only works against passive replies, it is not a real plan.",
+    "key_ideas": ["calculate opponent's best reply", "checks captures threats", "reject cooperative lines"],
+    "required_facts": ["opponent", "checks", "captures"],
+    "forbidden_claims": ["assume the opponent cooperates"],
+    "spoiler_policy": "none",
+    "theme": ["calculation", "candidate moves", "opponent resources"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-evaluate-after-line-024",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I calculated three moves deep."},
+      {"role": "coach", "text": "Now evaluate the final position, not just the moves."},
+      {"role": "student", "text": "The final position has my bishop blocked."},
+      {"role": "coach", "text": "That matters more than the line looking forcing."}
+    ],
+    "student_message": "So the line is bad even if nothing tactical fails?",
+    "reference_explanation": "Yes. A line can be tactically legal but strategically poor if it leaves your pieces worse, gives up the main imbalance, or hands the opponent easier play.",
+    "key_ideas": ["evaluate final position", "tactically legal can be strategically poor", "do not give up main imbalance"],
+    "required_facts": ["final position", "strategically", "imbalance"],
+    "forbidden_claims": ["if the tactic works the line is always best"],
+    "spoiler_policy": "none",
+    "theme": ["calculation", "evaluation", "strategy"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-spoiler-hint-025",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I asked for no solution yet."},
+      {"role": "coach", "text": "Right. We are training your thinking process."},
+      {"role": "student", "text": "I checked forcing moves."},
+      {"role": "coach", "text": "Good. Now compare them with quiet improvements."},
+      {"role": "student", "text": "The quiet move seems slow."},
+      {"role": "coach", "text": "Slow can be strong if it improves coordination."},
+      {"role": "student", "text": "I still want one more nudge."}
+    ],
+    "student_message": "Give me one more hint, still no move.",
+    "reference_explanation": "Keep withholding the move. The hint should point to quiet coordination, the worst piece, and whether the candidate move solves the central or piece-activity problem.",
+    "key_ideas": ["maintain spoiler control", "quiet coordination", "worst piece and central problem"],
+    "required_facts": ["quiet", "worst piece", "central"],
+    "forbidden_claims": ["the move is"],
+    "spoiler_policy": "withhold",
+    "theme": ["long context", "spoiler control", "quiet move"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-student-tilt-026",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I thought I had calculated everything."},
+      {"role": "coach", "text": "Then you noticed one defensive idea you missed."},
+      {"role": "student", "text": "That made me panic."},
+      {"role": "coach", "text": "We paused and looked for forcing threats."},
+      {"role": "student", "text": "The rook was defended."},
+      {"role": "coach", "text": "That changed the evaluation of the tactic."},
+      {"role": "student", "text": "I still feel embarrassed."}
+    ],
+    "student_message": "What should I learn from this?",
+    "reference_explanation": "The lesson is not embarrassment; it is process. When surprised, verify the threat, identify defended pieces and waiting resources, then recalculate from the new facts.",
+    "key_ideas": ["surprise requires process", "verify threats", "defended pieces and waiting resources"],
+    "required_facts": ["process", "threat", "defended"],
+    "forbidden_claims": ["you failed because you are bad at chess"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "psychology", "defensive calculation"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-transform-advantage-027",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I have pressure but no breakthrough."},
+      {"role": "coach", "text": "Then consider whether to transform the advantage."},
+      {"role": "student", "text": "Transforming sounds like giving something up."}
+    ],
+    "student_message": "When is transformation correct?",
+    "reference_explanation": "Transformation is correct when the current advantage has reached its limit and you can convert it into a more durable one, such as a better endgame, better structure, or safer king pressure.",
+    "key_ideas": ["transform advantage at the right moment", "current pressure may reach a limit", "seek durable advantage"],
+    "required_facts": ["transform", "durable", "advantage"],
+    "forbidden_claims": ["never change the type of advantage"],
+    "spoiler_policy": "none",
+    "theme": ["transformation", "conversion", "planning"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-tiring-opponent-028",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My opponent is defending accurately."},
+      {"role": "coach", "text": "Then make the defense last without increasing your own risk."},
+      {"role": "student", "text": "Is that just playing for a mistake?"}
+    ],
+    "student_message": "How is that good coaching advice?",
+    "reference_explanation": "It is not hoping blindly. It means choosing moves that improve your position, preserve control, and keep asking the opponent practical questions until fatigue or a small inaccuracy appears.",
+    "key_ideas": ["outlast without risk", "practical questions", "do not hope blindly"],
+    "required_facts": ["risk", "practical", "fatigue"],
+    "forbidden_claims": ["just wait for a blunder"],
+    "spoiler_policy": "none",
+    "theme": ["grinding", "practical play", "fatigue"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-saving-half-point-029",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I am defending a worse endgame."},
+      {"role": "coach", "text": "Your job is to make progress hard, not to equalize instantly."},
+      {"role": "student", "text": "I found a waiting move."},
+      {"role": "coach", "text": "Good. Check if it creates zugzwang risks or avoids them."}
+    ],
+    "student_message": "What should my mindset be?",
+    "reference_explanation": "Defensive grinding means patience, active resistance, and accurate resource-finding. Keep pieces defended, avoid unnecessary pawn moves, and force the stronger side to show a real plan.",
+    "key_ideas": ["defensive grinding", "active resistance", "force opponent to show a plan"],
+    "required_facts": ["defensive", "resistance", "plan"],
+    "forbidden_claims": ["passive waiting is enough"],
+    "spoiler_policy": "none",
+    "theme": ["defensive grinding", "endgame", "mindset"],
+    "level": "intermediate",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-endgame-no-rush-030",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I want to cash in my advantage immediately."},
+      {"role": "coach", "text": "First ask whether cashing in releases pressure."}
+    ],
+    "student_message": "Why is 'do not rush' so common in endgames?",
+    "reference_explanation": "Because many endgame edges grow through patient improvement. Rushing can exchange away pressure or give counterplay; improve the king, restrict the defender, and only simplify when the resulting endgame is clearly favorable.",
+    "key_ideas": ["do not rush", "patient improvement", "simplify only into favorable endgame"],
+    "required_facts": ["rush", "king", "simplify"],
+    "forbidden_claims": ["always simplify when ahead"],
+    "spoiler_policy": "none",
+    "theme": ["endgame", "conversion", "patience"],
+    "level": "beginner",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-candidate-review-031",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "Candidate A wins space."},
+      {"role": "coach", "text": "It also weakens a square."},
+      {"role": "student", "text": "Candidate B improves a bishop."},
+      {"role": "coach", "text": "It may be slow but it supports the center."},
+      {"role": "student", "text": "Candidate C creates a pin."},
+      {"role": "coach", "text": "The pin disappears after a simple reply."},
+      {"role": "student", "text": "I am leaning toward A because it is bold."},
+      {"role": "coach", "text": "Boldness is not the criterion; consequences are."}
+    ],
+    "student_message": "Which candidate should I analyze deeper?",
+    "reference_explanation": "Analyze the candidate that best addresses the position's need: piece improvement and central support. The bold space-gain needs skepticism if it weakens squares, and the pin is lower priority if it vanishes.",
+    "key_ideas": ["choose candidate by position need", "skepticism about weakening space gain", "pin that vanishes is lower priority"],
+    "required_facts": ["position", "weakens", "pin"],
+    "forbidden_claims": ["boldness decides"],
+    "spoiler_policy": "withhold",
+    "theme": ["long context", "candidate moves", "decision process"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-grind-transform-032",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I improved my king."},
+      {"role": "coach", "text": "Good first layer."},
+      {"role": "student", "text": "Then I restricted their rook."},
+      {"role": "coach", "text": "Now their counterplay is lower."},
+      {"role": "student", "text": "I can trade into a pawn ending."},
+      {"role": "coach", "text": "Only if the pawn ending keeps the advantage."},
+      {"role": "student", "text": "I am not sure if the transformation is favorable."},
+      {"role": "coach", "text": "Then compare the current pressure with the transformed ending."}
+    ],
+    "student_message": "What should I answer myself at the board?",
+    "reference_explanation": "Ask whether the transformation improves certainty. If the new ending is clearly favorable and removes counterplay, transform; if not, keep improving and asking practical questions.",
+    "key_ideas": ["transformation should improve certainty", "remove counterplay", "keep improving if unclear"],
+    "required_facts": ["certainty", "counterplay", "improving"],
+    "forbidden_claims": ["trade because trades are always good when better"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "transformation", "endgame"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-question-quality-033",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I keep asking 'what attacks something?'"},
+      {"role": "coach", "text": "Ask broader questions: what is weak, what is bad, what can improve?"}
+    ],
+    "student_message": "What questions should I ask before moving?",
+    "reference_explanation": "Ask what the opponent threatens, what your worst piece is, what imbalance matters, and whether your candidate improves that imbalance without creating a new weakness.",
+    "key_ideas": ["ask better thinking questions", "worst piece", "imbalance and new weaknesses"],
+    "required_facts": ["worst piece", "imbalance", "weakness"],
+    "forbidden_claims": ["only look for attacks"],
+    "spoiler_policy": "none",
+    "theme": ["thinking process", "questions", "self-coaching"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-piece-restriction-034",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "The move attacks, but my knight loses a square."},
+      {"role": "coach", "text": "That is the hidden cost you need to count."},
+      {"role": "student", "text": "I usually ignore hidden costs."}
+    ],
+    "student_message": "How do I make that concrete?",
+    "reference_explanation": "Name the piece that becomes worse, name the square it loses, and compare that cost with the gain from the attack. If the attack is not concrete, the restriction usually matters more.",
+    "key_ideas": ["identify hidden cost", "name worsened piece and lost square", "compare cost with concrete gain"],
+    "required_facts": ["hidden cost", "lost square", "concrete"],
+    "forbidden_claims": ["ignore piece restriction"],
+    "spoiler_policy": "none",
+    "theme": ["piece restriction", "calculation", "evaluation"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-coach-tone-035",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I suggested a bad-looking move."},
+      {"role": "coach", "text": "The idea behind it was understandable, but the execution failed."},
+      {"role": "student", "text": "I do not want just to be told I am wrong."}
+    ],
+    "student_message": "How should I think about the mistake?",
+    "reference_explanation": "Separate the useful idea from the flawed move. Praise the correct search direction, then explain the concrete drawback and give a better question for next time.",
+    "key_ideas": ["separate idea from execution", "correct without shaming", "give next thinking question"],
+    "required_facts": ["idea", "drawback", "next"],
+    "forbidden_claims": ["that was just stupid"],
+    "spoiler_policy": "none",
+    "theme": ["teacher tone", "feedback", "mistakes"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-breakthrough-not-yet-036",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I want a breakthrough."},
+      {"role": "coach", "text": "First make sure all your pieces are ready."},
+      {"role": "student", "text": "One piece is still passive."},
+      {"role": "coach", "text": "Then the breakthrough may be premature."}
+    ],
+    "student_message": "What is the practical plan?",
+    "reference_explanation": "Improve the passive piece, prevent counterplay, and keep the breakthrough as a threat. Often the threat of a break ties the opponent down more effectively than rushing it.",
+    "key_ideas": ["prepare breakthrough", "improve passive piece", "threat can be stronger than execution"],
+    "required_facts": ["passive", "counterplay", "threat"],
+    "forbidden_claims": ["breakthrough immediately"],
+    "spoiler_policy": "none",
+    "theme": ["grinding", "breakthrough", "preparation"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-opponent-fatigue-037",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "The opponent has defended for a long time."},
+      {"role": "coach", "text": "Then consistency becomes part of the battle."},
+      {"role": "student", "text": "I do not want to overpress."},
+      {"role": "coach", "text": "Correct. Keep risk controlled."}
+    ],
+    "student_message": "How do I press without overpressing?",
+    "reference_explanation": "Choose improvements that preserve your safety, keep the opponent passive, and avoid irreversible commitments unless they clearly improve the position. Pressure should be cumulative, not reckless.",
+    "key_ideas": ["press without overpressing", "controlled risk", "cumulative pressure"],
+    "required_facts": ["risk", "passive", "cumulative"],
+    "forbidden_claims": ["take any risk to win"],
+    "spoiler_policy": "none",
+    "theme": ["practical play", "risk", "grinding"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-student-repeats-error-038",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I again chose the move that looked active."},
+      {"role": "coach", "text": "That repeats the same pattern as before."},
+      {"role": "student", "text": "I forgot to check my worst piece."},
+      {"role": "coach", "text": "Good diagnosis. Now use it."}
+    ],
+    "student_message": "Can you give me a corrective habit?",
+    "reference_explanation": "Before playing the active-looking move, pause and name your worst piece. If the move does not improve it, create a threat, or solve the main imbalance, search for a quieter improvement.",
+    "key_ideas": ["remember repeated error", "name worst piece before moving", "quiet improvement may be best"],
+    "required_facts": ["worst piece", "imbalance", "quiet"],
+    "forbidden_claims": ["ignore the repeated pattern"],
+    "spoiler_policy": "none",
+    "theme": ["memory", "habit", "worst piece"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-when-to-calculate-039",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "There are many candidate moves."},
+      {"role": "coach", "text": "Start with forcing moves, then compare quiet improvements."},
+      {"role": "student", "text": "The forcing line ends in a position I dislike."},
+      {"role": "coach", "text": "Then its forcing nature is not enough."}
+    ],
+    "student_message": "How do I choose what to calculate next?",
+    "reference_explanation": "Calculate candidates that address the main need: forcing moves if they work, quiet improvements if they solve the real problem. Do not spend all your time on a line whose final position is strategically bad.",
+    "key_ideas": ["candidate selection by main need", "forcing line final position matters", "quiet improvements can be candidates"],
+    "required_facts": ["main need", "final position", "quiet"],
+    "forbidden_claims": ["only calculate checks"],
+    "spoiler_policy": "none",
+    "theme": ["calculation", "candidate selection", "quiet moves"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-endgame-joy-040",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I find long endgames boring."},
+      {"role": "coach", "text": "They can be a way to outlast and outthink the opponent."}
+    ],
+    "student_message": "How can I make myself care about them?",
+    "reference_explanation": "Treat long endgames as problem-solving contests: improve one thing, ask one new question, and make the opponent keep proving the draw. That mindset turns patience into a practical weapon.",
+    "key_ideas": ["endgames as problem-solving", "ask new questions", "patience as practical weapon"],
+    "required_facts": ["endgames", "questions", "patience"],
+    "forbidden_claims": ["endgames are only memorization"],
+    "spoiler_policy": "none",
+    "theme": ["motivation", "endgame", "grinding"],
+    "level": "beginner",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-final-review-041",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I considered an attacking pawn push."},
+      {"role": "coach", "text": "We saw it restricted your own pieces."},
+      {"role": "student", "text": "Then I considered a pin."},
+      {"role": "coach", "text": "The pin was cosmetic."},
+      {"role": "student", "text": "Then I looked at the center."},
+      {"role": "coach", "text": "That was closer to the main issue."},
+      {"role": "student", "text": "I think I understand now."},
+      {"role": "coach", "text": "Summarize it before choosing."}
+    ],
+    "student_message": "My summary: solve the center and improve pieces before attacking. Is that right?",
+    "reference_explanation": "Yes. Reinforce the student's correct summary and add that attacks are strongest when they grow from piece coordination and central control, not from appearance alone.",
+    "key_ideas": ["affirm correct student summary", "center and piece coordination before attack", "appearance alone is insufficient"],
+    "required_facts": ["center", "coordination", "attack"],
+    "forbidden_claims": ["your summary is wrong"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "student summary", "feedback"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-defensive-review-042",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I missed a tactic."},
+      {"role": "coach", "text": "You recovered by checking the defended pieces."},
+      {"role": "student", "text": "Then I found a waiting resource."},
+      {"role": "coach", "text": "That made the opponent prove more."},
+      {"role": "student", "text": "The position still felt scary."},
+      {"role": "coach", "text": "Scary positions still have resources."},
+      {"role": "student", "text": "I want a repeatable method."},
+      {"role": "coach", "text": "Build it from the steps you just used."}
+    ],
+    "student_message": "What is my repeatable defensive method?",
+    "reference_explanation": "List threats, verify what is actually hanging, identify defended pieces, search for waiting or counterattacking resources, and only then decide whether the danger is real.",
+    "key_ideas": ["repeatable defensive method", "verify hanging pieces", "waiting or counterattacking resources"],
+    "required_facts": ["threats", "defended", "resources"],
+    "forbidden_claims": ["trust your fear"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "defense", "method"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-student-asks-why-043",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "You keep saying my move restricts my pieces."},
+      {"role": "coach", "text": "Because your pieces need squares before your attack can work."},
+      {"role": "student", "text": "I still do not see why that beats gaining space."}
+    ],
+    "student_message": "Explain it without just saying the move is bad.",
+    "reference_explanation": "Explain the mechanism: a pawn move changes squares permanently. If it takes squares from your own knight or bishop while not creating a concrete threat, the space gain is mostly cosmetic.",
+    "key_ideas": ["explain mechanism", "pawn moves change squares permanently", "space can be cosmetic"],
+    "required_facts": ["permanent", "squares", "cosmetic"],
+    "forbidden_claims": ["because I said so"],
+    "spoiler_policy": "none",
+    "theme": ["explanation quality", "pawn structure", "student why"],
+    "level": "beginner",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-coach-does-not-restart-044",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "We already ruled out the kingside pawn push."},
+      {"role": "coach", "text": "Yes, because it restricted your own pieces."},
+      {"role": "student", "text": "We also said the central issue matters more."},
+      {"role": "coach", "text": "Correct. Keep that priority."}
+    ],
+    "student_message": "What should I consider now?",
+    "reference_explanation": "Do not restart with generic candidate advice. Use the prior conclusion: look for a central or piece-improving move, and explicitly avoid returning to the rejected kingside pawn push.",
+    "key_ideas": ["do not restart", "use prior conclusion", "avoid rejected pawn push"],
+    "required_facts": ["central", "piece", "rejected"],
+    "forbidden_claims": ["consider the kingside pawn push again"],
+    "spoiler_policy": "withhold",
+    "theme": ["context memory", "prior conclusions", "candidate moves"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-grind-no-magic-045",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I expected a magic winning move."},
+      {"role": "coach", "text": "Grinding often has no magic solution."},
+      {"role": "student", "text": "Then what am I looking for?"}
+    ],
+    "student_message": "Give me the practical checklist.",
+    "reference_explanation": "Look for risk-free improvements, better king placement, restriction of counterplay, small structural gains, and moments when the opponent must make a difficult defensive choice.",
+    "key_ideas": ["no magic solution", "risk-free improvements", "make opponent defend"],
+    "required_facts": ["risk-free", "king", "counterplay"],
+    "forbidden_claims": ["there is always a tactic"],
+    "spoiler_policy": "none",
+    "theme": ["grinding", "checklist", "practical play"],
+    "level": "intermediate",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-long-student-goal-046",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "My goal this week is to stop playing automatic attacking moves."},
+      {"role": "coach", "text": "Then every exercise should train the pause before attack."},
+      {"role": "student", "text": "In this position I still saw an attack first."},
+      {"role": "coach", "text": "That is fine if you verify it."},
+      {"role": "student", "text": "Verification showed my bishop got worse."},
+      {"role": "coach", "text": "Good, that connects to your weekly goal."},
+      {"role": "student", "text": "I want the final feedback framed around that goal."}
+    ],
+    "student_message": "How did I do on the goal?",
+    "reference_explanation": "The student improved because they noticed the automatic attacking impulse and checked its drawback. The feedback should reinforce the pause-and-verify habit, not merely state the best chess idea.",
+    "key_ideas": ["remember student goal", "reinforce pause-and-verify habit", "connect chess feedback to behavior"],
+    "required_facts": ["goal", "verify", "habit"],
+    "forbidden_claims": ["your goal was irrelevant"],
+    "spoiler_policy": "none",
+    "theme": ["long context", "student goals", "habit training"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-ask-direct-answer-047",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I do not want another hint."},
+      {"role": "coach", "text": "Then I will answer directly and explain."},
+      {"role": "student", "text": "My candidate was based on a pin but I now doubt it."}
+    ],
+    "student_message": "Tell me the idea plainly.",
+    "reference_explanation": "Reveal plainly: the key idea is not the cosmetic pin but improving coordination and dealing with the central issue. Then explain why the student's candidate was tempting but secondary.",
+    "key_ideas": ["reveal plainly when asked", "pin is secondary", "coordination and center are primary"],
+    "required_facts": ["pin", "coordination", "center"],
+    "forbidden_claims": ["I will not tell you even though you asked"],
+    "spoiler_policy": "reveal",
+    "theme": ["reveal policy", "candidate correction", "center"],
+    "level": "advanced",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-practical-vs-objective-048",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "The engine says it is equal."},
+      {"role": "coach", "text": "Equal can still be practically difficult."},
+      {"role": "student", "text": "How do I explain that without lying?"}
+    ],
+    "student_message": "What is the honest coaching answer?",
+    "reference_explanation": "Separate objective evaluation from practical difficulty. Say the position may be equal with best play, but one side can still ask harder questions, restrict counterplay, and make the opponent defend accurately.",
+    "key_ideas": ["separate objective and practical evaluation", "equal can be hard to defend", "do not overclaim"],
+    "required_facts": ["objective", "practical", "equal"],
+    "forbidden_claims": ["equal means winning"],
+    "spoiler_policy": "none",
+    "theme": ["evaluation", "practical chances", "honesty"],
+    "level": "advanced",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-stalemate-in-thinking-049",
+    "source": "paraphrased student-coach conversation book",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I am stuck between two plans."},
+      {"role": "coach", "text": "Define the main imbalance, then each plan's effect on it."},
+      {"role": "student", "text": "One plan attacks, the other improves a piece."},
+      {"role": "coach", "text": "Now compare them to the imbalance."}
+    ],
+    "student_message": "What if both seem reasonable?",
+    "reference_explanation": "If both are reasonable, choose the one with fewer hidden costs and better worst-case outcome. In coaching, ask the student to state what could go wrong with each candidate.",
+    "key_ideas": ["compare hidden costs", "worst-case outcome", "student should name what can go wrong"],
+    "required_facts": ["hidden costs", "worst-case", "wrong"],
+    "forbidden_claims": ["choose randomly"],
+    "spoiler_policy": "none",
+    "theme": ["decision making", "candidate comparison", "imbalances"],
+    "level": "intermediate",
+    "extraction": {"method": "paraphrased-vision", "validated_by": ["human-review"]}
+  },
+  {
+    "id": "conv-training-transfer-050",
+    "source": "paraphrased Grind Like a Grandmaster",
+    "task": "conversation",
+    "conversation_history": [
+      {"role": "student", "text": "I understand this example now."},
+      {"role": "coach", "text": "Good. The next step is transfer to your games."},
+      {"role": "student", "text": "I usually forget the lesson during time pressure."},
+      {"role": "coach", "text": "Then make the lesson a short trigger phrase."}
+    ],
+    "student_message": "What trigger phrase should I use?",
+    "reference_explanation": "Use a compact phrase such as 'do not rush: improve, restrict, then transform.' It captures the grinding method and is short enough to recall under pressure.",
+    "key_ideas": ["transfer lesson to games", "short trigger phrase", "improve restrict transform"],
+    "required_facts": ["do not rush", "improve", "restrict"],
+    "forbidden_claims": ["memorize the whole book during the game"],
+    "spoiler_policy": "none",
+    "theme": ["training transfer", "grinding", "time pressure"],
+    "level": "beginner",
+    "extraction": {"method": "text-extraction", "validated_by": ["human-review"]}
+  }
+]

@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chess-coach"
+version = "0.1.0"
+description = "Agentic chess coaching CLI: provider narration grounded by Stockfish."
+readme = "README.md"
+requires-python = ">=3.11"
+# Runtime dependencies for the planned implementation. Confined to the adapters
+# layer per the architecture; the domain and use cases stay dependency-free.
+dependencies = [
+    "chess>=1.11",             # board/PGN/FEN/UCI primitives (adapters only)
+    "claude-agent-sdk>=0.1",   # the coaching agent brain (CoachPort adapter)
+    "httpx>=0.27",             # Lichess / Chess.com HTTP sources
+    "typer>=0.12",             # CLI command framework (interface layer)
+    "pydantic-settings>=2.2",  # configuration loading/validation (composition)
+    "textual>=0.60",           # interactive TUI (interface layer only)
+]
+
+[project.scripts]
+chess-coach = "chess_coach.__main__:main"
+
+[project.optional-dependencies]
+notebook = [
+    "jupyter>=1.0",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+]
+# Evaluation framework only (evals/ tree). Not needed to run the app; installs the
+# grading harness, the vision-extraction toolchain, and PDF page rendering.
+evals = [
+    "deepeval>=1.0",           # eval datasets + metrics (deterministic + LLM-judge)
+    "anthropic>=0.40",         # Claude judge + vision extraction (Messages API)
+    "pdf2image>=1.17",         # render curated book pages for vision extraction
+    "pillow>=10",              # image handling for the extraction tool
+    "arize-phoenix-client>=2", # push goldens as datasets + run experiments (evals/phoenix)
+]
+# OpenTelemetry tracing for the coaching agent (adapters layer only). Off unless
+# CHESS_COACH_TRACING_ENABLED is set; the app emits standard OTLP spans so any
+# backend works. `arize-phoenix` is the local, network-free trace UI to run
+# alongside: `phoenix serve` then open http://localhost:6006.
+tracing = [
+    "opentelemetry-sdk>=1.27",                       # span pipeline + BatchSpanProcessor
+    "opentelemetry-exporter-otlp-proto-http>=1.27",  # OTLP/HTTP exporter → Phoenix
+    "arize-phoenix>=5",                              # local trace UI + OTLP collector (dev)
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+# Pilot-driven Textual tests are async; the rest stay plain sync functions.
+asyncio_mode = "auto"
+markers = [
+    "judge: opt-in LLM-as-judge metrics; needs network + credentials (deselect with -m 'not judge')",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+strict = true
+warn_unused_configs = true
+exclude = ["notebooks", "scratch"]
+
+# The eval toolchain has no published type stubs; keep strict mode over our own
+# eval code while tolerating these third parties. OpenTelemetry is an optional extra
+# ([tracing]) that may be absent, and its OTLP exporter ships no stubs either.
+[[tool.mypy.overrides]]
+module = ["deepeval.*", "pdf2image.*", "opentelemetry.*"]
+ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+    "pre-commit>=4.6.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.20",
+]

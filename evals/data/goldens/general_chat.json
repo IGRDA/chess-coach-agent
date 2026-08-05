@@ -1,0 +1,382 @@
+[
+  {
+    "id": "general-analyze-own-games",
+    "source": "general_chat_top100:general-analyze-own-games",
+    "task": "general_chat",
+    "student_message": "I just finished a slow game. How should I analyze it so I actually improve?",
+    "reference_explanation": "A good post-game review starts before engine use: write down where you were confused, where the evaluation seemed to change, and which candidate moves you considered. Then check tactics and engine lines to test those moments, finishing with one or two training actions rather than a full-game engine dump.",
+    "key_ideas": [
+      "self-review before engine",
+      "identify turning points",
+      "compare candidate moves",
+      "finish with concrete training actions"
+    ],
+    "theme": ["analysis", "training", "improvement"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-reduce-blunders",
+    "source": "general_chat_top100:general-reduce-blunders",
+    "task": "general_chat",
+    "student_message": "I keep dropping pieces in games even though I solve tactics puzzles. What should I change?",
+    "reference_explanation": "Blunder reduction needs an in-game safety habit, not only harder puzzles. Before moving, check forcing moves for both sides, loose pieces, back-rank or king threats, and whether your intended move leaves something undefended; then review blunders afterward to find the repeated trigger.",
+    "key_ideas": [
+      "puzzles alone are not enough",
+      "check opponent threats before moving",
+      "look for loose pieces and king safety",
+      "track repeated blunder triggers"
+    ],
+    "theme": ["blunder", "calculation", "training"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-understand-middlegame",
+    "source": "general_chat_top100:general-understand-middlegame",
+    "task": "general_chat",
+    "student_message": "I know opening principles and some tactics, but I feel lost in the middlegame. What should I study?",
+    "reference_explanation": "Middlegame understanding grows by learning recurring positional features and connecting them to plans: king safety, pawn structure, open files, good and bad pieces, weak squares, space, and targets. Study annotated model games and ask what each side is trying to improve before looking for tactics.",
+    "key_ideas": [
+      "plans come from positional features",
+      "study model games",
+      "connect tactics to strategic targets",
+      "name the side's worst piece or weakness"
+    ],
+    "theme": ["middlegame", "strategy", "training"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-use-imbalances",
+    "source": "general_chat_top100:general-use-imbalances",
+    "task": "general_chat",
+    "student_message": "Advanced question: when there is no tactic, how do I form a plan from imbalances instead of playing random improving moves?",
+    "reference_explanation": "Start by listing the real imbalances, then rank which one matters most now. A move is not good merely because it looks active; it should improve a relevant imbalance, restrict the opponent's counterplay, or create a second weakness when the first is held.",
+    "key_ideas": [
+      "list imbalances",
+      "rank the main imbalance",
+      "do not trust cosmetic activity",
+      "create or pressure a second weakness"
+    ],
+    "theme": ["strategy", "planning", "imbalances"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-vision"]
+    }
+  },
+  {
+    "id": "general-calculate-candidate-moves",
+    "source": "general_chat_top100:general-calculate-candidate-moves",
+    "task": "general_chat",
+    "student_message": "How should a strong player choose and calculate candidate moves without drowning in variations?",
+    "reference_explanation": "Use forcing moves and positional needs to choose a short candidate list, then calculate concrete forcing lines first: checks, captures, threats, and the opponent's best replies. Stop when the resulting position can be evaluated by stable features, not when the line merely becomes comfortable.",
+    "key_ideas": [
+      "short candidate list",
+      "checks captures threats first",
+      "include opponent best replies",
+      "stop at an evaluable position"
+    ],
+    "theme": ["calculation", "candidate moves", "advanced training"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source"]
+    }
+  },
+  {
+    "id": "general-opening-principles-beginner",
+    "source": "general_chat_top100:general-opening-principles-beginner",
+    "task": "general_chat",
+    "student_message": "I'm a beginner. What should I care about in the opening besides memorizing moves?",
+    "reference_explanation": "A beginner should first aim to develop pieces, fight for the center, get the king safe, and avoid moving the same piece or grabbing pawns without a reason. Memorization helps only after you understand the typical goals and punishable mistakes of the opening.",
+    "key_ideas": [
+      "develop pieces",
+      "fight for the center",
+      "castle or secure the king",
+      "understand ideas before memorizing"
+    ],
+    "theme": ["opening", "beginner", "principles"],
+    "level": "beginner",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-opening-repertoire",
+    "source": "general_chat_top100:general-opening-repertoire",
+    "task": "general_chat",
+    "student_message": "Should I build a full opening repertoire now, or just play principled moves and study later?",
+    "reference_explanation": "Do not build a giant repertoire before your games justify it. Learn a compact set of openings that reach understandable structures, know the main plans and common traps, and spend most study time on tactics, analysis, and endgames until opening problems become a repeated bottleneck.",
+    "key_ideas": [
+      "compact repertoire",
+      "understand structures and plans",
+      "avoid theory overload",
+      "study openings from your own game needs"
+    ],
+    "theme": ["opening", "training", "repertoire"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-tactics-training-quality",
+    "source": "general_chat_top100:general-tactics-training-quality",
+    "task": "general_chat",
+    "student_message": "How should I train tactics so I recognize them in real games, not just on puzzle sites?",
+    "reference_explanation": "Solve tactics slowly enough to calculate the whole forcing line, including defensive replies, then classify the motif and the position feature that made it possible. In games, deliberately scan for checks, captures, threats, loose pieces, pins, and overloaded defenders before choosing quiet moves.",
+    "key_ideas": [
+      "calculate full forcing line",
+      "classify motif and enabling feature",
+      "scan forcing moves in games",
+      "connect puzzles to board vision"
+    ],
+    "theme": ["tactics", "training", "board vision"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source"]
+    }
+  },
+  {
+    "id": "general-endgame-study-beginner",
+    "source": "general_chat_top100:general-endgame-study-beginner",
+    "task": "general_chat",
+    "student_message": "I'm a beginner. Which endgames should I learn first?",
+    "reference_explanation": "Start with the endgames that teach basic technique and occur often: king and pawn basics, opposition, the square rule, simple mates with queen or rook, and how to promote or stop a passed pawn. These teach king activity and calculation without requiring a large theoretical memory.",
+    "key_ideas": [
+      "king and pawn basics",
+      "opposition and square rule",
+      "simple queen and rook mates",
+      "king activity matters"
+    ],
+    "theme": ["endgame", "beginner", "training"],
+    "level": "beginner",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-vision"]
+    }
+  },
+  {
+    "id": "general-rook-mate-method",
+    "source": "general_chat_top100:general-rook-mate-method",
+    "task": "general_chat",
+    "student_message": "What is the clean method for mating with king and rook against king?",
+    "reference_explanation": "Use the rook to cut the enemy king into a smaller box, bring your king closer to support the rook, and force the defender toward an edge because the king cannot be mated in the middle. Avoid pointless checks; shrink the box and coordinate both pieces.",
+    "key_ideas": [
+      "rook cuts off a box",
+      "king supports the rook",
+      "drive king to the edge",
+      "avoid checking without progress"
+    ],
+    "theme": ["endgame", "mate", "technique"],
+    "level": "beginner",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-vision"]
+    }
+  },
+  {
+    "id": "general-bishop-pair-value",
+    "source": "general_chat_top100:general-bishop-pair-value",
+    "task": "general_chat",
+    "student_message": "When is the bishop pair actually worth something, and when is it just a slogan?",
+    "reference_explanation": "The bishop pair is valuable when the position is open or can be opened, both bishops have useful diagonals, and the opponent cannot blockade or dominate them with knights. It is only an advantage if your plans preserve or activate it rather than trading it away for cosmetic pressure.",
+    "key_ideas": [
+      "open positions favor bishops",
+      "diagonal scope matters",
+      "closed/blockaded positions reduce value",
+      "do not trade the bishop pair without reason"
+    ],
+    "theme": ["strategy", "minor pieces", "imbalances"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-vision"]
+    }
+  },
+  {
+    "id": "general-weak-squares-outposts",
+    "source": "general_chat_top100:general-weak-squares-outposts",
+    "task": "general_chat",
+    "student_message": "How do I turn a weak square or outpost into a real plan instead of just naming it?",
+    "reference_explanation": "A weak square matters when it cannot be challenged by pawns and can host a piece that attacks something important. The plan is to control the square, trade away defenders, occupy it with the right piece, and then use the piece to pressure targets or restrict counterplay.",
+    "key_ideas": [
+      "weak square cannot be chased by pawns",
+      "control and occupy the square",
+      "trade defenders",
+      "connect outpost to targets"
+    ],
+    "theme": ["strategy", "weak squares", "outposts"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source"]
+    }
+  },
+  {
+    "id": "general-piece-values-beginner",
+    "source": "general_chat_top100:general-piece-values-beginner",
+    "task": "general_chat",
+    "student_message": "What are the point values of the pieces, and how seriously should I take them?",
+    "reference_explanation": "Use the usual guide: pawn 1, knight and bishop about 3, rook 5, queen 9, while the king is priceless because losing it means checkmate. These numbers are a starting estimate, not a law; activity, king safety, pawn structure, and tactics can change the real value.",
+    "key_ideas": [
+      "standard material values",
+      "king is not traded by points",
+      "values are guidelines",
+      "activity and tactics change value"
+    ],
+    "theme": ["material", "beginner", "evaluation"],
+    "level": "beginner",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["stackexchange-source", "book-source"]
+    }
+  },
+  {
+    "id": "general-time-pressure",
+    "source": "general_chat_top100:general-time-pressure",
+    "task": "general_chat",
+    "student_message": "I keep getting into time trouble. How should I manage my clock without playing superficial moves?",
+    "reference_explanation": "Use time checkpoints and avoid spending long thinks on every plausible decision. Spend time when the position is forcing, irreversible, or strategically critical; in familiar or low-tension positions, choose a sound move and save time for later calculation.",
+    "key_ideas": [
+      "use clock checkpoints",
+      "spend time on critical positions",
+      "avoid equal time on every move",
+      "save time in familiar low-tension positions"
+    ],
+    "theme": ["time management", "practical play", "tournament"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-engine-use",
+    "source": "general_chat_top100:general-engine-use",
+    "task": "general_chat",
+    "student_message": "How should I use Stockfish after a game without letting it replace my own thinking?",
+    "reference_explanation": "First annotate the game yourself: plans, candidate moves, and moments of uncertainty. Then use the engine to test concrete tactics and evaluations, ask why its move works, and convert discoveries into themes to train; do not just copy best lines.",
+    "key_ideas": [
+      "annotate before engine",
+      "engine checks tactics and evaluations",
+      "ask why engine move works",
+      "turn findings into training themes"
+    ],
+    "theme": ["engine", "analysis", "training"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["stackexchange-source", "book-source"]
+    }
+  },
+  {
+    "id": "general-forced-variations",
+    "source": "general_chat_top100:general-forced-variations",
+    "task": "general_chat",
+    "student_message": "What does it mean to calculate a forced variation, and how do I know when to stop?",
+    "reference_explanation": "A forced variation is a line where checks, captures, threats, or severe defensive necessities greatly limit both sides' choices. Keep calculating until the forcing sequence ends and you can evaluate the resulting position by material, king safety, activity, pawn structure, or a clear tactical outcome.",
+    "key_ideas": [
+      "forcing moves limit choices",
+      "include defensive necessities",
+      "stop when force ends",
+      "evaluate resulting position"
+    ],
+    "theme": ["calculation", "forced variations", "tactics"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source"]
+    }
+  },
+  {
+    "id": "general-convert-material-advantage",
+    "source": "general_chat_top100:general-convert-material-advantage",
+    "task": "general_chat",
+    "student_message": "When I win material, I often let the opponent get counterplay. What is the right conversion mindset?",
+    "reference_explanation": "After winning material, reduce the opponent's active chances before hunting for more. Improve king safety, trade pieces when it lowers risk, neutralize passed pawns or threats, and only then use the extra material to create a simpler win.",
+    "key_ideas": [
+      "neutralize counterplay",
+      "king safety before greed",
+      "trade when it reduces risk",
+      "simplify into a won ending"
+    ],
+    "theme": ["conversion", "practical play", "strategy"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source"]
+    }
+  },
+  {
+    "id": "general-defensive-thinking",
+    "source": "general_chat_top100:general-defensive-thinking",
+    "task": "general_chat",
+    "student_message": "How should I think when I am worse, instead of just hoping my opponent misses something?",
+    "reference_explanation": "Defensive play starts by naming the real threats and the opponent's easiest winning plan. Then look for active defense: exchanges that reduce pressure, counter-threats, fortress ideas, king safety improvements, and practical complications that force the opponent to keep solving problems.",
+    "key_ideas": [
+      "identify opponent threats",
+      "find active defense",
+      "reduce pressure with exchanges",
+      "create practical problems"
+    ],
+    "theme": ["defense", "practical play", "resilience"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-long-range-plans",
+    "source": "general_chat_top100:general-long-range-plans",
+    "task": "general_chat",
+    "student_message": "How do strong players make long-range plans in quiet positions?",
+    "reference_explanation": "They start from durable features: pawn breaks, weak squares, piece activity, open files, king safety, and favorable trades. A good long-range plan improves one feature while limiting the opponent's best counterplan; if the position changes, the plan must be rechecked.",
+    "key_ideas": [
+      "plans come from durable features",
+      "include opponent counterplan",
+      "use pawn breaks and piece activity",
+      "revise plan when position changes"
+    ],
+    "theme": ["planning", "strategy", "quiet positions"],
+    "level": "advanced",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["book-source", "stackexchange-source"]
+    }
+  },
+  {
+    "id": "general-fun-while-losing",
+    "source": "general_chat_top100:general-fun-while-losing",
+    "task": "general_chat",
+    "student_message": "I mostly lose to stronger players and it is getting demoralizing. How can I keep chess useful and fun?",
+    "reference_explanation": "Change the goal from winning the whole game to winning a learning target: survive the opening, spot one tactic, convert one endgame, or explain one mistake afterward. Playing stronger opposition is valuable when you pair it with realistic goals, post-game feedback, and some games against peers.",
+    "key_ideas": [
+      "set process goals",
+      "review one or two lessons",
+      "mix stronger opponents with peers",
+      "keep improvement measurable"
+    ],
+    "theme": ["psychology", "learning", "motivation"],
+    "level": "intermediate",
+    "extraction": {
+      "method": "curated",
+      "validated_by": ["stackexchange-source"]
+    }
+  }
+]

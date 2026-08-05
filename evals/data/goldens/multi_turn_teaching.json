@@ -1,0 +1,362 @@
+[
+  {
+    "id": "mt-back-rank-hint-ladder",
+    "source": "Multi-turn teaching scenario: back-rank mate hint ladder",
+    "fen": "6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["e1e8"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "Can I get a hint without the move?",
+        "expected_coach_behavior": "Guide the student to inspect forcing checks and the boxed-in king without naming Re8.",
+        "reveal_allowed": false,
+        "must_include": ["checks", "king has no escape"],
+        "must_not_include": ["Re8", "e1e8"]
+      },
+      {
+        "student": "The king is stuck behind its pawns. Is a rook check the idea?",
+        "expected_coach_behavior": "Confirm the pattern and ask the student to find the rook's checking square, still withholding the exact move.",
+        "reveal_allowed": false,
+        "must_include": ["back rank", "rook check"],
+        "must_not_include": ["Re8", "e1e8"]
+      },
+      {
+        "student": "I think the rook goes to the eighth rank. What is the move?",
+        "expected_coach_behavior": "Reveal 1.Re8# and explain why the pawns trap the king.",
+        "reveal_allowed": true,
+        "must_include": ["Re8", "mate", "trapped by pawns"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "A strong coach progresses from checks, to the back-rank pattern, to the final reveal. The first two turns should not spoil the move; the third should state 1.Re8# and explain that the f7, g7 and h7 pawns trap the king.",
+    "key_ideas": ["checks-first scan", "back-rank mate", "spoiler control"],
+    "theme": ["mate", "back-rank", "multi-turn"],
+    "level": "beginner",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-knight-fork-misguess",
+    "source": "Multi-turn teaching scenario: knight fork and student misguess",
+    "fen": "4k3/8/8/1N1q4/8/8/1P6/4K3 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["b5c7"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "I know there is a tactic, but do not tell me the move.",
+        "expected_coach_behavior": "Point to forcing checks and double attacks without naming Nc7+.",
+        "reveal_allowed": false,
+        "must_include": ["check", "double attack"],
+        "must_not_include": ["Nc7", "b5c7"]
+      },
+      {
+        "student": "Maybe Nxd6 wins something?",
+        "expected_coach_behavior": "Correct the misconception by focusing on moves that check the king and attack the queen at the same time.",
+        "reveal_allowed": false,
+        "must_include": ["queen", "same time", "forcing"],
+        "must_not_include": ["Nc7", "b5c7"]
+      },
+      {
+        "student": "Which checking square forks the queen?",
+        "expected_coach_behavior": "Reveal Nc7+ and explain that Black must answer check before the queen can move.",
+        "reveal_allowed": true,
+        "must_include": ["Nc7+", "fork", "queen"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The coach should handle the wrong candidate by narrowing the search to checking forks. The final answer is 1.Nc7+, a knight fork that wins the queen because Black must answer the check first.",
+    "key_ideas": ["checking fork", "student candidate correction", "win queen by force"],
+    "theme": ["fork", "double-attack", "multi-turn"],
+    "level": "beginner",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-scholars-candidate-confirmation",
+    "source": "Multi-turn teaching scenario: direct candidate confirmation",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["f3f7"],
+    "expected_reveal_turn": 1,
+    "conversation": [
+      {
+        "student": "I want to play Qxf7. Is that actually mate?",
+        "expected_coach_behavior": "Answer directly that Qxf7# is mate because the bishop defends the queen.",
+        "reveal_allowed": true,
+        "must_include": ["Qxf7", "mate", "bishop"],
+        "must_not_include": []
+      },
+      {
+        "student": "Why can't the king take my queen?",
+        "expected_coach_behavior": "Explain that the bishop on c4 protects f7, so Kxf7 is illegal.",
+        "reveal_allowed": true,
+        "must_include": ["bishop on c4", "protects f7"],
+        "must_not_include": []
+      },
+      {
+        "student": "So what should I remember from this?",
+        "expected_coach_behavior": "Summarize the habit: check whether an attacking queen is protected and whether the king has escapes.",
+        "reveal_allowed": true,
+        "must_include": ["protected queen", "escape squares"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "Because the student asks directly about Qxf7, the coach should reveal immediately. The reply should confirm Qxf7# and then explain protection by the bishop on c4 and the lack of escape squares.",
+    "key_ideas": ["direct answer when asked", "bishop protects f7", "king has no escape"],
+    "theme": ["mate", "opening-trap", "multi-turn"],
+    "level": "beginner",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-underpromotion-candidate-generation",
+    "source": "Multi-turn teaching scenario: underpromotion candidate generation",
+    "fen": "8/k1P1q3/8/8/8/8/5PP1/6K1 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["c7c8n"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "The pawn can promote. Give me a hint, not the answer.",
+        "expected_coach_behavior": "Ask the student to consider all promotion pieces, especially moves that give check.",
+        "reveal_allowed": false,
+        "must_include": ["all promotion pieces", "check"],
+        "must_not_include": ["c8=N", "c7c8n"]
+      },
+      {
+        "student": "I assumed queen. Is there a reason not to?",
+        "expected_coach_behavior": "Explain that a non-queen promotion can be best if it creates a fork, without naming the square.",
+        "reveal_allowed": false,
+        "must_include": ["non-queen", "fork"],
+        "must_not_include": ["c8=N", "c7c8n"]
+      },
+      {
+        "student": "Is it a knight promotion?",
+        "expected_coach_behavior": "Reveal c8=N+ and explain the check plus fork on the queen.",
+        "reveal_allowed": true,
+        "must_include": ["c8=N+", "check", "fork"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The coach should not reveal the underpromotion until the student has generated the category. The final reveal is 1.c8=N+, a knight promotion with check that forks the queen on e7.",
+    "key_ideas": ["underpromotion", "candidate generation", "knight fork"],
+    "theme": ["promotion", "underpromotion", "multi-turn"],
+    "level": "advanced",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-kq-mate-method",
+    "source": "Multi-turn teaching scenario: queen mate technique",
+    "fen": "8/8/8/4k3/8/3Q4/4K3/8 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["e2f3"],
+    "expected_reveal_turn": 2,
+    "conversation": [
+      {
+        "student": "I keep checking with the queen. What method should I use?",
+        "expected_coach_behavior": "Teach the box method and the need to bring the king closer without overemphasizing checks.",
+        "reveal_allowed": false,
+        "must_include": ["box", "bring the king"],
+        "must_not_include": ["Kf3", "e2f3"]
+      },
+      {
+        "student": "Which piece should move now?",
+        "expected_coach_behavior": "Reveal that the king move Kf3 is the clean technique and explain why coordination matters.",
+        "reveal_allowed": true,
+        "must_include": ["Kf3", "king", "queen"],
+        "must_not_include": []
+      },
+      {
+        "student": "What mistake am I trying to avoid?",
+        "expected_coach_behavior": "Summarize avoiding stalemate and avoiding random queen checks.",
+        "reveal_allowed": true,
+        "must_include": ["stalemate", "random checks"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "A good coach turns queen versus king into a method: box the king, bring the attacking king closer, and avoid stalemate. Here the key move is 1.Kf3, not another queen-only check.",
+    "key_ideas": ["box method", "king and queen coordination", "avoid stalemate"],
+    "theme": ["basic-mate", "queen", "multi-turn"],
+    "level": "beginner",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-opposition-key-squares",
+    "source": "Multi-turn teaching scenario: key squares and opposition",
+    "fen": "4k3/8/4K3/4P3/8/8/8/8 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["e6d6", "e6f6"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "I know this is king and pawn, but I always forget the rule.",
+        "expected_coach_behavior": "Point to key squares in front of the pawn and the importance of the king's sixth rank.",
+        "reveal_allowed": false,
+        "must_include": ["key squares", "sixth rank"],
+        "must_not_include": ["Kd6", "Kf6", "e6d6", "e6f6"]
+      },
+      {
+        "student": "Should I push the pawn first?",
+        "expected_coach_behavior": "Correct the misconception: the king must take the key square before the pawn runs.",
+        "reveal_allowed": false,
+        "must_include": ["king first", "opposition"],
+        "must_not_include": ["Kd6", "Kf6", "e6d6", "e6f6"]
+      },
+      {
+        "student": "Which key square should the king take?",
+        "expected_coach_behavior": "Reveal Kd6 or Kf6 and explain that either shoulder wins.",
+        "reveal_allowed": true,
+        "must_include": ["Kd6", "Kf6", "wins"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The coach should build from the concept of key squares to the concrete winning move. White wins by 1.Kd6 or 1.Kf6, occupying the sixth-rank key squares before advancing the pawn.",
+    "key_ideas": ["key squares", "opposition", "king before pawn"],
+    "theme": ["king-and-pawn", "opposition", "multi-turn"],
+    "level": "intermediate",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-square-rule-tempo",
+    "source": "Multi-turn teaching scenario: square rule conversion",
+    "fen": "7K/8/8/P7/8/8/8/4k3 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["a5a6"],
+    "expected_reveal_turn": 2,
+    "conversation": [
+      {
+        "student": "Can the black king catch my pawn?",
+        "expected_coach_behavior": "Teach the square of the pawn and ask whether the black king can enter it.",
+        "reveal_allowed": false,
+        "must_include": ["square of the pawn", "catch"],
+        "must_not_include": ["a6", "a5a6"]
+      },
+      {
+        "student": "It looks outside the square. Do I just push?",
+        "expected_coach_behavior": "Reveal a6 and explain that every tempo matters.",
+        "reveal_allowed": true,
+        "must_include": ["a6", "outside the square", "tempo"],
+        "must_not_include": []
+      },
+      {
+        "student": "What is the shortcut for future games?",
+        "expected_coach_behavior": "Summarize the square-rule counting method.",
+        "reveal_allowed": true,
+        "must_include": ["square", "queening square"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The position tests whether the coach teaches a reusable counting rule. Since the black king is outside the square, White should play 1.a6 and run the pawn immediately.",
+    "key_ideas": ["square rule", "passed pawn", "tempo"],
+    "theme": ["king-and-pawn", "passed-pawn", "multi-turn"],
+    "level": "intermediate",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-philidor-defense-sequence",
+    "source": "Multi-turn teaching scenario: Philidor defensive sequence",
+    "fen": "6R1/4k2r/8/3KP3/8/8/8/8 b - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["h7h6"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "I am defending this rook ending. Should I start checking?",
+        "expected_coach_behavior": "Explain that the defender first stops the king from reaching the sixth rank.",
+        "reveal_allowed": false,
+        "must_include": ["sixth rank", "do not check yet"],
+        "must_not_include": ["Rh6", "h7h6"]
+      },
+      {
+        "student": "So my rook should stay active sideways?",
+        "expected_coach_behavior": "Guide toward the third-rank defense without naming the exact rook square.",
+        "reveal_allowed": false,
+        "must_include": ["third rank", "keep the king out"],
+        "must_not_include": ["Rh6", "h7h6"]
+      },
+      {
+        "student": "What is the exact defensive move?",
+        "expected_coach_behavior": "Reveal Rh6 and explain that rear checks begin only after the pawn advances.",
+        "reveal_allowed": true,
+        "must_include": ["Rh6", "rear checks", "pawn advances"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The coach should teach the order of the Philidor defense: hold the third rank first with 1...Rh6, then check from behind only when the pawn advances.",
+    "key_ideas": ["Philidor defense", "third-rank defense", "rear checks later"],
+    "theme": ["rook-endgame", "defense", "multi-turn"],
+    "level": "intermediate",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-lucena-bridge-sequence",
+    "source": "Multi-turn teaching scenario: Lucena bridge sequence",
+    "fen": "3K4/3P1k2/8/8/8/8/4R3/2r5 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["e2f2", "e2e7"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "I know this is Lucena, but what is the first step?",
+        "expected_coach_behavior": "Explain that the defender's king must be driven away before building the bridge.",
+        "reveal_allowed": false,
+        "must_include": ["drive the king away", "bridge"],
+        "must_not_include": ["Rf2", "Re7", "e2f2", "e2e7"]
+      },
+      {
+        "student": "Is the bridge the first move?",
+        "expected_coach_behavior": "Correct the order: use a checking move first, then the bridge.",
+        "reveal_allowed": false,
+        "must_include": ["check first", "then bridge"],
+        "must_not_include": ["Rf2", "Re7", "e2f2", "e2e7"]
+      },
+      {
+        "student": "Which checking move starts it?",
+        "expected_coach_behavior": "Reveal Rf2+ or Re7+ and explain the bridge-building plan.",
+        "reveal_allowed": true,
+        "must_include": ["Rf2+", "Re7+", "build a bridge"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "The coach should not only name Lucena but teach the sequence. White starts with a rook check, such as 1.Rf2+ or 1.Re7+, to drive the king away before building the bridge.",
+    "key_ideas": ["Lucena", "check first", "build a bridge"],
+    "theme": ["rook-endgame", "lucena", "multi-turn"],
+    "level": "advanced",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "mt-smothered-mate-sequence",
+    "source": "Multi-turn teaching scenario: smothered mate sequence",
+    "fen": "5r1k/6pp/7N/8/8/1Q6/8/6K1 w - - 0 1",
+    "task": "multi_turn_teaching",
+    "solution_moves": ["b3g8"],
+    "expected_reveal_turn": 3,
+    "conversation": [
+      {
+        "student": "I see the knight near the king. Is there a mate pattern?",
+        "expected_coach_behavior": "Point to the smothered-mate idea and the need to block the king's escape square without naming Qg8+.",
+        "reveal_allowed": false,
+        "must_include": ["smothered", "block"],
+        "must_not_include": ["Qg8", "b3g8"]
+      },
+      {
+        "student": "Can I just play Nf7+?",
+        "expected_coach_behavior": "Correct the move-order issue: the queen sacrifice must force the rook to block first.",
+        "reveal_allowed": false,
+        "must_include": ["move order", "queen sacrifice"],
+        "must_not_include": ["Qg8", "b3g8"]
+      },
+      {
+        "student": "What is the forcing first move?",
+        "expected_coach_behavior": "Reveal Qg8+ and explain ...Rxg8, then Nf7#.",
+        "reveal_allowed": true,
+        "must_include": ["Qg8+", "Rxg8", "Nf7#"],
+        "must_not_include": []
+      }
+    ],
+    "reference_explanation": "A strong coach recognizes the student's partial pattern and fixes the move order. The forcing first move is 1.Qg8+!!, forcing ...Rxg8 so that Nf7# is smothered mate.",
+    "key_ideas": ["smothered mate", "queen sacrifice", "move order"],
+    "theme": ["smothered-mate", "sacrifice", "multi-turn"],
+    "level": "advanced",
+    "extraction": {"method": "hand", "validated_by": ["python-chess", "stockfish"]}
+  }
+]

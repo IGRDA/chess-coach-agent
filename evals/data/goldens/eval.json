@@ -1,0 +1,122 @@
+[
+  {
+    "id": "eval-up-a-piece",
+    "source": "Silman, The Amateur's Mind: imbalances (material)",
+    "fen": "6k1/pp3ppp/8/8/8/2N5/PP3PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "winning",
+    "reference_explanation": "White is winning because of a decisive material imbalance: an extra knight for nothing. Silman ranks material as the most concrete of the imbalances, and a whole minor piece up with no compensation for the opponent is a strategically won game. The correct plan is to trade pieces (not pawns) and steer into a simple, easily winning endgame.",
+    "key_ideas": ["material imbalance", "up a whole piece", "trade pieces to simplify a winning game"],
+    "theme": ["material", "winning"],
+    "level": "beginner",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-up-a-rook",
+    "source": "Silman, The Amateur's Mind: imbalances (material)",
+    "fen": "6k1/pp3ppp/8/8/8/8/PP3PPP/R5K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "winning",
+    "reference_explanation": "White is completely winning: he is a whole rook up for nothing. When one material imbalance is this large and the opponent has no attack, activity or structural compensation to weigh against it, the assessment is simply decisive. White converts by trading pieces and using the extra rook.",
+    "key_ideas": ["large material advantage", "up a rook", "no compensation for the opponent"],
+    "theme": ["material", "winning"],
+    "level": "beginner",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-extra-pawn-rook-ending",
+    "source": "Silman, The Amateur's Mind: imbalances (material — a small but lasting edge)",
+    "fen": "r5k1/5ppp/8/8/8/8/PR3PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "better",
+    "reference_explanation": "White stands better thanks to an extra, healthy pawn in a rook endgame. A single sound extra pawn is a small but real and lasting imbalance: White is clearly the one pressing and Black must work to hold. It is an advantage, not yet a win — with just one extra pawn and active defence, many such endings are still drawable.",
+    "key_ideas": ["extra pawn", "small lasting advantage", "White presses but it is not yet decisive"],
+    "theme": ["material", "rook-endgame"],
+    "level": "intermediate",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-extra-pawn-minors",
+    "source": "Silman, The Amateur's Mind: imbalances (material)",
+    "fen": "6k1/1p3ppp/8/3n4/8/8/PP3PPP/2N3K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "better",
+    "reference_explanation": "White is better: he has an extra sound pawn with knights and equal structure otherwise. The material plus is the decisive imbalance here. White nurses the advantage by keeping his knight active, advancing on the side where he has the extra pawn, and aiming to create a passed pawn.",
+    "key_ideas": ["extra pawn", "superior chances", "create a passed pawn on the majority side"],
+    "theme": ["material", "minor-pieces"],
+    "level": "intermediate",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-dynamic-equality",
+    "source": "Adams & Hurtado, Think Like a Super-GM / Silman, The Amateur's Mind: assessing the imbalances",
+    "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "equal",
+    "reference_explanation": "The position is equal. Both sides have developed identically and share the centre, so none of the imbalances favours either player: material is level, the pawn structure is symmetrical, and space and king safety are the same. This is dynamic equality — no standing advantage exists, and the outcome will hinge on the coming middlegame play rather than on any feature of the current position.",
+    "key_ideas": ["symmetry", "no imbalance favours either side", "dynamic equality"],
+    "theme": ["equality", "opening"],
+    "level": "advanced",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-balanced-minor-ending",
+    "source": "Silman, The Amateur's Mind: assessing the imbalances (recognising equality)",
+    "fen": "6k1/5ppp/5n2/8/8/5N2/5PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "equal",
+    "reference_explanation": "Equal. Material is level (a knight and three pawns each), the pawn structure is symmetrical, and neither king is exposed. With no imbalance to work with, the honest assessment is a balanced, drawish position; whatever result comes will be decided by accuracy in the simple play ahead, not by any advantage on the board now.",
+    "key_ideas": ["level material", "symmetrical structure", "no exploitable imbalance"],
+    "theme": ["equality", "minor-pieces"],
+    "level": "advanced",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-down-a-pawn-minors",
+    "source": "Silman, The Amateur's Mind: imbalances (material deficit)",
+    "fen": "6k1/pp3ppp/3n4/8/8/5N2/1P3PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "worse",
+    "reference_explanation": "White is worse: he is a sound pawn down. A material deficit is a concrete negative imbalance, so White must not drift. The right practical approach is to defend actively — keep the knights on to complicate, seek counterplay, and try to give the pawn back in return for activity rather than suffer a passive, one-sided grind.",
+    "key_ideas": ["down a pawn", "concrete disadvantage", "defend actively and seek counterplay"],
+    "theme": ["material", "minor-pieces"],
+    "level": "intermediate",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-down-a-pawn-queens",
+    "source": "Silman, The Amateur's Mind: imbalances (material vs activity)",
+    "fen": "3q2k1/pp3ppp/8/8/8/8/1P3PPP/2Q3K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "worse",
+    "reference_explanation": "White is somewhat worse, being a pawn down with queens still on the board. The deficit is small but real. Because the queens keep attacking chances alive for both sides, White should not resign himself to passive defence: he looks for activity and counterplay against the enemy king to offset the missing pawn, weighing his dynamic chances against Black's extra material.",
+    "key_ideas": ["down a pawn", "queens on gives dynamic chances", "activity as compensation"],
+    "theme": ["material", "dynamics"],
+    "level": "advanced",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-down-a-piece",
+    "source": "Silman, The Amateur's Mind: imbalances (material)",
+    "fen": "6k1/pp3ppp/8/4n3/8/8/PP3PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "losing",
+    "reference_explanation": "White is losing: he is a whole knight down with nothing to show for it. By the material imbalance this is a strategically lost position — the extra piece will decide the game. White's only practical resource is to keep pieces on and create complications in the hope of an error; objectively, the assessment is clearly losing.",
+    "key_ideas": ["down a piece", "strategically lost", "complicate as a practical try"],
+    "theme": ["material", "losing"],
+    "level": "beginner",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  },
+  {
+    "id": "eval-down-a-rook",
+    "source": "Silman, The Amateur's Mind: imbalances (material)",
+    "fen": "1r4k1/pp3ppp/8/8/8/8/PP3PPP/6K1 w - - 0 1",
+    "task": "eval_bucket",
+    "expected_bucket": "losing",
+    "reference_explanation": "White is losing, a full rook down for no compensation. A material deficit of this size with no attack, activity or structural plus to weigh against it is simply decisive. Objectively the game is lost, and only practical swindling chances against a careless opponent remain.",
+    "key_ideas": ["down a rook", "decisive material deficit", "only swindling chances remain"],
+    "theme": ["material", "losing"],
+    "level": "intermediate",
+    "extraction": {"method": "imbalance-illustration", "model": null, "validated_by": ["python-chess", "stockfish"]}
+  }
+]
