@@ -3,6 +3,44 @@
 An agentic chess coach for the terminal. Stockfish supplies the chess analysis;
 Claude Code or Codex supplies the coaching explanation.
 
+## Agent harness and loop
+
+![How the chess coach agent harness works](docs/assets/chess-coach-agent-harness.png)
+
+The harness turns each coaching request into a bounded, evidence-driven workflow.
+It builds the model context from the position, the student's question, the task,
+the conversation history, and the requested coaching level, then selects the
+appropriate coaching skill.
+
+Inside the agent loop, Claude or Codex observes the available evidence, chooses
+an action, calls an allowed chess tool when needed, and evaluates the result before
+deciding whether to continue. The loop is limited to eight turns, and its restricted
+tool boundary exposes chess operations only—never the shell, web, or filesystem.
+Engine analysis is prefetched and memoized so repeated requests for the same
+position can reuse the result.
+
+Stockfish provides evaluations and principal variations, chess rules provide legal
+moves and tactical features, and the opening book and Syzygy tablebases provide
+theory and exact endgame results. The agent turns those facts into level-appropriate
+teaching. Finally, the harness parses and validates the structured response before
+the CLI or TUI presents it to the student.
+
+## Demo and evaluations
+
+<video src="docs/assets/chess-coach-demo-github.mp4" controls width="100%">
+  <a href="docs/assets/chess-coach-demo-github.mp4">Watch the chess coach demo</a>.
+</video>
+
+If the embedded player is unavailable,
+[watch or download the demo](docs/assets/chess-coach-demo-github.mp4).
+
+The evaluation suite is tracked in Phoenix datasets, with individual examples
+capturing the task input and expected coaching output:
+
+![Phoenix evaluation dataset example](docs/assets/phoenix-evaluation-example.png)
+
+![Phoenix chess evaluation datasets](docs/assets/phoenix-datasets.png)
+
 ## Installation
 
 These instructions install the project from a source checkout. macOS and

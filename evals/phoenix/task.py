@@ -7,8 +7,8 @@ expects. The task is kept a thin wrapper around :func:`phoenix_task`, which is p
 unit-testable with any :class:`CoachTask` and a plain input mapping (no server, no
 engine).
 
-When ``COACH_TASK=agent`` and ``CHESS_COACH_TRACING_ENABLED=1``, the agent's own tool
-spans nest under each experiment run automatically via the coach's OTLP tracing.
+When ``COACH_TASK=agent``, the agent's own tool spans nest under each experiment run
+automatically via the coach's default-on OTLP tracing.
 """
 
 from __future__ import annotations

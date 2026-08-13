@@ -65,8 +65,8 @@ phoenix serve                                  # local UI + collector at :6006
 uv run python -m evals.phoenix.upload          # goldens -> one dataset per task
 uv run python -m evals.phoenix.run --limit 3   # smoke the oracle (dry run) on a subset
 
-# grade the real agent, with its tool spans nested under each experiment run:
-COACH_TASK=agent CHESS_COACH_TRACING_ENABLED=1 uv run python -m evals.phoenix.run
+# grade the real agent; tracing is enabled by default:
+COACH_TASK=agent uv run python -m evals.phoenix.run
 ```
 
 Datasets (one per task): `chess-best-move` (20), `chess-eval-bucket` (20),

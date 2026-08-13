@@ -10,7 +10,6 @@ provider narration cannot drift from the engine record.
 
 from __future__ import annotations
 
-import json
 import subprocess
 import tempfile
 from collections.abc import AsyncIterator, Callable, Sequence
@@ -35,6 +34,21 @@ from chess_coach.adapters.coach.analysis import (
 )
 from chess_coach.adapters.coach.opening_book import OpeningBook
 from chess_coach.adapters.coach.prefetch import PositionPrefetcher
+from chess_coach.adapters.coach.prompts import (
+    CODEX_CONVERSATION_SYSTEM_PROMPT,
+    CODEX_GENERAL_CHAT_SYSTEM_PROMPT,
+    CODEX_SYSTEM_PROMPT,
+    CODEX_TASK_BRIEFS,
+    CODEX_TEACH_SYSTEM_PROMPT,
+    build_codex_conversation_prompt,
+    build_codex_diagnosis_prompt,
+    build_codex_general_chat_prompt,
+    build_codex_light_teach_prompt,
+    build_codex_prompt,
+    build_codex_teach_prompt,
+    format_codex_engine_facts,
+    format_codex_light_facts,
+)
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
 
@@ -60,47 +74,12 @@ class CommandResult:
 
 CommandRunner = Callable[[Sequence[str], str], CommandResult]
 
-_SYSTEM_PROMPT = (
-    "You are a rigorous chess coach. The objective engine facts are already "
-    "provided in the prompt. Do not invent chess facts and do not run shell "
-    "commands. Use the supplied Stockfish values exactly for structured fields, "
-    "then explain the idea clearly at the student's level."
-)
-
-_TASK_BRIEF: dict[str, str] = {
-    "best_move": "Explain the engine's best move and why it works.",
-    "eval_bucket": "Explain who stands better using the engine bucket.",
-    "endgame": "Explain the key endgame move and game-theoretic result.",
-    "explain": "Answer the student's question about this position.",
-    "deep_line": "Calculate and explain a short best-play continuation.",
-}
-
-# Prose (judge-graded) turns. These mirror the Claude coach's prompts so the two
-# providers are held to the same coaching contract; the engine facts are embedded so
-# a concrete claim is never invented.
-_TEACH_SYSTEM_PROMPT = (
-    "You are a chess coach helping a student in a single coaching turn. The objective "
-    "engine facts are provided below. Teach through the reply: if the student asks for "
-    "a hint or a nudge, guide toward the idea with a pointer or a question and do NOT "
-    "state the best move; if they ask directly, are stuck, or propose a move, answer "
-    "plainly and then explain. Never invent concrete facts — use the engine facts for "
-    "the best move, the assessment, or an endgame result. Reply in warm, natural prose "
-    "(no JSON)."
-)
-_GENERAL_CHAT_SYSTEM_PROMPT = (
-    "You are a rigorous chess coach answering a general chess question, not a board "
-    "position. Give accurate, practical instruction in natural prose, pitched to the "
-    "student's level. Do not invent book quotations, exact statistics, engine claims, "
-    "or rules you are unsure about; if a specific position would be needed, say so and "
-    "give the useful general principle."
-)
-_CONVERSATION_SYSTEM_PROMPT = (
-    "You are a chess coach in a multi-turn lesson. Use the prior transcript: remember "
-    "the student's goals, misconceptions, earlier hints, and candidate moves already "
-    "discussed. If engine facts are provided, use them for any concrete claim; if "
-    "none are, answer from general principles and say when a position would be "
-    "needed. Reply in natural coaching prose (no JSON)."
-)
+# Compatibility for evaluators and callers that use the old module-local assets.
+_SYSTEM_PROMPT = CODEX_SYSTEM_PROMPT
+_TASK_BRIEF = CODEX_TASK_BRIEFS
+_TEACH_SYSTEM_PROMPT = CODEX_TEACH_SYSTEM_PROMPT
+_GENERAL_CHAT_SYSTEM_PROMPT = CODEX_GENERAL_CHAT_SYSTEM_PROMPT
+_CONVERSATION_SYSTEM_PROMPT = CODEX_CONVERSATION_SYSTEM_PROMPT
 
 
 def _flip_score(analysis: PositionAnalysis) -> str:
@@ -164,7 +143,6 @@ class CodexCoach:
         with tracing.turn_span(
             "coach.answer", _turn_attrs(self._model, fen, task_type, level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
             # Grounding first: Stockfish (and the book/tablebase) run in-process before
             # Codex is invoked, so this child span is the real engine latency.
             with tracing.tool_span(
@@ -174,26 +152,69 @@ class CodexCoach:
                     "tool.name": "stockfish",
                     "chess.fen": fen,
                 },
-            ):
-                analysis = self._analyzer.analyze(fen)
-                prompt = self._build_prompt(
-                    fen, task_type, level, question, candidate_move, analysis
+            ) as engine_span:
+                tracing.record_input(
+                    engine_span,
+                    {"fen": fen, "candidate_move": candidate_move},
                 )
-            # Then the Codex CLI subprocess — its own child span (no native telemetry;
-            # that is a Claude Code feature, so we time the process from out here).
-            with tracing.tool_span(
+                analysis = self._analyzer.analyze(fen)
+                truth = _truth_payload(
+                    self._analyzer,
+                    self._book,
+                    self._tablebase,
+                    fen,
+                    analysis,
+                    candidate_move,
+                )
+                tracing.record_output(engine_span, truth)
+                prompt = self._build_prompt(
+                    fen,
+                    task_type,
+                    level,
+                    question,
+                    candidate_move,
+                    analysis,
+                    truth=truth,
+                )
+            tracing.record_turn_context(
+                span,
+                input_value={
+                    "fen": fen,
+                    "task_type": task_type,
+                    "level": level,
+                    "question": question,
+                    "candidate_move": candidate_move,
+                },
+                provider="codex",
+                system_prompt=_SYSTEM_PROMPT,
+                skill_mode="not-configured",
+            )
+            text = self._run(prompt)
+            answer = _parse_answer(text)
+            grounded = _ground_answer(answer, task_type, analysis)
+            tracing.record_output(span, _answer_trace_value(grounded))
+            tracing.mark_ok(span)
+            return grounded
+
+    def _run(self, prompt: str) -> str:
+        # The CLI's JSONL stream is the only supported source of Codex reasoning
+        # summaries and usage. The final answer remains in a separate file so JSONL
+        # bookkeeping can never leak into the coach response parser.
+        trace_reasoning = tracing.is_enabled()
+        with (
+            tracing.tool_span(
                 "codex.exec",
                 {
                     "openinference.span.kind": "LLM",
                     "llm.model_name": self._model or "codex-default",
+                    "llm.reasoning_effort": self._reasoning_effort,
+                    "llm.reasoning_summary_mode": (
+                        "detailed" if trace_reasoning else None
+                    ),
                 },
-            ):
-                text = self._run(prompt)
-            answer = _parse_answer(text)
-            return _ground_answer(answer, task_type, analysis)
-
-    def _run(self, prompt: str) -> str:
-        with tempfile.TemporaryDirectory(prefix="chess-coach-codex-") as tmp:
+            ) as llm_span,
+            tempfile.TemporaryDirectory(prefix="chess-coach-codex-") as tmp,
+        ):
             output_path = Path(tmp) / "answer.md"
             command = [
                 self._codex_binary,
@@ -202,21 +223,38 @@ class CodexCoach:
                 "--ephemeral",
                 "--sandbox",
                 "read-only",
-                # `codex exec` is already non-interactive; a read-only sandbox never
-                # prompts, and the approval flag was removed in newer Codex CLIs.
+                # JSONL carries provider-exposed reasoning and usage events.
+                "--json",
+                # `codex exec` is already non-interactive; a read-only sandbox
+                # never prompts, and the approval flag was removed in newer CLIs.
                 "--output-last-message",
                 str(output_path),
             ]
-            # Only pin the model when one is explicitly configured; otherwise defer to
-            # the Codex CLI's own default so we never request an unentitled model.
+            # Only pin the model when one is explicitly configured; otherwise
+            # defer to the CLI default so we never request an unentitled model.
             if self._model:
                 command += ["--model", self._model]
-            # Override reasoning effort when asked (e.g. "low" for a cheap eval loop),
-            # via the same `-c key=value` config mechanism the CLI documents.
+            # Override reasoning effort when asked (e.g. "low" for a cheap eval
+            # loop), via the CLI's `-c key=value` config mechanism.
             if self._reasoning_effort:
-                command += ["-c", f"model_reasoning_effort={self._reasoning_effort}"]
+                command += [
+                    "-c",
+                    f"model_reasoning_effort={self._reasoning_effort}",
+                ]
+            # Codex only emits its provider-exposed reasoning summaries when asked.
+            # Request the detailed form for observable runs, while keeping tracing
+            # disabled genuinely quiet and cheap. These are summaries, not hidden
+            # chain-of-thought.
+            if trace_reasoning:
+                command += [
+                    "-c",
+                    "model_reasoning_summary=detailed",
+                    "-c",
+                    "hide_agent_reasoning=false",
+                ]
             command.append("-")
             result = self._runner(command, prompt)
+            tracing.record_codex_events(llm_span, result.stdout)
             if result.returncode != 0:
                 detail = result.stderr.strip() or result.stdout.strip()
                 raise CoachAgentError(f"codex failed: {detail}")
@@ -234,75 +272,79 @@ class CodexCoach:
         question: str | None,
         candidate_move: str | None,
         analysis: PositionAnalysis,
+        *,
+        truth: dict[str, object] | None = None,
     ) -> str:
-        truth = _truth_payload(
-            self._analyzer,
-            self._book,
-            self._tablebase,
-            fen,
-            analysis,
-            candidate_move,
+        truth = truth or _truth_payload(
+            self._analyzer, self._book, self._tablebase, fen, analysis, candidate_move
         )
-        student = f"\nStudent level: {level}" if level else ""
-        asks = f"\nStudent question: {question}" if question else ""
-        return (
-            f"{_SYSTEM_PROMPT}\n\n"
-            f"Position FEN: {fen}\n"
-            f"Task: {_TASK_BRIEF[task_type]}{student}{asks}\n\n"
-            "Engine-grounded facts:\n"
-            f"```json\n{json.dumps(truth, indent=2)}\n```\n\n"
-            "Reply with a short coaching explanation followed by one fenced JSON "
-            "block as the last thing in your message:\n"
-            "```json\n"
-            '{"best_move": "<uci or null>", "eval_bucket": "<bucket or null>", '
-            '"result": "<win|draw|loss or null>", "line": ["<uci>", "..."], '
-            '"explanation": "<one or two sentences>"}\n'
-            "```\n"
-            "Use null for irrelevant fields. Structured scalar values must match "
-            "the engine-grounded facts exactly; for deep_line, make the first line "
-            "move match the engine best move."
-        )
-
+        return build_codex_prompt(fen, task_type, level, question, truth)
 
     def _grounded_facts_block(self, fen: str) -> str:
         """The engine/book/tablebase truth for a FEN, as a fenced JSON block."""
-        analysis = self._analyzer.analyze(fen)
-        truth = _truth_payload(
-            self._analyzer, self._book, self._tablebase, fen, analysis, None
+        with tracing.tool_span(
+            "engine.ground_truth",
+            {
+                "openinference.span.kind": "TOOL",
+                "tool.name": "stockfish",
+                "chess.fen": fen,
+            },
+        ) as engine_span:
+            tracing.record_input(engine_span, {"fen": fen})
+            analysis = self._analyzer.analyze(fen)
+            truth = _truth_payload(
+                self._analyzer, self._book, self._tablebase, fen, analysis, None
+            )
+            tracing.record_output(engine_span, truth)
+            return format_codex_engine_facts(truth)
+
+    def _run_turn(
+        self,
+        span: object,
+        prompt: str,
+        *,
+        input_value: object,
+        system_prompt: str,
+    ) -> str:
+        """Run one Codex prompt and finish the parent agent span consistently."""
+        tracing.record_turn_context(
+            span,
+            input_value=input_value,
+            provider="codex",
+            system_prompt=system_prompt,
+            skill_mode="not-configured",
         )
-        return f"Engine-grounded facts:\n```json\n{json.dumps(truth, indent=2)}\n```\n"
+        output = self._run(prompt).strip()
+        tracing.record_output(span, output)
+        tracing.mark_ok(span)
+        return output
 
     def teach_sync(self, fen: str, message: str, level: str | None = None) -> str:
         """Answer one live teaching turn as grounded prose (spoiler-aware)."""
         with tracing.turn_span(
             "coach.teach", _turn_attrs(self._model, fen, "explain", level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
             facts = self._grounded_facts_block(fen)
-            student = f"\nStudent level: {level}" if level else ""
-            prompt = (
-                f"{_TEACH_SYSTEM_PROMPT}\n\n"
-                f"Position FEN: {fen}{student}\n"
-                f'The student says: "{message}"\n\n'
-                f"{facts}\n"
-                "Respond as their coach."
+            prompt = build_codex_teach_prompt(fen, message, level, facts)
+            return self._run_turn(
+                span,
+                prompt,
+                input_value={"fen": fen, "message": message, "level": level},
+                system_prompt=_TEACH_SYSTEM_PROMPT,
             )
-            return self._run(prompt).strip()
 
     def general_chat_sync(self, message: str, level: str | None = None) -> str:
         """Answer a non-position chess coaching question as prose."""
         with tracing.turn_span(
             "coach.general_chat", _turn_attrs(self._model, None, "general_chat", level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
-            student = f"\nStudent level: {level}" if level else ""
-            prompt = (
-                f"{_GENERAL_CHAT_SYSTEM_PROMPT}{student}\n"
-                f'The student asks: "{message}"\n\n'
-                "Respond as their chess coach. Keep it practical, accurate, and clear "
-                "enough to turn into training action."
+            prompt = build_codex_general_chat_prompt(message, level)
+            return self._run_turn(
+                span,
+                prompt,
+                input_value={"message": message, "level": level},
+                system_prompt=_GENERAL_CHAT_SYSTEM_PROMPT,
             )
-            return self._run(prompt).strip()
 
     def converse_sync(
         self,
@@ -315,25 +357,21 @@ class CodexCoach:
         with tracing.turn_span(
             "coach.converse", _turn_attrs(self._model, fen or "", "conversation", level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
-            facts = self._grounded_facts_block(fen) + "\n" if fen else ""
-            position = (
-                f"Current position FEN: {fen}\n"
-                if fen
-                else "No board position given.\n"
+            facts = self._grounded_facts_block(fen) if fen else ""
+            prompt = build_codex_conversation_prompt(
+                fen, history, message, level, facts
             )
-            transcript = "\n".join(f"{role}: {text}" for role, text in history)
-            if transcript:
-                transcript = f"Conversation so far:\n{transcript}\n"
-            student = f"\nStudent level: {level}" if level else ""
-            prompt = (
-                f"{_CONVERSATION_SYSTEM_PROMPT}{student}\n"
-                f"{position}{facts}{transcript}"
-                f'The student now says: "{message}"\n\n'
-                "Respond as their coach, using the conversation history."
+            return self._run_turn(
+                span,
+                prompt,
+                input_value={
+                    "fen": fen,
+                    "history": history,
+                    "message": message,
+                    "level": level,
+                },
+                system_prompt=_CONVERSATION_SYSTEM_PROMPT,
             )
-            return self._run(prompt).strip()
-
 
     def _strong_moves(self, fen: str, n: int = 3) -> list[dict[str, str]]:
         """The engine's top-``n`` moves (MultiPV), when the analyzer supports it.
@@ -351,9 +389,7 @@ class CodexCoach:
         except (ValueError, RuntimeError):
             return []
 
-    def _light_facts_block(
-        self, fen: str, candidate: str | None = None
-    ) -> str:
+    def _light_facts_block(self, fen: str, candidate: str | None = None) -> str:
         """Grounding for teaching that keeps the coach *correct* without forcing the
         engine's single move.
 
@@ -364,26 +400,34 @@ class CodexCoach:
         (all engine-verified strong) plus the assessment, so the taught move is both
         correct and free to be the instructive one.
         """
-        analysis = self._analyzer.analyze(fen)
-        facts: dict[str, object] = {
-            "score": analysis.score_text(),
-            "eval_bucket": analysis.bucket,
-            "result": analysis.result,
-            "engine_verified_strong_moves": self._strong_moves(fen),
-            "features": _safe_features(fen),
-            "opening": _safe_opening(self._book, fen),
-            "tablebase": _safe_tablebase(self._tablebase, fen),
-        }
-        if candidate:
-            facts["student_move"] = _safe_candidate(self._analyzer, fen, candidate)
-        return (
-            "Reference facts (teach one of the engine-verified strong moves):\n"
-            f"```json\n{json.dumps(facts, indent=2)}\n```\n"
-        )
+        with tracing.tool_span(
+            "engine.ground_truth",
+            {
+                "openinference.span.kind": "TOOL",
+                "tool.name": "stockfish",
+                "chess.fen": fen,
+            },
+        ) as engine_span:
+            tracing.record_input(
+                engine_span,
+                {"fen": fen, "candidate_move": candidate},
+            )
+            analysis = self._analyzer.analyze(fen)
+            facts: dict[str, object] = {
+                "score": analysis.score_text(),
+                "eval_bucket": analysis.bucket,
+                "result": analysis.result,
+                "engine_verified_strong_moves": self._strong_moves(fen),
+                "features": _safe_features(fen),
+                "opening": _safe_opening(self._book, fen),
+                "tablebase": _safe_tablebase(self._tablebase, fen),
+            }
+            if candidate:
+                facts["student_move"] = _safe_candidate(self._analyzer, fen, candidate)
+            tracing.record_output(engine_span, facts)
+            return format_codex_light_facts(facts)
 
-    def teach_light_sync(
-        self, fen: str, message: str, level: str | None = None
-    ) -> str:
+    def teach_light_sync(self, fen: str, message: str, level: str | None = None) -> str:
         """Teaching turn grounded on the *set* of engine-best moves (MultiPV).
 
         Correct by construction — any move it teaches is one the engine verified as
@@ -393,19 +437,14 @@ class CodexCoach:
         with tracing.turn_span(
             "coach.teach", _turn_attrs(self._model, fen, "explain", level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
             facts = self._light_facts_block(fen)
-            student = f"\nStudent level: {level}" if level else ""
-            prompt = (
-                f"{_TEACH_SYSTEM_PROMPT}\n\n"
-                f"Position FEN: {fen}{student}\n"
-                f'The student says: "{message}"\n\n'
-                f"{facts}\n"
-                "Respond as their coach. Teach one of the engine-verified strong moves "
-                "above — pick the most instructive one for this student; never name a "
-                "move that is not among them."
+            prompt = build_codex_light_teach_prompt(fen, message, level, facts)
+            return self._run_turn(
+                span,
+                prompt,
+                input_value={"fen": fen, "message": message, "level": level},
+                system_prompt=_TEACH_SYSTEM_PROMPT,
             )
-            return self._run(prompt).strip()
 
     def _refutation(self, fen: str, student_move: str | None) -> dict[str, object]:
         """What punishes the student's move: the engine's best reply and the resulting
@@ -421,12 +460,28 @@ class CodexCoach:
         board.push(parsed)
         if board.is_game_over():
             return {"note": "the move ends the game (mate/stalemate)"}
-        reply = self._analyzer.analyze(board.fen())
-        return {
-            "best_reply_san": reply.best_move_san,
-            "reply_line_uci": list(reply.pv_uci[:6]),
-            "eval_after_from_student_pov": _flip_score(reply),
-        }
+        resulting_fen = board.fen()
+        with tracing.tool_span(
+            "engine.refutation",
+            {
+                "openinference.span.kind": "TOOL",
+                "tool.name": "stockfish",
+                "chess.fen": resulting_fen,
+                "chess.move": student_move,
+            },
+        ) as engine_span:
+            tracing.record_input(
+                engine_span,
+                {"fen": resulting_fen, "student_move": student_move},
+            )
+            reply = self._analyzer.analyze(resulting_fen)
+            result: dict[str, object] = {
+                "best_reply_san": reply.best_move_san,
+                "reply_line_uci": list(reply.pv_uci[:6]),
+                "eval_after_from_student_pov": _flip_score(reply),
+            }
+            tracing.record_output(engine_span, result)
+            return result
 
     def diagnose_light_sync(
         self,
@@ -449,36 +504,22 @@ class CodexCoach:
         with tracing.turn_span(
             "coach.teach", _turn_attrs(self._model, fen, "explain", level)
         ) as span:
-            span.set_attribute("coach.provider", "codex")
             facts = self._grounded_facts_block(fen)
             refutation = self._refutation(fen, student_move)
-            ref_block = (
-                "How the student's move is answered (engine):\n"
-                f"```json\n{json.dumps(refutation, indent=2)}\n```\n"
-                if refutation
-                else ""
+            prompt = build_codex_diagnosis_prompt(
+                fen, student_move, message, level, facts, refutation
             )
-            student = f"\nStudent level: {level}" if level else ""
-            asks = f'\nThe student asks: "{message}"' if message else ""
-            move = (
-                f"\nThe student played/proposed: {student_move}"
-                if student_move
-                else ""
+            return self._run_turn(
+                span,
+                prompt,
+                input_value={
+                    "fen": fen,
+                    "student_move": student_move,
+                    "message": message,
+                    "level": level,
+                },
+                system_prompt=_TEACH_SYSTEM_PROMPT,
             )
-            prompt = (
-                f"{_TEACH_SYSTEM_PROMPT}\n\n"
-                f"Position FEN: {fen}{student}{move}{asks}\n\n"
-                f"{facts}\n{ref_block}\n"
-                "Diagnose the student's move against the engine's best. Structure it: "
-                "(1) verdict — state plainly that a stronger move existed and name the "
-                "engine's best move (do not soften a clear improvement as 'fine'); "
-                "(2) reason — the concrete tactic, weakness, or line that makes the "
-                "student's move worse (use the punishing reply above); (3) habit — the "
-                "reusable rule to carry to similar positions, and name the standard "
-                "method, mating pattern, or endgame technique by its established name "
-                "when one applies. Pitch it to their level."
-            )
-            return self._run(prompt).strip()
 
 
 class CodexChatSession:
@@ -660,3 +701,14 @@ def _ground_answer(
         explanation=answer.explanation,
         raw=answer.raw,
     )
+
+
+def _answer_trace_value(answer: CoachAnswer) -> dict[str, object]:
+    """The delivered structured answer, excluding the duplicated raw model reply."""
+    return {
+        "best_move": answer.best_move,
+        "eval_bucket": answer.eval_bucket,
+        "result": answer.result,
+        "line": answer.line,
+        "explanation": answer.explanation,
+    }

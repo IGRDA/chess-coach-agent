@@ -40,6 +40,17 @@ from claude_agent_sdk import (
 from chess_coach.adapters.coach import tools
 from chess_coach.adapters.coach.analysis import MemoizingAnalyzer, PositionAnalyzer
 from chess_coach.adapters.coach.opening_book import OpeningBook
+from chess_coach.adapters.coach.prompts import (
+    CLAUDE_CONVERSATION_SYSTEM_PROMPT,
+    CLAUDE_GENERAL_CHAT_SYSTEM_PROMPT,
+    CLAUDE_SYSTEM_PROMPT,
+    CLAUDE_TASK_BRIEFS,
+    CLAUDE_TEACH_SYSTEM_PROMPT,
+    build_claude_conversation_prompt,
+    build_claude_general_chat_prompt,
+    build_claude_prompt,
+    build_claude_teach_prompt,
+)
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
 
@@ -57,6 +68,17 @@ DEFAULT_SKILLS = [
     "endgame-coach",
     "interactive-coach",
 ]
+
+# Compatibility for evaluators and callers that use the old module-local assets.
+_SYSTEM_PROMPT = CLAUDE_SYSTEM_PROMPT
+_TASK_BRIEF = CLAUDE_TASK_BRIEFS
+_TEACH_SYSTEM_PROMPT = CLAUDE_TEACH_SYSTEM_PROMPT
+_GENERAL_CHAT_SYSTEM_PROMPT = CLAUDE_GENERAL_CHAT_SYSTEM_PROMPT
+_CONVERSATION_SYSTEM_PROMPT = CLAUDE_CONVERSATION_SYSTEM_PROMPT
+_build_prompt = build_claude_prompt
+_build_teach_prompt = build_claude_teach_prompt
+_build_general_chat_prompt = build_claude_general_chat_prompt
+_build_conversation_prompt = build_claude_conversation_prompt
 
 # How many plies of the engine's principal variation to surface to the agent. Enough
 # for a deep continuation without flooding the tool result with a 20-ply line.
@@ -354,171 +376,10 @@ def _chess_tools(
     )
 
 
-_TASK_BRIEF: dict[str, str] = {
-    "best_move": (
-        "Find the single best move. Report it in the `best_move` field as a UCI "
-        "string (e.g. e1e8, c7c8n for underpromotion)."
-    ),
-    "eval_bucket": (
-        "Assess who stands better. Report the `eval_bucket` field as exactly one "
-        "of: losing, worse, equal, better, winning (from the side to move)."
-    ),
-    "endgame": (
-        "This is an endgame technique problem. Report the key move in `best_move` "
-        "(UCI) and the game-theoretic outcome in `result` as one of: win, draw, "
-        "loss (from the side to move)."
-    ),
-    "deep_line": (
-        "Calculate a short best-play continuation, not only the first move. Take the "
-        "continuation from analyze_position's `line_uci` (the engine's principal "
-        "variation for both sides) rather than guessing moves. Report the first move "
-        "in `best_move` and report `line` as a JSON array of UCI moves in order, "
-        "alternating both sides."
-    ),
-    "explain": (
-        "Answer the student's question about this position in plain language. "
-        "Ground yourself in analyze_position first, then teach. Fill `best_move` "
-        "and/or `eval_bucket` only if they help the answer; `explanation` carries "
-        "the substance."
-    ),
-}
-
-_SYSTEM_PROMPT = (
-    "You are a rigorous chess coach. You never guess concrete facts about a "
-    "position — you verify them with your tools. For any position you are given, "
-    "call analyze_position to get Stockfish's best move, score, assessment bucket "
-    "and result, and use those values verbatim in your structured answer. Reach for "
-    "your other tools when they help you teach: position_features to see the checks, "
-    "captures and loose pieces at a glance; compare_candidates and evaluate_move to "
-    "weigh moves the student is considering; opening_lookup to name an opening; "
-    "probe_tablebase for exact endgame truth. Then teach: explain *why* the move or "
-    "assessment is right in plain, encouraging language pitched to the student's "
-    "level. Your loaded skill guides how."
-)
-
-
-def _build_prompt(
-    fen: str,
-    task_type: str,
-    level: str | None,
-    question: str | None = None,
-    candidate_move: str | None = None,
-) -> str:
-    brief = _TASK_BRIEF[task_type]
-    lvl = f" The student is a {level} player." if level else ""
-    asks = ""
-    if question:
-        asks += f'\nThe student asks: "{question}" Answer it directly.'
-    if candidate_move:
-        asks += (
-            f"\nThe student is considering the move {candidate_move}. Compare it "
-            "against the engine's best move from analyze_position and explain "
-            "candidly whether it is a good idea, what it overlooks, or why it works."
-        )
-    return (
-        f"Position (FEN): {fen}\n"
-        f"Task: {brief}{lvl}{asks}\n\n"
-        "First call analyze_position on this exact FEN (and opening_lookup if it "
-        "looks like an opening). Then reply with your coaching explanation followed "
-        "by a single fenced JSON code block as the LAST thing in your message, of "
-        "the form:\n"
-        "```json\n"
-        '{"best_move": "<uci or null>", "eval_bucket": "<bucket or null>", '
-        '"result": "<win|draw|loss or null>", "line": ["<uci>", "..."], '
-        '"explanation": "<one or two sentences>"}\n'
-        "```\n"
-        "Fill only the fields relevant to the task; use null for the rest. The "
-        "best_move, eval_bucket and result must match what analyze_position returned. "
-        "For deep_line, use legal UCI moves and make the first line move match "
-        "best_move."
-    )
-
-
 # The skill that carries the Socratic teaching method and spoiler control. A teaching
 # turn is answered *only* through it, so a structured skill can't blurt the move when
 # the student asked for a hint.
 _INTERACTIVE_SKILL = "interactive-coach"
-
-_TEACH_SYSTEM_PROMPT = (
-    "You are a chess coach helping a student in a single coaching turn. Teach through "
-    "the reply: when the student asks for a hint or a nudge, guide them toward the "
-    "idea with a pointer or a question and do NOT state the best move; when they ask "
-    "directly, are stuck, or propose a move, answer plainly and then explain. Never "
-    "invent concrete facts — the best move, who is better, an endgame result — verify "
-    "them with your tools first, then speak. "
-    # Measured failure mode: asked "is <move> good?", the coach would discuss the
-    # position without ever landing on a verdict, or soften a losing move into
-    # encouragement. Both leave the student believing a bad move is playable, which
-    # is the one outcome worse than saying nothing.
-    "When the student names a concrete move they are weighing, run that exact move "
-    "through evaluate_move before you reply, and give your verdict on it in the "
-    "first sentence: say plainly whether it is sound or a mistake. A losing move "
-    "must be called a mistake even when the student sounds confident — warmth "
-    "belongs in how you explain it, never in softening the verdict itself. Do not "
-    "reply with only a question when the student asked for a judgement. "
-    "Reply in warm, natural prose (no JSON)."
-)
-
-_CONVERSATION_SYSTEM_PROMPT = (
-    "You are a chess coach in a multi-turn lesson. Use the prior transcript as "
-    "context: remember the student's goals, misconceptions, earlier hints, and any "
-    "candidate moves already discussed. If a FEN is provided, verify concrete claims "
-    "about the position with your tools before stating them. If no FEN is provided, "
-    "answer only from general chess principles and say when a board position would "
-    "be needed. Reply in natural coaching prose, not JSON."
-)
-
-
-def _build_teach_prompt(fen: str, message: str, level: str | None) -> str:
-    lvl = f" The student is a {level} player." if level else ""
-    return (
-        f"Position (FEN): {fen}.{lvl}\n"
-        f'The student says: "{message}"\n'
-        "Respond as their coach."
-    )
-
-
-_GENERAL_CHAT_SYSTEM_PROMPT = (
-    "You are a rigorous chess coach answering general chess questions, not a board "
-    "position. Give factual, source-respecting chess instruction in natural prose, "
-    "pitched to the student's level. Do not invent book quotations, exact statistics, "
-    "engine claims, or rules you are unsure about. If a question would require a "
-    "specific position to answer concretely, say what information is missing and "
-    "give the useful general principle."
-)
-
-
-def _build_general_chat_prompt(message: str, level: str | None) -> str:
-    lvl = f"\nThe student is a {level} player." if level else ""
-    return (
-        f"{lvl}\n"
-        f'The student asks: "{message}"\n'
-        "Respond as their chess coach. Keep the answer practical, accurate, and "
-        "clear enough that the student can turn it into training action."
-    )
-
-
-def _build_conversation_prompt(
-    fen: str | None,
-    history: list[tuple[str, str]],
-    message: str,
-    level: str | None,
-) -> str:
-    lvl = f"\nThe student is a {level} player." if level else ""
-    position = (
-        f"Current position (FEN): {fen}\n"
-        if fen
-        else "No current FEN is provided.\n"
-    )
-    transcript = "\n".join(f"{role}: {text}" for role, text in history)
-    if transcript:
-        transcript = f"Conversation so far:\n{transcript}\n"
-    return (
-        f"{position}{lvl}\n"
-        f"{transcript}"
-        f'Student now says: "{message}"\n'
-        "Respond as their coach, using the conversation history."
-    )
 
 
 class AgentCoach:
@@ -586,19 +447,30 @@ class AgentCoach:
         with tracing.turn_span(
             "coach.answer", _turn_attrs(self._model, fen, task_type, level)
         ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=prompt,
+                provider="claude",
+                system_prompt=_SYSTEM_PROMPT,
+                skills=self._skills,
+                skill_mode="dynamic",
+            )
             async with anyio.create_task_group() as tg:
                 # Warm the engine while the model reads the prompt, so its first
                 # analyze_position call hits a ready result instead of waiting.
                 tg.start_soon(anyio.to_thread.run_sync, self._analyzer.prefetch, fen)
                 async for message in query(prompt=prompt, options=self._options()):
                     if isinstance(message, AssistantMessage):
+                        tracing.record_model_message(span, message)
                         for block in message.content:
                             if isinstance(block, TextBlock):
                                 transcript.append(block.text)
                     elif isinstance(message, ResultMessage):
                         final = message.result or ""
                         tracing.record_result(span, message)
-        text = final or "\n".join(transcript)
+            text = final or "\n".join(transcript)
+            tracing.record_output(span, text)
+            tracing.mark_ok(span)
         return _parse_answer(text)
 
     def answer_sync(
@@ -655,19 +527,31 @@ class AgentCoach:
         with tracing.turn_span(
             "coach.teach", _turn_attrs(self._model, fen, "explain", level)
         ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=prompt,
+                provider="claude",
+                system_prompt=_TEACH_SYSTEM_PROMPT,
+                skills=[_INTERACTIVE_SKILL],
+                skill_mode="dynamic",
+            )
             async with anyio.create_task_group() as tg:
                 tg.start_soon(anyio.to_thread.run_sync, self._analyzer.prefetch, fen)
                 async for msg in query(
                     prompt=prompt, options=self._interactive_options()
                 ):
                     if isinstance(msg, AssistantMessage):
+                        tracing.record_model_message(span, msg)
                         for block in msg.content:
                             if isinstance(block, TextBlock):
                                 transcript.append(block.text)
                     elif isinstance(msg, ResultMessage):
                         final = msg.result or ""
                         tracing.record_result(span, msg)
-        return final or "\n".join(transcript)
+            output = final or "\n".join(transcript)
+            tracing.record_output(span, output)
+            tracing.mark_ok(span)
+            return output
 
     def teach_sync(self, fen: str, message: str, level: str | None = None) -> str:
         """Blocking convenience wrapper around :meth:`teach`."""
@@ -681,15 +565,27 @@ class AgentCoach:
         with tracing.turn_span(
             "coach.general_chat", _turn_attrs(self._model, None, "general_chat", level)
         ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=prompt,
+                provider="claude",
+                system_prompt=_GENERAL_CHAT_SYSTEM_PROMPT,
+                skills=[_INTERACTIVE_SKILL],
+                skill_mode="dynamic",
+            )
             async for msg in query(prompt=prompt, options=self._general_chat_options()):
                 if isinstance(msg, AssistantMessage):
+                    tracing.record_model_message(span, msg)
                     for block in msg.content:
                         if isinstance(block, TextBlock):
                             transcript.append(block.text)
                 elif isinstance(msg, ResultMessage):
                     final = msg.result or ""
                     tracing.record_result(span, msg)
-        return final or "\n".join(transcript)
+            output = final or "\n".join(transcript)
+            tracing.record_output(span, output)
+            tracing.mark_ok(span)
+            return output
 
     def _conversation_options(self) -> ClaudeAgentOptions:
         """Options for a multi-turn eval transcript supplied in one prompt."""
@@ -721,6 +617,14 @@ class AgentCoach:
         with tracing.turn_span(
             "coach.converse", _turn_attrs(self._model, fen or "", "conversation", level)
         ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=prompt,
+                provider="claude",
+                system_prompt=_CONVERSATION_SYSTEM_PROMPT,
+                skills=[_INTERACTIVE_SKILL],
+                skill_mode="dynamic",
+            )
             async with anyio.create_task_group() as tg:
                 if fen:  # a conversation turn may carry no board
                     tg.start_soon(
@@ -730,13 +634,17 @@ class AgentCoach:
                     prompt=prompt, options=self._conversation_options()
                 ):
                     if isinstance(msg, AssistantMessage):
+                        tracing.record_model_message(span, msg)
                         for block in msg.content:
                             if isinstance(block, TextBlock):
                                 transcript.append(block.text)
                     elif isinstance(msg, ResultMessage):
                         final = msg.result or ""
                         tracing.record_result(span, msg)
-        return final or "\n".join(transcript)
+            output = final or "\n".join(transcript)
+            tracing.record_output(span, output)
+            tracing.mark_ok(span)
+            return output
 
     def general_chat_sync(self, message: str, level: str | None = None) -> str:
         """Blocking convenience wrapper around :meth:`general_chat`."""

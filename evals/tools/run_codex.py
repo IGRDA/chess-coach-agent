@@ -21,7 +21,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sys
 import threading
 from datetime import UTC, datetime
@@ -41,6 +40,7 @@ from chess_coach.adapters.coach.analysis import (
 from chess_coach.adapters.coach.codex_agent import CodexCoach
 from chess_coach.adapters.coach.opening_book import OpeningBook
 from chess_coach.adapters.observability import tracing
+from chess_coach.composition.config import Settings
 from evals.data.loader import (
     DETERMINISTIC_TASKS,
     coach_input,
@@ -256,9 +256,7 @@ async def _gather(
     return results
 
 
-def _grade(
-    goldens: list[ChessGolden], results: dict[str, CoachResult]
-) -> list[Record]:
+def _grade(goldens: list[ChessGolden], results: dict[str, CoachResult]) -> list[Record]:
     records: list[Record] = []
     for golden in goldens:
         metric = metric_for(golden.task)
@@ -294,13 +292,14 @@ def main() -> int:
     parser.add_argument("--refresh", action="store_true", help="ignore the cache")
     args = parser.parse_args()
 
-    # Opt-in tracing so a run can be inspected in Phoenix; off by default (cheap
-    # no-op). Enable with CHESS_COACH_TRACING_ENABLED=1 and open http://localhost:6006.
+    # Use the same default-on observability settings as the application. Set
+    # CHESS_COACH_TRACING_ENABLED=0 for a deliberately untraced benchmark.
+    settings = Settings()
     traced = tracing.configure_tracing(
-        enabled=os.environ.get("CHESS_COACH_TRACING_ENABLED") == "1",
-        otlp_endpoint=os.environ.get(
-            "CHESS_COACH_OTLP_ENDPOINT", "http://localhost:6006/v1/traces"
-        ),
+        enabled=settings.tracing_enabled,
+        otlp_endpoint=settings.otlp_endpoint,
+        native_telemetry=settings.native_telemetry,
+        native_otlp_endpoint=settings.native_otlp_endpoint,
     )
 
     goldens = stratified_sample(

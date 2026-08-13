@@ -49,8 +49,15 @@ from chess_coach.adapters.coach.agent import (
 from chess_coach.adapters.coach.analysis import MemoizingAnalyzer, PositionAnalyzer
 from chess_coach.adapters.coach.opening_book import OpeningBook
 from chess_coach.adapters.coach.prefetch import PositionPrefetcher
+from chess_coach.adapters.coach.prompts import (
+    CLAUDE_CHAT_SYSTEM_PROMPT,
+    build_claude_chat_prompt,
+)
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
+
+_CHAT_SYSTEM_PROMPT = CLAUDE_CHAT_SYSTEM_PROMPT
+_build_chat_prompt = build_claude_chat_prompt
 
 # ``max_turns`` is a budget for the whole *session*, not one student turn: the SDK
 # counts agent turns across every query on the client. At the old value of 8 a single
@@ -63,21 +70,6 @@ _SESSION_MAX_TURNS = 200
 # Project skills live beside the code, not beside the working directory: the coach
 # must load the same method whatever directory the app was launched from.
 _SKILLS_DIR = Path(__file__).resolve().parents[4] / ".claude" / "skills"
-
-_CHAT_SYSTEM_PROMPT = (
-    "You are a chess coach in live conversation with a student, sitting beside them "
-    "at the board. Teach through the dialogue: guide with questions and hints, engage "
-    "with the student's own ideas, and reveal answers plainly when they are stuck or "
-    "ask directly. Never invent concrete facts about a position — the best move, who "
-    "is better, an endgame result — always verify them with your tools first, then "
-    "speak. Work from the current position you are given each turn; the board may "
-    "change as you talk. Reply in warm, natural prose."
-)
-
-
-def _build_chat_prompt(fen: str, message: str, level: str | None) -> str:
-    lvl = f"\nThe student is a {level} player." if level else ""
-    return f'Current position (FEN): {fen}{lvl}\nThe student says: "{message}"'
 
 
 def _skill_body(name: str) -> str:
@@ -220,24 +212,41 @@ class ChatSession:
         """
         if self._client is None:
             raise RuntimeError("ChatSession used outside an `async with` block")
-        await self._client.query(_build_chat_prompt(fen, message, level))
+        prompt = _build_chat_prompt(fen, message, level)
+        await self._client.query(prompt)
+        output_chunks: list[str] = []
+        final = ""
         with tracing.turn_span(
             "coach.chat", _turn_attrs(self._model, fen, "explain", level)
         ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=prompt,
+                provider="claude",
+                system_prompt=_CHAT_SYSTEM_PROMPT,
+                skills=self._skills,
+                skill_mode="inline" if self._inline_skills else "dynamic",
+            )
             async for msg in self._client.receive_response():
                 if isinstance(msg, StreamEvent):
                     text = _text_delta(msg)
                     if text:
+                        output_chunks.append(text)
                         yield text
                 elif isinstance(msg, AssistantMessage):
+                    tracing.record_model_message(span, msg)
                     # Already yielded delta by delta when token streaming is on;
                     # re-yielding the assembled block would duplicate the reply.
                     if not self._token_stream:
                         for block in msg.content:
                             if isinstance(block, TextBlock) and block.text:
+                                output_chunks.append(block.text)
                                 yield block.text
                 elif isinstance(msg, ResultMessage):
+                    final = msg.result or ""
                     tracing.record_result(span, msg)
+            tracing.record_output(span, final or "".join(output_chunks))
+            tracing.mark_ok(span)
 
     def prefetch(self, fen: str) -> None:
         """Warm the engine for ``fen`` in the background; returns immediately.

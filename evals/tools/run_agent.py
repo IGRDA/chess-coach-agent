@@ -27,6 +27,8 @@ import anyio
 
 from chess_coach.adapters.coach.agent import AgentCoach, CoachAnswer
 from chess_coach.adapters.coach.opening_book import OpeningBook
+from chess_coach.adapters.observability import tracing
+from chess_coach.composition.config import Settings
 from evals.data.loader import coach_input, load_goldens, to_test_case
 from evals.data.schema import ChessGolden
 from evals.harness.agent_task import (
@@ -138,6 +140,16 @@ def main() -> int:
     parser.add_argument("--model", default=None)
     args = parser.parse_args()
 
+    # Match the application's default-on observability. Set
+    # CHESS_COACH_TRACING_ENABLED=0 for a deliberately untraced benchmark.
+    settings = Settings()
+    traced = tracing.configure_tracing(
+        enabled=settings.tracing_enabled,
+        otlp_endpoint=settings.otlp_endpoint,
+        native_telemetry=settings.native_telemetry,
+        native_otlp_endpoint=settings.native_otlp_endpoint,
+    )
+
     goldens = load_goldens()
     if args.limit:
         goldens = goldens[: args.limit]
@@ -180,6 +192,14 @@ def main() -> int:
             print(f"  FAIL {r['id']}: {r['reason']}")
     path = write_report(records, summary)
     print(f"\nwrote {path}")
+    if traced:
+        # BatchSpanProcessor exports asynchronously; flush before process exit.
+        from opentelemetry import trace
+
+        provider = trace.get_tracer_provider()
+        if hasattr(provider, "shutdown"):
+            provider.shutdown()
+        print("flushed traces to Phoenix (http://localhost:6006)")
     return 0
 
 

@@ -19,18 +19,15 @@ from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
     ClaudeSDKClient,
+    ResultMessage,
     TextBlock,
 )
 
-from chess_coach.adapters.coach.agent import DEFAULT_MODEL
+from chess_coach.adapters.coach.agent import DEFAULT_MODEL, _turn_attrs
+from chess_coach.adapters.coach.prompts import OPEN_CHAT_SYSTEM_PROMPT
 from chess_coach.adapters.observability import tracing
 
-_OPEN_CHAT_SYSTEM_PROMPT = (
-    "You are a friendly, knowledgeable assistant chatting with someone who is also "
-    "using a chess-coaching app. Answer whatever they ask — about chess or anything "
-    "else — clearly and concisely. You have no tools, so answer from your own "
-    "knowledge and say plainly when you are unsure. Reply in warm, natural prose."
-)
+_OPEN_CHAT_SYSTEM_PROMPT = OPEN_CHAT_SYSTEM_PROMPT
 
 
 class OpenChatSession:
@@ -71,8 +68,28 @@ class OpenChatSession:
         if self._client is None:
             raise RuntimeError("OpenChatSession used outside an `async with` block")
         await self._client.query(message)
-        async for msg in self._client.receive_response():
-            if isinstance(msg, AssistantMessage):
-                for block in msg.content:
-                    if isinstance(block, TextBlock) and block.text:
-                        yield block.text
+        output_chunks: list[str] = []
+        final = ""
+        with tracing.turn_span(
+            "coach.open_chat",
+            _turn_attrs(self._model, None, "general_chat", None),
+        ) as span:
+            tracing.record_turn_context(
+                span,
+                input_value=message,
+                provider="claude",
+                system_prompt=_OPEN_CHAT_SYSTEM_PROMPT,
+                skill_mode="none",
+            )
+            async for msg in self._client.receive_response():
+                if isinstance(msg, AssistantMessage):
+                    tracing.record_model_message(span, msg)
+                    for block in msg.content:
+                        if isinstance(block, TextBlock) and block.text:
+                            output_chunks.append(block.text)
+                            yield block.text
+                elif isinstance(msg, ResultMessage):
+                    final = msg.result or ""
+                    tracing.record_result(span, msg)
+            tracing.record_output(span, final or "".join(output_chunks))
+            tracing.mark_ok(span)

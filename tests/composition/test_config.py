@@ -19,6 +19,7 @@ def _use_config(monkeypatch: pytest.MonkeyPatch, path: Path) -> None:
         "CHESS_COACH_STOCKFISH_PATH",
         "CHESS_COACH_DEPTH",
         "CHESS_COACH_SYZYGY_PATH",
+        "CHESS_COACH_TRACING_ENABLED",
     ):
         monkeypatch.delenv(name, raising=False)
 
@@ -32,6 +33,16 @@ def test_defaults_to_claude_provider(
 
     assert settings.provider == "claude"
     assert selected_model(settings).startswith("claude-")
+    assert settings.tracing_enabled is True
+
+
+def test_tracing_can_be_disabled(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    _use_config(monkeypatch, tmp_path / "missing.toml")
+    monkeypatch.setenv("CHESS_COACH_TRACING_ENABLED", "0")
+
+    assert load_settings().tracing_enabled is False
 
 
 def test_reads_provider_from_user_config(

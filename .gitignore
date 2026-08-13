@@ -8,6 +8,15 @@
 __pycache__/
 *.py[cod]
 
+# OS and editor metadata.
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+*~
+*.swp
+*.swo
+
 # Local/generated data (top-level app data only; NOT evals/data/).
 /data/
 
@@ -19,6 +28,10 @@ evals/data/staged.json
 *.egg-info/
 build/
 dist/
+
+# Local agent instructions.
+/AGENTS.md
+/CLAUDE.md
 
 # Git worktrees created under .trees/ (each is a full checkout, not project code).
 /.trees/

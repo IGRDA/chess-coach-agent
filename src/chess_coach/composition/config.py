@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     syzygy_path: str | None = None
     # Observability (env-only; a dev/ops concern, not persisted in config.toml).
     # Emit OpenTelemetry spans for each coaching turn. Env: CHESS_COACH_TRACING_ENABLED.
-    tracing_enabled: bool = False
+    tracing_enabled: bool = True
     # Full OTLP traces URL spans are exported to; the default is a local Arize Phoenix.
     # Env: CHESS_COACH_OTLP_ENDPOINT.
     otlp_endpoint: str = "http://localhost:6006/v1/traces"

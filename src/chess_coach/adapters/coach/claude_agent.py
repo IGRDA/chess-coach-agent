@@ -13,7 +13,7 @@ Implements
 Collaborators
     Configured with the model id, credentials and enabled skills by the
     composition root. Draws its templates from prompts.py and its skill
-    definitions from the top-level `skills/` tree.
+    definitions from the top-level `.claude/skills/` tree.
 
 Hidden complexity
     All Claude Agent SDK types, tool wiring, retries and streaming stay inside

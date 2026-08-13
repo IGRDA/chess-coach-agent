@@ -62,6 +62,7 @@ def test_codex_coach_runs_cli_and_grounds_best_move() -> None:
     command, prompt = runner.calls[0]
     assert command[:2] == ["codex", "exec"]
     assert "--ephemeral" in command
+    assert "--json" in command
     assert "gpt-test" in command
     assert "Engine-grounded facts" in prompt
     assert '"best_move_uci": "e2e4"' in prompt

@@ -6,9 +6,9 @@
 
 Selects the system under test with ``COACH_TASK`` (``oracle`` default, ``agent``,
 ``pending``) exactly like the pytest suite, and reuses the same metrics as evaluators.
-For a real agent run, set ``COACH_TASK=agent`` (and ``CHESS_COACH_TRACING_ENABLED=1`` to
-nest the coach's tool spans under each experiment). Requires the datasets to have been
-uploaded first (``python -m evals.phoenix.upload``) and a running Phoenix.
+For a real agent run, set ``COACH_TASK=agent``; tracing defaults on so the coach's tool
+spans nest under each experiment. Requires the datasets to have been uploaded first
+(``python -m evals.phoenix.upload``) and a running Phoenix.
 """
 
 from __future__ import annotations
@@ -17,6 +17,8 @@ import argparse
 import os
 import sys
 
+from chess_coach.adapters.observability import tracing
+from chess_coach.composition.config import Settings
 from evals.phoenix.client import endpoint, make_client
 from evals.phoenix.dataset import DATASETS
 from evals.phoenix.evaluators import evaluators_for
@@ -37,6 +39,13 @@ def main() -> int:
     from phoenix.client.experiments import run_experiment
 
     coach = os.environ.get(COACH_TASK_ENV, "oracle")
+    settings = Settings()
+    traced = tracing.configure_tracing(
+        enabled=settings.tracing_enabled,
+        otlp_endpoint=settings.otlp_endpoint,
+        native_telemetry=settings.native_telemetry,
+        native_otlp_endpoint=settings.native_otlp_endpoint,
+    )
     names = [args.task] if args.task else list(DATASETS)
     # A positive --limit runs N examples in dry-run mode (the client's int dry_run).
     dry_run: bool | int = args.limit if args.limit else args.dry_run
@@ -55,6 +64,12 @@ def main() -> int:
                 dry_run=dry_run,
                 client=client,
             )
+    if traced:
+        from opentelemetry import trace
+
+        provider = trace.get_tracer_provider()
+        if hasattr(provider, "shutdown"):
+            provider.shutdown()
     return 0
 
 

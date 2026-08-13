@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+import json
+from collections.abc import Iterator, Mapping
+from types import SimpleNamespace
+from typing import Any
 
 import anyio
 import pytest
-from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
     InMemorySpanExporter,
@@ -15,6 +18,12 @@ from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
 from chess_coach.adapters.coach.analysis import PositionAnalysis
 from chess_coach.adapters.coach.codex_agent import CodexCoach, CommandResult
 from chess_coach.adapters.observability import latency, tracing
+
+
+def _attrs(span: ReadableSpan) -> Mapping[str, Any]:
+    """Narrow the SDK's optional, scalar-only attribute type for test assertions."""
+    assert span.attributes is not None
+    return span.attributes
 
 
 @pytest.fixture(autouse=True)
@@ -68,15 +77,17 @@ def test_disabled_is_a_noop() -> None:
 def test_latency_is_sampled_even_when_tracing_is_off() -> None:
     """The p50/p90 report must work without a backend — that is its whole point.
 
-    Tracing is opt-in and usually off; the sampler is not, so a coach run on a
+    Tracing can be switched off; the sampler cannot, so a coach run on a
     plain laptop still yields a latency distribution.
     """
     tracing.use_tracer(None)
     latency.reset()
 
-    with tracing.turn_span("coach.answer", {"chess.fen": "x"}):
-        with tracing.tool_span("tool.evaluate_move", {"chess.fen": "x"}):
-            pass
+    with (
+        tracing.turn_span("coach.answer", {"chess.fen": "x"}),
+        tracing.tool_span("tool.evaluate_move", {"chess.fen": "x"}),
+    ):
+        pass
 
     assert latency.SAMPLER.samples("coach.answer.latency_ms")
     assert latency.SAMPLER.samples("tool.evaluate_move.latency_ms")
@@ -106,9 +117,8 @@ def test_a_failing_turn_still_records_its_latency() -> None:
     tracing.use_tracer(None)
     latency.reset()
 
-    with pytest.raises(RuntimeError):
-        with tracing.turn_span("coach.answer", {}):
-            raise RuntimeError("model exploded")
+    with pytest.raises(RuntimeError), tracing.turn_span("coach.answer", {}):
+        raise RuntimeError("model exploded")
 
     assert len(latency.SAMPLER.samples("coach.answer.latency_ms")) == 1
 
@@ -130,14 +140,131 @@ def test_turn_and_tool_spans_nest(spans: InMemorySpanExporter) -> None:
 
     turn = finished["coach.answer"]
     tool = finished["tool.analyze_position"]
+    turn_attrs = _attrs(turn)
+    tool_attrs = _attrs(tool)
     # The tool span is a child of the turn span.
     assert tool.parent is not None
     assert tool.parent.span_id == turn.context.span_id
     # None-valued attributes (level) are dropped, not sent as the string "None".
-    assert "coach.level" not in turn.attributes
-    assert tool.attributes["tool.name"] == "analyze_position"
-    assert tool.attributes["chess.fen"] == "FEN"
-    assert tool.attributes["chess.move"] == "e2e4"
+    assert "coach.level" not in turn_attrs
+    assert tool_attrs["tool.name"] == "analyze_position"
+    assert tool_attrs["chess.fen"] == "FEN"
+    assert tool_attrs["chess.move"] == "e2e4"
+    assert json.loads(tool_attrs["input.value"])["move"] == "e2e4"
+    assert json.loads(tool_attrs["output.value"])["ok"] is True
+    assert tool.status.status_code.name == "OK"
+
+
+def test_turn_context_records_inline_skills_once(spans: InMemorySpanExporter) -> None:
+    with tracing.turn_span("coach.chat", {}) as span:
+        tracing.record_turn_context(
+            span,
+            input_value="Help me find a plan",
+            provider="claude",
+            system_prompt="Teach, then verify.",
+            skills=["interactive-coach", "interactive-coach"],
+            skill_mode="inline",
+        )
+        tracing.record_output(span, "Look at the open file first.")
+        tracing.mark_ok(span)
+
+    (turn,) = spans.get_finished_spans()
+    attrs = _attrs(turn)
+    assert attrs["coach.provider"] == "claude"
+    assert attrs["coach.skills.available"] == ("interactive-coach",)
+    assert attrs["coach.skills.loaded"] == ("interactive-coach",)
+    assert attrs["input.value"] == "Help me find a plan"
+    assert attrs["output.value"] == "Look at the open file first."
+    assert [event.name for event in turn.events] == ["skill.loaded"]
+
+
+def test_claude_message_records_exposed_reasoning_and_skill_load(
+    spans: InMemorySpanExporter,
+) -> None:
+    message = SimpleNamespace(
+        model="claude-test",
+        stop_reason="tool_use",
+        content=[
+            SimpleNamespace(thinking="I should verify the position first."),
+            SimpleNamespace(
+                name="Skill",
+                id="skill-call-1",
+                input={"skill": "tactics-coach"},
+            ),
+        ],
+    )
+    with tracing.turn_span("coach.answer", {}) as span:
+        tracing.record_turn_context(
+            span,
+            input_value="Find the tactic",
+            provider="claude",
+            skills=["tactics-coach"],
+            skill_mode="dynamic",
+        )
+        tracing.record_model_message(span, message)
+        tracing.mark_ok(span)
+
+    (turn,) = spans.get_finished_spans()
+    attrs = _attrs(turn)
+    assert attrs["llm.model_name"] == "claude-test"
+    assert attrs["coach.skills.loaded"] == ("tactics-coach",)
+    assert [event.name for event in turn.events] == [
+        "model.reasoning",
+        "model.tool_choice",
+        "skill.loaded",
+    ]
+    reasoning_attrs = turn.events[0].attributes
+    assert reasoning_attrs is not None
+    assert reasoning_attrs["reasoning.summary"] == "I should verify the position first."
+
+
+def test_codex_jsonl_keeps_reasoning_thread_and_usage(
+    spans: InMemorySpanExporter,
+) -> None:
+    events = [
+        {"type": "thread.started", "thread_id": "thread-123"},
+        {
+            "type": "item.completed",
+            "item": {"type": "reasoning", "text": "Compare forcing moves."},
+        },
+        {
+            "type": "item.completed",
+            "item": {"type": "agent_message", "text": "Play e4."},
+        },
+        {
+            "type": "turn.completed",
+            "usage": {
+                "input_tokens": 100,
+                "cached_input_tokens": 40,
+                "output_tokens": 20,
+                "reasoning_output_tokens": 8,
+            },
+        },
+    ]
+    jsonl = "\n".join(json.dumps(event) for event in events)
+
+    with tracing.turn_span("coach.answer", {}) as turn:
+        tracing.record_turn_context(
+            turn,
+            input_value="Analyze",
+            provider="codex",
+            skill_mode="not-configured",
+        )
+        with tracing.tool_span("codex.exec", {}) as llm:
+            tracing.record_codex_events(llm, jsonl)
+        tracing.mark_ok(turn)
+
+    finished = {span.name: span for span in spans.get_finished_spans()}
+    llm = finished["codex.exec"]
+    attrs = _attrs(llm)
+    assert attrs["codex.thread_id"] == "thread-123"
+    assert attrs["llm.token_count.total"] == 120
+    assert attrs["llm.token_count.cached"] == 40
+    assert attrs["llm.token_count.reasoning"] == 8
+    assert [event.name for event in llm.events] == ["model.reasoning"]
+    reasoning_attrs = llm.events[0].attributes
+    assert reasoning_attrs is not None
+    assert reasoning_attrs["reasoning.summary"] == "Compare forcing moves."
 
 
 def test_record_result_copies_cost_and_tokens(spans: InMemorySpanExporter) -> None:
@@ -145,11 +272,12 @@ def test_record_result_copies_cost_and_tokens(spans: InMemorySpanExporter) -> No
         tracing.record_result(span, _FakeResult())
 
     (turn,) = spans.get_finished_spans()
-    assert turn.attributes["coach.cost_usd"] == pytest.approx(0.0123)
-    assert turn.attributes["coach.num_turns"] == 3
-    assert turn.attributes["llm.token_count.prompt"] == 1200
-    assert turn.attributes["llm.token_count.completion"] == 300
-    assert turn.attributes["llm.token_count.total"] == 1500
+    attrs = _attrs(turn)
+    assert attrs["coach.cost_usd"] == pytest.approx(0.0123)
+    assert attrs["coach.num_turns"] == 3
+    assert attrs["llm.token_count.prompt"] == 1200
+    assert attrs["llm.token_count.completion"] == 300
+    assert attrs["llm.token_count.total"] == 1500
 
 
 def test_tool_span_records_exception(spans: InMemorySpanExporter) -> None:
@@ -181,17 +309,37 @@ def _canned_codex(command: object, stdin: object) -> CommandResult:
 
 def test_codex_provider_emits_nested_spans(spans: InMemorySpanExporter) -> None:
     start = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-    coach = CodexCoach(_StubAnalyzer(), runner=_canned_codex, model="gpt-5")
+    commands: list[list[str]] = []
+
+    def runner(command: object, stdin: object) -> CommandResult:
+        assert isinstance(command, list)
+        commands.append(command)
+        return _canned_codex(command, stdin)
+
+    coach = CodexCoach(_StubAnalyzer(), runner=runner, model="gpt-5")
 
     coach.answer_sync(start, "best_move", level="beginner")
 
     finished = {s.name: s for s in spans.get_finished_spans()}
     assert set(finished) == {"coach.answer", "engine.ground_truth", "codex.exec"}
     turn = finished["coach.answer"]
-    assert turn.attributes["coach.provider"] == "codex"
+    attrs = _attrs(turn)
+    assert attrs["coach.provider"] == "codex"
+    assert json.loads(attrs["input.value"])["task_type"] == "best_move"
+    assert attrs["llm.system_prompt"]
+    assert json.loads(attrs["output.value"])["best_move"] == "e2e4"
+    assert turn.status.status_code.name == "OK"
+    engine_input = json.loads(_attrs(finished["engine.ground_truth"])["input.value"])
+    assert engine_input == {"fen": start, "candidate_move": None}
+    assert "model_reasoning_summary=detailed" in commands[0]
+    assert "hide_agent_reasoning=false" in commands[0]
+    assert _attrs(finished["codex.exec"])["llm.reasoning_summary_mode"] == "detailed"
     # Both the engine and the Codex CLI spans hang off the turn span.
+    assert turn.context is not None
     for child in ("engine.ground_truth", "codex.exec"):
-        assert finished[child].parent.span_id == turn.context.span_id
+        parent = finished[child].parent
+        assert parent is not None
+        assert parent.span_id == turn.context.span_id
 
 
 def test_native_env_is_off_until_configured() -> None:
