@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]  # >=77 for the PEP 639 `license = "MIT"` field
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,8 @@ name = "chess-coach"
 version = "0.1.0"
 description = "Agentic chess coaching CLI: provider narration grounded by Stockfish."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 # Runtime dependencies for the planned implementation. Confined to the adapters
 # layer per the architecture; the domain and use cases stay dependency-free.
