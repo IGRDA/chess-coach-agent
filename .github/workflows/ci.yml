@@ -19,8 +19,12 @@ jobs:
       - name: Set up Python
         run: uv python install
 
+      # The extras are checked, so they have to be installed. mypy reads the whole
+      # tree including evals/, whose imports (deepeval, phoenix, pypdf, anthropic)
+      # live in the optional extras; without them their base classes degrade to
+      # Any and the run fails on errors that say nothing about the code.
       - name: Install dependencies
-        run: uv sync --dev
+        run: uv sync --dev --all-extras
 
       - name: Ruff check
         run: uv run ruff check .
