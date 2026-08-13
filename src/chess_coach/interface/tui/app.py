@@ -45,9 +45,7 @@ from chess_coach.interface.tui.widgets import BoardWidget, Square
 # A factory that yields an open coaching conversation for the life of the app.
 ChatServiceFactory = Callable[[Settings], AbstractAsyncContextManager[ChatCoachPort]]
 # A factory that yields a free-form, board-free assistant conversation.
-OpenChatServiceFactory = Callable[
-    [Settings], AbstractAsyncContextManager[OpenChatPort]
-]
+OpenChatServiceFactory = Callable[[Settings], AbstractAsyncContextManager[OpenChatPort]]
 
 _WHITE_PIECES = ("K", "Q", "R", "B", "N", "P")
 _BLACK_PIECES = ("k", "q", "r", "b", "n", "p")

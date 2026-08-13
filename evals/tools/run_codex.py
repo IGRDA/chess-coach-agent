@@ -26,16 +26,17 @@ import threading
 from datetime import UTC, datetime
 from functools import partial
 from pathlib import Path
+from typing import Protocol
 
 import anyio
 
 from chess_coach.adapters.coach import tools
-from chess_coach.adapters.coach.agent import _parse_answer
+from chess_coach.adapters.coach.agent import CoachAnswer, _parse_answer
 from chess_coach.adapters.coach.analysis import (
     DEFAULT_DEPTH,
     PositionAnalysis,
-    PositionAnalyzer,
     StockfishAnalyzer,
+    TopMove,
 )
 from chess_coach.adapters.coach.codex_agent import CodexCoach
 from chess_coach.adapters.coach.opening_book import OpeningBook
@@ -63,6 +64,18 @@ _CACHE_PATH = RESULTS_DIR / "codex_cache.json"
 DEFAULT_EFFORT = "low"
 
 
+class MultiPVAnalyzer(Protocol):
+    """An analyzer that also exposes MultiPV, which this runner's grounding needs.
+
+    The narrower :class:`PositionAnalyzer` protocol promises ``analyze`` only; the
+    aided-solve path additionally asks for the engine-verified move set.
+    """
+
+    def analyze(self, fen: str) -> PositionAnalysis: ...
+
+    def top_moves(self, fen: str, n: int = 3) -> list[TopMove]: ...
+
+
 class LockingAnalyzer:
     """Serialize access to a single, non-reentrant engine process behind a lock.
 
@@ -72,7 +85,7 @@ class LockingAnalyzer:
     the engine call is ~1s while a Codex turn is ~10s, so this costs almost nothing.
     """
 
-    def __init__(self, inner: PositionAnalyzer) -> None:
+    def __init__(self, inner: MultiPVAnalyzer) -> None:
         self._inner = inner
         self._lock = threading.Lock()
 
@@ -80,7 +93,7 @@ class LockingAnalyzer:
         with self._lock:
             return self._inner.analyze(fen)
 
-    def top_moves(self, fen: str, n: int = 3) -> list:
+    def top_moves(self, fen: str, n: int = 3) -> list[TopMove]:
         """Delegate MultiPV to the wrapped analyzer under the same lock."""
         with self._lock:
             return self._inner.top_moves(fen, n)
@@ -215,6 +228,10 @@ async def _gather(
             )
             print(f"  cached  {golden.id}")
             return
+        # The two paths return structurally alike but nominally distinct records:
+        # the solve path answers with a CoachResult, the coach path with a
+        # CoachAnswer. Both carry the five fields read below.
+        answer: CoachResult | CoachAnswer
         async with limiter:
             if solve:
                 answer = await anyio.to_thread.run_sync(

@@ -293,8 +293,7 @@ def test_deep_line_committed_goldens_have_expected_distribution() -> None:
     goldens = load_goldens("deep_line")
     assert len(goldens) == 20
     levels = {
-        level: sum(1 for g in goldens if g.level == level)
-        for level in _levels(goldens)
+        level: sum(1 for g in goldens if g.level == level) for level in _levels(goldens)
     }
     assert levels == {"advanced": 12, "expert": 4, "intermediate": 4}
     assert all(3 <= len(g.expected_line) <= 5 for g in goldens)

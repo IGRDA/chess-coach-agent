@@ -11,7 +11,6 @@ import pytest
 
 from evals.tools.run_move_eval import Outcome, classify, names_move, summarize
 
-
 # -- classify -----------------------------------------------------------------------
 
 
@@ -163,7 +162,10 @@ def test_notation_variants_of_the_same_move_all_count(written: str) -> None:
 
 
 def test_a_different_move_to_the_same_square_does_not_count() -> None:
-    """Nd5 and Nxd5 are different moves; crediting one for the other inflates the score."""
+    """Nd5 and Nxd5 are different moves.
+
+    Crediting one for the other inflates the score.
+    """
     assert names_move("The knight goes to Nd5.", "Nxd5") is False
 
 

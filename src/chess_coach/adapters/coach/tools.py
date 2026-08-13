@@ -244,7 +244,8 @@ def evaluate_move(analyzer: PositionAnalyzer, fen: str, move: str) -> MoveEval:
     is_best = move_uci == best.best_move_uci
 
     board.push(parsed)
-    reply_san, line_san = "", ()
+    reply_san: str = ""
+    line_san: tuple[str, ...] = ()
     if board.is_checkmate():
         move_cp, move_mate = None, 0  # mate delivered now
     elif board.is_game_over():  # stalemate, insufficient material, etc. → draw

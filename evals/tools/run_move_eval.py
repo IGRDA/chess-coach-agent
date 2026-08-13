@@ -30,6 +30,7 @@ import time
 from collections.abc import Iterator
 from dataclasses import asdict, dataclass, replace
 from pathlib import Path
+from typing import Any
 
 import anyio
 
@@ -46,19 +47,48 @@ RESULTS_DIR = Path(__file__).resolve().parents[1] / "results"
 # matches praise of anything in the reply — including the opponent's position — so
 # every marker here has to carry its own subject to fire.
 _NEGATIVE = (
-    r"blunder", r"mistake", r"inaccuracy", r"\blos(?:e|es|ing)\b",
-    r"drops? (?:a|the)", r"bad move", r"not (?:a )?good", r"not the best",
-    r"too slow", r"refuted", r"punished", r"i'?d avoid", r"don'?t play",
-    r"wouldn'?t play", r"throws? away", r"gives? up (?:a|the|material)",
-    r"tempting (?:but|trap)", r"a trap", r"backfires", r"premature",
+    r"blunder",
+    r"mistake",
+    r"inaccuracy",
+    r"\blos(?:e|es|ing)\b",
+    r"drops? (?:a|the)",
+    r"bad move",
+    r"not (?:a )?good",
+    r"not the best",
+    r"too slow",
+    r"refuted",
+    r"punished",
+    r"i'?d avoid",
+    r"don'?t play",
+    r"wouldn'?t play",
+    r"throws? away",
+    r"gives? up (?:a|the|material)",
+    r"tempting (?:but|trap)",
+    r"a trap",
+    r"backfires",
+    r"premature",
 )
 _POSITIVE = (
-    r"good move", r"strong move", r"best move", r"is (?:actually )?(?:the )?best",
-    r"perfectly (?:fine|good|playable|reasonable|sound)", r"is fine", r"is good",
-    r"is strong", r"playable", r"nothing wrong with", r"is (?:a )?sound",
-    r"sound move", r"excellent (?:move|choice|instinct|idea)", r"engine agrees",
-    r"the engine'?s (?:top |first )?choice", r"well spotted", r"well played",
-    r"solid (?:move|choice)", r"yes[,.] ?that'?s", r"right to play",
+    r"good move",
+    r"strong move",
+    r"best move",
+    r"is (?:actually )?(?:the )?best",
+    r"perfectly (?:fine|good|playable|reasonable|sound)",
+    r"is fine",
+    r"is good",
+    r"is strong",
+    r"playable",
+    r"nothing wrong with",
+    r"is (?:a )?sound",
+    r"sound move",
+    r"excellent (?:move|choice|instinct|idea)",
+    r"engine agrees",
+    r"the engine'?s (?:top |first )?choice",
+    r"well spotted",
+    r"well played",
+    r"solid (?:move|choice)",
+    r"yes[,.] ?that'?s",
+    r"right to play",
 )
 
 # "It gives up a tiny amount" and "it loses only a hair" are *endorsements* — the
@@ -140,7 +170,7 @@ def _mentions(sentence: str, move_san: str | None) -> bool:
 
 
 def classify(reply: str, move_san: str | None = None) -> str:
-    """Read a prose reply as ``sound``, ``bad`` or ``unclear`` *about the student's move*.
+    """Read a reply as ``sound``, ``bad`` or ``unclear`` *about the student's move*.
 
     The verdict has to be attributed, not merely detected. A correct reply to a bad
     move condemns it and then praises the alternative, so counting sentiment across
@@ -175,7 +205,7 @@ def classify(reply: str, move_san: str | None = None) -> str:
     return "unclear"
 
 
-def _move_san(golden: dict) -> str:
+def _move_san(golden: dict[str, Any]) -> str:
     """The SAN of the move the student proposed, as written in the question."""
     found = re.search(r"playing ([^\s]+) here", golden.get("student_message", ""))
     return found.group(1) if found else ""
@@ -193,7 +223,7 @@ BACKOFF_S = 30.0
 PACE_S = 5.0
 
 
-async def _ask(coach: AgentCoach, golden: dict) -> tuple[str, float]:
+async def _ask(coach: AgentCoach, golden: dict[str, Any]) -> tuple[str, float]:
     """Put one student question to the coach, returning the reply and its latency.
 
     Only the successful attempt is timed, so a retried turn does not inflate the
@@ -232,11 +262,11 @@ def ablate_refutation() -> Iterator[None]:
         result = original(analyzer, fen, move)
         return replace(result, reply_san="", line_san=())
 
-    tools_mod.evaluate_move = graded_only  # type: ignore[assignment]
+    tools_mod.evaluate_move = graded_only
     try:
         yield
     finally:
-        tools_mod.evaluate_move = original  # type: ignore[assignment]
+        tools_mod.evaluate_move = original
 
 
 @contextlib.contextmanager
@@ -260,7 +290,7 @@ def ablate_move_tool() -> Iterator[None]:
 
 
 async def run(
-    goldens: list[dict], depth: int, pace: float = PACE_S
+    goldens: list[dict[str, Any]], depth: int, pace: float = PACE_S
 ) -> tuple[list[Outcome], list[str]]:
     outcomes: list[Outcome] = []
     errors: list[str] = []
@@ -321,7 +351,7 @@ async def run(
 MIN_COVERAGE = 0.8
 
 
-def summarize(outcomes: list[Outcome], attempted: int | None = None) -> dict:
+def summarize(outcomes: list[Outcome], attempted: int | None = None) -> dict[str, Any]:
     """Accuracy split by band, plus the latency distribution of the same run.
 
     ``attempted`` is the number of problems the run set out to answer; when far
@@ -341,7 +371,9 @@ def summarize(outcomes: list[Outcome], attempted: int | None = None) -> dict:
         "coverage": coverage,
         "valid": bool(total) and coverage >= MIN_COVERAGE,
         "accuracy": (correct / scored) if scored else 0.0,
-        "accuracy_sound": (sum(o.correct for o in sound) / len(sound)) if sound else 0.0,
+        "accuracy_sound": (sum(o.correct for o in sound) / len(sound))
+        if sound
+        else 0.0,
         "accuracy_bad": (sum(o.correct for o in bad) / len(bad)) if bad else 0.0,
         "unclear": sum(1 for o in outcomes if o.verdict == "unclear"),
         # The reason axis. ``taught`` is the one that matters: a right verdict backed
@@ -421,8 +453,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--depth", type=int, default=18)
     parser.add_argument("--limit", type=int, default=0, help="0 = all")
-    parser.add_argument("--pace", type=float, default=PACE_S,
-                        help="seconds to wait between turns (rate-limit headroom)")
+    parser.add_argument(
+        "--pace",
+        type=float,
+        default=PACE_S,
+        help="seconds to wait between turns (rate-limit headroom)",
+    )
     parser.add_argument(
         "--regrade",
         type=Path,

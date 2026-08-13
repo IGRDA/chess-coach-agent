@@ -31,6 +31,7 @@ from collections.abc import Callable
 from datetime import UTC, datetime
 from functools import partial
 from pathlib import Path
+from typing import Any
 
 import anyio
 
@@ -208,13 +209,15 @@ def _save_cache(fp: str, rows: dict[str, dict[str, object]]) -> None:
     _CACHE_STORE.write_text(json.dumps(data, indent=2) + "\n")
 
 
-def _summarize(rows: dict[str, dict[str, object]], threshold: float) -> dict[str, dict]:
-    by_task: dict[str, list[dict[str, object]]] = defaultdict(list)
+def _summarize(
+    rows: dict[str, dict[str, Any]], threshold: float
+) -> dict[str, dict[str, Any]]:
+    by_task: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows.values():
         by_task[str(row["task"])].append(row)
     by_task_all = dict(by_task)
     by_task_all["overall"] = [r for rs in by_task.values() for r in rs]
-    summary: dict[str, dict] = {}
+    summary: dict[str, dict[str, Any]] = {}
     for task, task_rows in by_task_all.items():
         scores = [float(r["score"]) for r in task_rows]
         n = len(scores)

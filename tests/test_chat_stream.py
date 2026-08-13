@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from claude_agent_sdk import StreamEvent
 
 from chess_coach.adapters.coach.chat import _text_delta
 
 
-def _event(payload: dict) -> StreamEvent:
+def _event(payload: dict[str, Any]) -> StreamEvent:
     return StreamEvent(uuid="u", session_id="s", event=payload)
 
 

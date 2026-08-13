@@ -56,7 +56,7 @@ def codex_exec_text(
         return result.stdout
 
 
-class CodexJudge(DeepEvalBaseLLM):
+class CodexJudge(DeepEvalBaseLLM):  # type: ignore[no-untyped-call]
     """A ``DeepEvalBaseLLM`` that answers judging prompts via the Codex CLI."""
 
     def __init__(

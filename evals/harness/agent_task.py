@@ -26,6 +26,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from typing import Protocol
 
 import chess
 
@@ -166,7 +167,37 @@ class AgentTask:
         )
 
 
-def answer_for_input(coach: AgentCoach, ci: CoachInput) -> CoachAnswer:
+class SyncCoach(Protocol):
+    """The blocking coaching surface this runner drives.
+
+    ``AgentCoach`` and ``CodexCoach`` are unrelated classes that expose the same
+    four synchronous entry points, and the runners accept either. The contract is
+    therefore structural, not an inheritance relationship.
+    """
+
+    def answer_sync(
+        self,
+        fen: str,
+        task_type: str,
+        level: str | None = None,
+        question: str | None = None,
+        candidate_move: str | None = None,
+    ) -> CoachAnswer: ...
+
+    def teach_sync(self, fen: str, message: str, level: str | None = None) -> str: ...
+
+    def general_chat_sync(self, message: str, level: str | None = None) -> str: ...
+
+    def converse_sync(
+        self,
+        fen: str | None,
+        history: list[tuple[str, str]],
+        message: str,
+        level: str | None = None,
+    ) -> str: ...
+
+
+def answer_for_input(coach: SyncCoach, ci: CoachInput) -> CoachAnswer:
     """Run one task input through the agent (blocking).
 
     A teaching turn is a live coaching reply — prose only, through the interactive

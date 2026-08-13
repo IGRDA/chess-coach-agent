@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import threading
 import time
+from collections.abc import Callable
 
 import chess
 import pytest
@@ -47,7 +48,7 @@ class SlowAnalyzer:
         )
 
 
-def _settle(predicate, timeout: float = 2.0) -> bool:
+def _settle(predicate: Callable[[], bool], timeout: float = 2.0) -> bool:
     """Wait for a background worker to reach a state, without pinning a duration."""
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:

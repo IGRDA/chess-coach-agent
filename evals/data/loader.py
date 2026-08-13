@@ -344,9 +344,7 @@ def _conversation_input(golden: ChessGolden) -> str:
         lines.append(f"Position (FEN): {golden.fen}")
     if golden.level:
         lines.append(f"Student level: {golden.level}")
-    lines.extend(
-        f"{turn.role}: {turn.text}" for turn in golden.conversation_history
-    )
+    lines.extend(f"{turn.role}: {turn.text}" for turn in golden.conversation_history)
     lines.append(f"student: {golden.student_message or ''}")
     return "\n".join(lines)
 

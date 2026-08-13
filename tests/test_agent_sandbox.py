@@ -11,9 +11,11 @@ from ``disallowed_tools`` must break a test here, not the eval silently.
 from __future__ import annotations
 
 import pytest
+from claude_agent_sdk import ClaudeAgentOptions
 
 from chess_coach.adapters.coach import agent as agent_mod
 from chess_coach.adapters.coach.agent import AgentCoach
+from chess_coach.adapters.coach.analysis import PositionAnalysis
 
 # Tools that would let the agent read the answer key (or exfiltrate/escape the
 # sandbox). None of these may ever appear in an allowlist, and each must be
@@ -25,7 +27,7 @@ _MCP_PREFIX = f"mcp__{agent_mod._MCP_SERVER}__"
 class _StubAnalyzer:
     """Placeholder analyzer: the options builders close over it but never call it."""
 
-    def analyze(self, fen: str) -> object:  # pragma: no cover - never invoked
+    def analyze(self, fen: str) -> PositionAnalysis:  # pragma: no cover - never invoked
         raise AssertionError("the analyzer must not be called while building options")
 
 
@@ -34,7 +36,7 @@ def coach() -> AgentCoach:
     return AgentCoach(_StubAnalyzer())
 
 
-def _all_options(coach: AgentCoach) -> dict[str, object]:
+def _all_options(coach: AgentCoach) -> dict[str, ClaudeAgentOptions]:
     """Every ClaudeAgentOptions the coach hands to the SDK, keyed by entry point."""
     return {
         "answer": coach._options(),
@@ -66,7 +68,7 @@ def test_move_evaluation_is_reachable_from_every_position_entry_point(
 
 
 def test_the_evaluate_move_tool_name_matches_the_mcp_convention() -> None:
-    assert agent_mod._EVALUATE == f"{_MCP_PREFIX}evaluate_move"
+    assert f"{_MCP_PREFIX}evaluate_move" == agent_mod._EVALUATE
     assert agent_mod._EVALUATE in agent_mod._ALL_TOOLS
 
 

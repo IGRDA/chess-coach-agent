@@ -34,6 +34,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import chess
 
@@ -59,7 +60,9 @@ SKIP_OPENING_PLIES = 8
 # Keep the set diverse: no game may dominate it.
 MAX_PER_GAME = 3
 
-DEFAULT_OUT = Path(__file__).resolve().parents[1] / "data" / "move_eval" / "book_moves.json"
+DEFAULT_OUT = (
+    Path(__file__).resolve().parents[1] / "data" / "move_eval" / "book_moves.json"
+)
 GENERATION_DEPTH = 16
 
 
@@ -143,7 +146,7 @@ def problems_from_game(analyzer: object, game: BookGame) -> dict[str, list[Probl
     return found
 
 
-def to_golden(problem: Problem, book: str, band: str) -> dict:
+def to_golden(problem: Problem, book: str, band: str) -> dict[str, Any]:
     """Render a problem as a ``ChessGolden`` record for the eval harness."""
     is_sound = band == "sound"
     # The refutation is a *line*, not a distance. "Gives up 332 centipawns" grades
@@ -173,13 +176,17 @@ def to_golden(problem: Problem, book: str, band: str) -> dict:
         )
         ideas = [
             f"{problem.student_move_san} is a {problem.verdict}",
-            f"{problem.reply_san} refutes it" if problem.reply_san else "it ends the game",
+            f"{problem.reply_san} refutes it"
+            if problem.reply_san
+            else "it ends the game",
             f"{problem.best_move_san} is stronger",
         ]
         tags = ["accepting a tempting move without checking"]
     return {
         "id": f"book-move-{band}-g{problem.game_index}-p{problem.ply}",
-        "source": f"{book} (reconstructed game {problem.game_index}, ply {problem.ply})",
+        "source": (
+            f"{book} (reconstructed game {problem.game_index}, ply {problem.ply})"
+        ),
         "fen": problem.fen,
         "task": "mistake_diagnosis",
         "solution_moves": [problem.best_move_uci],

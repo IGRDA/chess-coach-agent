@@ -274,7 +274,9 @@ def replay(triples: list[tuple[int, bool, str]], index: int = 0) -> BookGame:
     return BookGame(index=index, moves=moves, truncated=False)
 
 
-def games_from_book(path: Path, first: int = 0, last: int | None = None) -> list[BookGame]:
+def games_from_book(
+    path: Path, first: int = 0, last: int | None = None
+) -> list[BookGame]:
     """The full pipeline: a book PDF in, verified reconstructed games out."""
     triples = parse_moves(read_book(path, first, last))
     return [replay(game, index=i) for i, game in enumerate(split_games(triples))]

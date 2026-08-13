@@ -258,7 +258,7 @@ def record_usage(
         latency.record("tokens.completion", float(completion))
     if isinstance(prompt, int) and isinstance(completion, int):
         latency.record("tokens.total", float(prompt + completion))
-    if isinstance(cost, (int, float)):
+    if isinstance(cost, int | float):
         latency.record("cost.usd", float(cost))
 
 

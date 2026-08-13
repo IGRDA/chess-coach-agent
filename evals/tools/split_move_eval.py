@@ -22,12 +22,13 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data" / "move_eval"
 _GAME = re.compile(r"-g(\d+)-p\d+$")
 
 
-def game_of(golden: dict) -> int:
+def game_of(golden: dict[str, Any]) -> int:
     """The index of the reconstructed game a problem came from."""
     found = _GAME.search(golden["id"])
     if not found:
@@ -35,27 +36,27 @@ def game_of(golden: dict) -> int:
     return int(found.group(1))
 
 
-def split(pool: list[dict]) -> tuple[list[dict], list[dict]]:
+def split(
+    pool: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Deal whole games alternately into two band-balanced halves.
 
     Games are dealt largest-first so the two halves end up similar in size, and each
     game goes to whichever half currently holds fewer problems of the bands it
     carries — which keeps sound/bad balanced without ever splitting a game.
     """
-    by_game: dict[int, list[dict]] = defaultdict(list)
+    by_game: dict[int, list[dict[str, Any]]] = defaultdict(list)
     for golden in pool:
         by_game[game_of(golden)].append(golden)
 
-    halves: tuple[list[dict], list[dict]] = ([], [])
-    for _, problems in sorted(
-        by_game.items(), key=lambda kv: (-len(kv[1]), kv[0])
-    ):
+    halves: tuple[list[dict[str, Any]], list[dict[str, Any]]] = ([], [])
+    for _, problems in sorted(by_game.items(), key=lambda kv: (-len(kv[1]), kv[0])):
         target = 0 if len(halves[0]) <= len(halves[1]) else 1
         halves[target].extend(problems)
     return halves
 
 
-def rebalance(goldens: list[dict]) -> list[dict]:
+def rebalance(goldens: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Trim to an equal number of sound and bad problems."""
     sound = [g for g in goldens if g["_expected_sound"]]
     bad = [g for g in goldens if not g["_expected_sound"]]

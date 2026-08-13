@@ -15,7 +15,6 @@ from chess_coach.adapters.observability.latency import (
     percentile,
 )
 
-
 # -- percentile ---------------------------------------------------------------------
 
 
