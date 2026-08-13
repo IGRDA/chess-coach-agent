@@ -41,10 +41,12 @@ prompts, task briefs, and presentation-only renderers. Provider adapters import 
 assets and retain responsibility for tool calls, engine grounding, tracing, and model
 execution.
 
-Claude SDK coaching skills remain under `.claude/skills/`. Skills are dynamically
-loaded or inlined coaching methods with their own tool allowlists; they are not the
-home for provider-neutral runtime prompts. Prompts used only to generate or grade
-evaluation data remain under `evals/`.
+Provider-neutral coaching skills live under `.agents/skills/`. A shared loader selects
+one method for each task; the Claude adapter maps its logical capabilities to MCP
+tools, while the Codex adapter activates the same skill against precomputed engine
+facts. `.claude/skills` is only a compatibility symlink for native Claude discovery.
+Skills are not the home for standing runtime prompts. Prompts used only to generate
+or grade evaluation data remain under `evals/`.
 
 ## The engine is a tool the agent calls
 

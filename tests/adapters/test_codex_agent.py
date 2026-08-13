@@ -64,7 +64,10 @@ def test_codex_coach_runs_cli_and_grounds_best_move() -> None:
     assert "--ephemeral" in command
     assert "--json" in command
     assert "gpt-test" in command
+    assert "--cd" in command
     assert "Engine-grounded facts" in prompt
+    assert "Use $tactics-coach" in prompt
+    assert "# Active skill: tactics-coach" in prompt
     assert '"best_move_uci": "e2e4"' in prompt
     assert answer.best_move == "e2e4"
     assert answer.explanation == "Take the center."
@@ -91,6 +94,7 @@ def test_codex_coach_grounds_eval_bucket() -> None:
     answer = coach.answer_sync(START_FEN, "eval_bucket")
 
     assert answer.eval_bucket == "equal"
+    assert "Use $assessment-coach" in runner.calls[0][1]
 
 
 def test_codex_failure_raises_agent_error() -> None:
@@ -111,3 +115,4 @@ async def test_codex_chat_session_yields_explanation() -> None:
         chunks = [chunk async for chunk in session.stream(START_FEN, "What now?")]
 
     assert chunks == ["Both sides can develop normally."]
+    assert "Use $interactive-coach" in runner.calls[0][1]

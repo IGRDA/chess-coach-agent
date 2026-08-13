@@ -5,9 +5,10 @@ prompts, task briefs, and the small renderers that combine them with a student's
 position or message. Provider orchestration, chess analysis, tool wiring, tracing,
 and response parsing stay in their adapter modules.
 
-Claude SDK skills are intentionally separate under ``.claude/skills``. They describe
-optional coaching methods and tool use; this module owns the standing runtime prompts
-that every invocation receives. Evaluation-only prompts remain under ``evals/``.
+Provider-neutral coaching skills are intentionally separate under ``.agents/skills``.
+The provider adapters select and translate those methods; this module owns the
+standing runtime prompts that every invocation receives. Evaluation-only prompts
+remain under ``evals/``.
 """
 
 from __future__ import annotations

@@ -325,6 +325,8 @@ def test_codex_provider_emits_nested_spans(spans: InMemorySpanExporter) -> None:
     turn = finished["coach.answer"]
     attrs = _attrs(turn)
     assert attrs["coach.provider"] == "codex"
+    assert attrs["coach.skills.mode"] == "inline"
+    assert attrs["coach.skills.loaded"] == ("tactics-coach",)
     assert json.loads(attrs["input.value"])["task_type"] == "best_move"
     assert attrs["llm.system_prompt"]
     assert json.loads(attrs["output.value"])["best_move"] == "e2e4"

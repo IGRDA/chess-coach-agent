@@ -34,19 +34,17 @@ from chess_coach.adapters.coach import agent as agent_mod
 from chess_coach.adapters.coach.agent import AgentCoach, CoachAnswer
 from chess_coach.adapters.coach.analysis import PositionAnalysis
 from chess_coach.adapters.coach.opening_book import OpeningBook
+from chess_coach.adapters.coach.skills import fingerprint_text
 from evals.harness.engine import StockfishOracle
 from evals.harness.task import CoachInput, CoachResult
 
 _CACHE_PATH = Path(__file__).resolve().parents[1] / "results" / "agent_cache.json"
-_SKILLS_DIR = Path(__file__).resolve().parents[2] / ".claude" / "skills"
 CacheEntry = dict[str, str | list[str] | None]
 
 
 def _skills_text() -> str:
     """The concatenated text of every skill file — so editing any skill busts cache."""
-    if not _SKILLS_DIR.exists():
-        return ""
-    return "\x00".join(p.read_text() for p in sorted(_SKILLS_DIR.rglob("*.md")))
+    return fingerprint_text()
 
 
 def _pv_san(board: chess.Board, pv_uci: tuple[str, ...]) -> tuple[str, ...]:

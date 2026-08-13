@@ -28,7 +28,6 @@ grounding, legality and spoiler control unchanged. See :class:`ChatSession`.
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
-from pathlib import Path
 
 from claude_agent_sdk import (
     AssistantMessage,
@@ -40,10 +39,10 @@ from claude_agent_sdk import (
 )
 
 from chess_coach.adapters.coach.agent import (
-    _ALL_TOOLS,
     _MCP_SERVER,
     DEFAULT_MODEL,
     _chess_tools,
+    _tools_for_skills,
     _turn_attrs,
 )
 from chess_coach.adapters.coach.analysis import MemoizingAnalyzer, PositionAnalyzer
@@ -53,6 +52,7 @@ from chess_coach.adapters.coach.prompts import (
     CLAUDE_CHAT_SYSTEM_PROMPT,
     build_claude_chat_prompt,
 )
+from chess_coach.adapters.coach.skills import render_skill
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
 
@@ -67,29 +67,20 @@ _build_chat_prompt = build_claude_chat_prompt
 # guard, not a per-question limit.
 _SESSION_MAX_TURNS = 200
 
-# Project skills live beside the code, not beside the working directory: the coach
-# must load the same method whatever directory the app was launched from.
-_SKILLS_DIR = Path(__file__).resolve().parents[4] / ".claude" / "skills"
-
 
 def _skill_body(name: str) -> str:
-    """The instructions inside a project skill, ready to paste into a system prompt.
+    """The canonical instructions and references, adapted for Claude inline use.
 
     Loading a skill the usual way is *progressive disclosure*: the model is told the
     skill exists, then spends a round trip calling ``Skill`` to read it. That trade is
     right when a model must choose among many skills — and pointless here, where the
     live coach always wants exactly one, every turn, before it can say anything.
 
-    Inlining hands the model the same instructions up front. The YAML frontmatter is
-    dropped: its ``description`` only helps a model *pick* a skill, and its
-    ``allowed-tools`` list is enforced by the agent options either way.
+    Inlining hands the model the same instructions up front.  The shared loader also
+    includes referenced coaching notes and translates logical capabilities to the
+    Claude evidence contract.
     """
-    path = _SKILLS_DIR / name / "SKILL.md"
-    text = path.read_text(encoding="utf-8")
-    if text.startswith("---"):
-        _, _, rest = text.partition("---")
-        _, _, text = rest.partition("---")
-    return text.strip()
+    return render_skill(name, "claude")
 
 
 def _text_delta(event: StreamEvent) -> str | None:
@@ -172,13 +163,13 @@ class ChatSession:
             system_prompt=self._system_prompt(),
             mcp_servers={_MCP_SERVER: server},
             tools=builtins if self._direct_tools else None,
-            allowed_tools=list(_ALL_TOOLS),
+            allowed_tools=_tools_for_skills(self._skills),
             disallowed_tools=["Bash", "Read", "Write", "Edit", "WebFetch", "WebSearch"],
             permission_mode="bypassPermissions",
             # Inlined instructions are already in the system prompt; announcing the
             # skills too would just invite the round trip we removed.
             skills=[] if self._inline_skills else self._skills,
-            setting_sources=["project"],
+            setting_sources=[] if self._inline_skills else ["project"],
             max_turns=self._max_turns,
             # Deliver the reply as it is generated rather than in one block at the
             # end. The coach says exactly the same thing either way; the student just

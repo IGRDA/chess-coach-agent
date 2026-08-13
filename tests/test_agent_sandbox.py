@@ -98,3 +98,18 @@ def test_every_options_denies_the_forbidden_tools(coach: AgentCoach) -> None:
 def test_general_chat_has_no_tools_at_all(coach: AgentCoach) -> None:
     """The non-position path needs no engine, so it grants an empty allowlist."""
     assert coach._general_chat_options().allowed_tools == []
+
+
+def test_canonical_skill_is_inlined_and_ambient_skills_are_disabled(
+    coach: AgentCoach,
+) -> None:
+    options = coach._options("assessment-coach")
+
+    assert "# Active skill: assessment-coach" in str(options.system_prompt)
+    assert options.skills == []
+    assert options.setting_sources == []
+    assert set(options.allowed_tools) == {
+        agent_mod._ANALYZE,
+        agent_mod._FEATURES,
+        agent_mod._OPENING,
+    }

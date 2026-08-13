@@ -49,6 +49,11 @@ from chess_coach.adapters.coach.prompts import (
     format_codex_engine_facts,
     format_codex_light_facts,
 )
+from chess_coach.adapters.coach.skills import (
+    REPOSITORY_ROOT,
+    codex_skill_prompt,
+    skill_for_task,
+)
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
 
@@ -140,6 +145,7 @@ class CodexCoach:
         candidate_move: str | None = None,
     ) -> CoachAnswer:
         """Run Codex once and return a parsed, engine-grounded answer."""
+        skill_name = skill_for_task(task_type)
         with tracing.turn_span(
             "coach.answer", _turn_attrs(self._model, fen, task_type, level)
         ) as span:
@@ -187,7 +193,8 @@ class CodexCoach:
                 },
                 provider="codex",
                 system_prompt=_SYSTEM_PROMPT,
-                skill_mode="not-configured",
+                skills=[skill_name],
+                skill_mode="inline",
             )
             text = self._run(prompt)
             answer = _parse_answer(text)
@@ -219,6 +226,8 @@ class CodexCoach:
             command = [
                 self._codex_binary,
                 "exec",
+                "--cd",
+                str(REPOSITORY_ROOT),
                 "--skip-git-repo-check",
                 "--ephemeral",
                 "--sandbox",
@@ -278,7 +287,8 @@ class CodexCoach:
         truth = truth or _truth_payload(
             self._analyzer, self._book, self._tablebase, fen, analysis, candidate_move
         )
-        return build_codex_prompt(fen, task_type, level, question, truth)
+        prompt = build_codex_prompt(fen, task_type, level, question, truth)
+        return codex_skill_prompt(skill_for_task(task_type), prompt)
 
     def _grounded_facts_block(self, fen: str) -> str:
         """The engine/book/tablebase truth for a FEN, as a fenced JSON block."""
@@ -305,14 +315,17 @@ class CodexCoach:
         *,
         input_value: object,
         system_prompt: str,
+        skill_name: str,
     ) -> str:
         """Run one Codex prompt and finish the parent agent span consistently."""
+        prompt = codex_skill_prompt(skill_name, prompt)
         tracing.record_turn_context(
             span,
             input_value=input_value,
             provider="codex",
             system_prompt=system_prompt,
-            skill_mode="not-configured",
+            skills=[skill_name],
+            skill_mode="inline",
         )
         output = self._run(prompt).strip()
         tracing.record_output(span, output)
@@ -331,6 +344,7 @@ class CodexCoach:
                 prompt,
                 input_value={"fen": fen, "message": message, "level": level},
                 system_prompt=_TEACH_SYSTEM_PROMPT,
+                skill_name=skill_for_task("teaching"),
             )
 
     def general_chat_sync(self, message: str, level: str | None = None) -> str:
@@ -344,6 +358,7 @@ class CodexCoach:
                 prompt,
                 input_value={"message": message, "level": level},
                 system_prompt=_GENERAL_CHAT_SYSTEM_PROMPT,
+                skill_name=skill_for_task("general_chat"),
             )
 
     def converse_sync(
@@ -371,6 +386,7 @@ class CodexCoach:
                     "level": level,
                 },
                 system_prompt=_CONVERSATION_SYSTEM_PROMPT,
+                skill_name=skill_for_task("conversation"),
             )
 
     def _strong_moves(self, fen: str, n: int = 3) -> list[dict[str, str]]:
@@ -444,6 +460,7 @@ class CodexCoach:
                 prompt,
                 input_value={"fen": fen, "message": message, "level": level},
                 system_prompt=_TEACH_SYSTEM_PROMPT,
+                skill_name=skill_for_task("teaching"),
             )
 
     def _refutation(self, fen: str, student_move: str | None) -> dict[str, object]:
@@ -519,6 +536,7 @@ class CodexCoach:
                     "level": level,
                 },
                 system_prompt=_TEACH_SYSTEM_PROMPT,
+                skill_name=skill_for_task("mistake_diagnosis"),
             )
 
 
