@@ -1,0 +1,1913 @@
+[
+  {
+    "id": "book-move-bad-g1-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 1, ply 4)",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1b5"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "f1b5",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Ng6 c4 c5 Nc3, reaching -2.54 for the side to move \u2014 295 centipawns worse than Bb5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "Bb5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 295,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Ng6",
+      "c4",
+      "c5",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g1-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 1, ply 6)",
+    "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "a2a4"
+    ],
+    "student_message": "I was thinking about playing Bxf7+ here. Is that a good move?",
+    "student_move": "c4f7",
+    "engine_best_move": "a2a4",
+    "engine_refutation": "After Bxf7+, the opponent's best answer is Kxf7 and play continues Kxf7 Nxe5+ Nxe5 Qh5+ Kf8 Qxe5, reaching -2.49 for the side to move \u2014 274 centipawns worse than a4.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Bxf7+ is a mistake",
+      "Kxf7 refutes it",
+      "a4 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 274,
+    "_expected_reply": "Kxf7",
+    "_expected_line": [
+      "Kxf7",
+      "Nxe5+",
+      "Nxe5",
+      "Qh5+",
+      "Kf8",
+      "Qxe5"
+    ]
+  },
+  {
+    "id": "book-move-bad-g1-p7",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 1, ply 7)",
+    "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g8f6"
+    ],
+    "student_message": "I was thinking about playing Bxf2+ here. Is that a good move?",
+    "student_move": "c5f2",
+    "engine_best_move": "g8f6",
+    "engine_refutation": "After Bxf2+, the opponent's best answer is Kxf2 and play continues Kxf2 f5 d3 f4 d4 Qe7, reaching -3.05 for the side to move \u2014 284 centipawns worse than Nf6.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Bxf2+ is a mistake",
+      "Kxf2 refutes it",
+      "Nf6 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 284,
+    "_expected_reply": "Kxf2",
+    "_expected_line": [
+      "Kxf2",
+      "f5",
+      "d3",
+      "f4",
+      "d4",
+      "Qe7"
+    ]
+  },
+  {
+    "id": "book-move-bad-g1-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 1, ply 8)",
+    "fen": "r1bqk1nr/pppp1ppp/1bn5/4p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "d2d4"
+    ],
+    "student_message": "I was thinking about playing Bxf7+ here. Is that a good move?",
+    "student_move": "c4f7",
+    "engine_best_move": "d2d4",
+    "engine_refutation": "After Bxf7+, the opponent's best answer is Kxf7 and play continues Kxf7 d4 d6 a4 a5 dxe5, reaching -2.54 for the side to move \u2014 324 centipawns worse than d4.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Bxf7+ is a blunder",
+      "Kxf7 refutes it",
+      "d4 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 324,
+    "_expected_reply": "Kxf7",
+    "_expected_line": [
+      "Kxf7",
+      "d4",
+      "d6",
+      "a4",
+      "a5",
+      "dxe5"
+    ]
+  },
+  {
+    "id": "book-move-bad-g5-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 5, ply 4)",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1b5"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "f1b5",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Ng6 c4 c5 Nc3, reaching -2.54 for the side to move \u2014 295 centipawns worse than Bb5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "Bb5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 295,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Ng6",
+      "c4",
+      "c5",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g6-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 6, ply 4)",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1b5"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "f1b5",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Ng6 c4 c5 Nc3, reaching -2.54 for the side to move \u2014 295 centipawns worse than Bb5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "Bb5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 295,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Ng6",
+      "c4",
+      "c5",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g6-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 6, ply 6)",
+    "fen": "r1bqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "d2d3"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "d2d3",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 exf5 Nf7 d4 Bb4+ c3, reaching -2.18 for the side to move \u2014 285 centipawns worse than d3.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "d3 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 285,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "exf5",
+      "Nf7",
+      "d4",
+      "Bb4+",
+      "c3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g6-p7",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 6, ply 7)",
+    "fen": "r1bqkbnr/pppp2pp/2n5/1B2pp2/3PP3/5N2/PPP2PPP/RNBQK2R b KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f5e4"
+    ],
+    "student_message": "I was thinking about playing Nxd4 here. Is that a good move?",
+    "student_move": "c6d4",
+    "engine_best_move": "f5e4",
+    "engine_refutation": "After Nxd4, the opponent's best answer is Nxd4 and play continues Nxd4 exd4 O-O c6 Bc4 Nf6, reaching -1.16 for the side to move \u2014 101 centipawns worse than fxe4.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxd4 is a mistake",
+      "Nxd4 refutes it",
+      "fxe4 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 101,
+    "_expected_reply": "Nxd4",
+    "_expected_line": [
+      "Nxd4",
+      "exd4",
+      "O-O",
+      "c6",
+      "Bc4",
+      "Nf6"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 6)",
+    "fen": "rnbqkb1r/ppp2ppp/4pn2/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR w KQkq - 2 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "c1g5"
+    ],
+    "student_message": "I was thinking about playing Nxd5 here. Is that a good move?",
+    "student_move": "c3d5",
+    "engine_best_move": "c1g5",
+    "engine_refutation": "After Nxd5, the opponent's best answer is exd5 and play continues exd5 e5 Ne4 Bd3 c5 Bxe4, reaching -2.75 for the side to move \u2014 313 centipawns worse than Bg5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxd5 is a blunder",
+      "exd5 refutes it",
+      "Bg5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 313,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "e5",
+      "Ne4",
+      "Bd3",
+      "c5",
+      "Bxe4"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p7",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 7)",
+    "fen": "rnbqkb1r/ppp2ppp/4pn2/3P4/3P4/2N5/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e6d5"
+    ],
+    "student_message": "I was thinking about playing Qxd5 here. Is that a good move?",
+    "student_move": "d8d5",
+    "engine_best_move": "e6d5",
+    "engine_refutation": "After Qxd5, the opponent's best answer is Nxd5 and play continues Nxd5 exd5 f3 Bd6 c3 Nc6, reaching -5.69 for the side to move \u2014 569 centipawns worse than exd5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Qxd5 is a blunder",
+      "Nxd5 refutes it",
+      "exd5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 569,
+    "_expected_reply": "Nxd5",
+    "_expected_line": [
+      "Nxd5",
+      "exd5",
+      "f3",
+      "Bd6",
+      "c3",
+      "Nc6"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 8)",
+    "fen": "rnbqkb1r/ppp2ppp/5n2/3p4/3P4/2N5/PPP2PPP/R1BQKBNR w KQkq - 0 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g1f3"
+    ],
+    "student_message": "I was thinking about playing Nxd5 here. Is that a good move?",
+    "student_move": "c3d5",
+    "engine_best_move": "g1f3",
+    "engine_refutation": "After Nxd5, the opponent's best answer is Qxd5 and play continues Qxd5 Nf3 Be7 c4 Qd8 h3, reaching -3.48 for the side to move \u2014 357 centipawns worse than Nf3.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxd5 is a blunder",
+      "Qxd5 refutes it",
+      "Nf3 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 357,
+    "_expected_reply": "Qxd5",
+    "_expected_line": [
+      "Qxd5",
+      "Nf3",
+      "Be7",
+      "c4",
+      "Qd8",
+      "h3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p9",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 9)",
+    "fen": "rnbqkb1r/ppp2ppp/5n2/3p2B1/3P4/2N5/PPP2PPP/R2QKBNR b KQkq - 1 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f8e7"
+    ],
+    "student_message": "I was thinking about playing Qe7+ here. Is that a good move?",
+    "student_move": "d8e7",
+    "engine_best_move": "f8e7",
+    "engine_refutation": "After Qe7+, the opponent's best answer is Be2 and play continues Be2 Be6 Nf3 h6 Be3 c6, reaching -0.55 for the side to move \u2014 66 centipawns worse than Be7.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Qe7+ is a inaccuracy",
+      "Be2 refutes it",
+      "Be7 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "inaccuracy"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "inaccuracy",
+    "_expected_sound": false,
+    "_cp_loss": 66,
+    "_expected_reply": "Be2",
+    "_expected_line": [
+      "Be2",
+      "Be6",
+      "Nf3",
+      "h6",
+      "Be3",
+      "c6"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p10",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 10)",
+    "fen": "rnbqk2r/ppp1bppp/5n2/3p2B1/3P4/2N5/PPP2PPP/R2QKBNR w KQkq - 2 6",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g1f3"
+    ],
+    "student_message": "I was thinking about playing Nxd5 here. Is that a good move?",
+    "student_move": "c3d5",
+    "engine_best_move": "g1f3",
+    "engine_refutation": "After Nxd5, the opponent's best answer is Nxd5 and play continues Nxd5 Bxe7 Qxe7+ Qe2 Nc6 O-O-O, reaching -3.83 for the side to move \u2014 372 centipawns worse than Nf3.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxd5 is a blunder",
+      "Nxd5 refutes it",
+      "Nf3 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 372,
+    "_expected_reply": "Nxd5",
+    "_expected_line": [
+      "Nxd5",
+      "Bxe7",
+      "Qxe7+",
+      "Qe2",
+      "Nc6",
+      "O-O-O"
+    ]
+  },
+  {
+    "id": "book-move-bad-g7-p12",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 12)",
+    "fen": "r1bqk2r/ppp1bppp/2n2n2/3p2B1/3P4/2NB4/PPP2PPP/R2QK1NR w KQkq - 4 7",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g1e2"
+    ],
+    "student_message": "I was thinking about playing Bxh7 here. Is that a good move?",
+    "student_move": "d3h7",
+    "engine_best_move": "g1e2",
+    "engine_refutation": "After Bxh7, the opponent's best answer is Nxh7 and play continues Nxh7 Bxe7 Qxe7+ Nge2 Be6 h4, reaching -4.37 for the side to move \u2014 411 centipawns worse than Nge2.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Bxh7 is a blunder",
+      "Nxh7 refutes it",
+      "Nge2 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 411,
+    "_expected_reply": "Nxh7",
+    "_expected_line": [
+      "Nxh7",
+      "Bxe7",
+      "Qxe7+",
+      "Nge2",
+      "Be6",
+      "h4"
+    ]
+  },
+  {
+    "id": "book-move-bad-g9-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 9, ply 4)",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1b5"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "f1b5",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Ng6 c4 c5 Nc3, reaching -2.54 for the side to move \u2014 295 centipawns worse than Bb5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "Bb5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 295,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Ng6",
+      "c4",
+      "c5",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g9-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 9, ply 6)",
+    "fen": "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b5a4"
+    ],
+    "student_message": "I was thinking about playing Bxa6 here. Is that a good move?",
+    "student_move": "b5a6",
+    "engine_best_move": "b5a4",
+    "engine_refutation": "After Bxa6, the opponent's best answer is Rxa6 and play continues Rxa6 O-O Be7 Re1 Nf6 d4, reaching -4.00 for the side to move \u2014 440 centipawns worse than Ba4.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Bxa6 is a blunder",
+      "Rxa6 refutes it",
+      "Ba4 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 440,
+    "_expected_reply": "Rxa6",
+    "_expected_line": [
+      "Rxa6",
+      "O-O",
+      "Be7",
+      "Re1",
+      "Nf6",
+      "d4"
+    ]
+  },
+  {
+    "id": "book-move-bad-g9-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 9, ply 8)",
+    "fen": "r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e1g1"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "e1g1",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Nc4 O-O b5 Bb3, reaching -2.24 for the side to move \u2014 270 centipawns worse than O-O.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "O-O is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 270,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Nc4",
+      "O-O",
+      "b5",
+      "Bb3"
+    ]
+  },
+  {
+    "id": "book-move-bad-g10-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 10, ply 6)",
+    "fen": "rnbqkb1r/ppp2ppp/4pn2/3p4/3PP3/8/PPPN1PPP/R1BQKBNR w KQkq - 2 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e4e5"
+    ],
+    "student_message": "I was thinking about playing exd5 here. Is that a good move?",
+    "student_move": "e4d5",
+    "engine_best_move": "e4e5",
+    "engine_refutation": "After exd5, the opponent's best answer is exd5 and play continues exd5 Ngf3 Bd6 Bd3 O-O O-O, reaching -0.11 for the side to move \u2014 60 centipawns worse than e5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "exd5 is a inaccuracy",
+      "exd5 refutes it",
+      "e5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "inaccuracy"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "inaccuracy",
+    "_expected_sound": false,
+    "_cp_loss": 60,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Ngf3",
+      "Bd6",
+      "Bd3",
+      "O-O",
+      "O-O"
+    ]
+  },
+  {
+    "id": "book-move-bad-g15-p7",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 7)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/8/3PN3/8/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b8d7"
+    ],
+    "student_message": "I was thinking about playing Qxd4 here. Is that a good move?",
+    "student_move": "d8d4",
+    "engine_best_move": "b8d7",
+    "engine_refutation": "After Qxd4, the opponent's best answer is Qxd4 and play continues Qxd4 Nc6 Qa4 Bd7 Bd2 Nf6, reaching -6.07 for the side to move \u2014 548 centipawns worse than Nd7.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Qxd4 is a blunder",
+      "Qxd4 refutes it",
+      "Nd7 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 548,
+    "_expected_reply": "Qxd4",
+    "_expected_line": [
+      "Qxd4",
+      "Nc6",
+      "Qa4",
+      "Bd7",
+      "Bd2",
+      "Nf6"
+    ]
+  },
+  {
+    "id": "book-move-bad-g15-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 8)",
+    "fen": "r1bqkbnr/pppn1ppp/4p3/8/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g1f3"
+    ],
+    "student_message": "I was thinking about playing Nf6+ here. Is that a good move?",
+    "student_move": "e4f6",
+    "engine_best_move": "g1f3",
+    "engine_refutation": "After Nf6+, the opponent's best answer is Ngxf6 and play continues Ngxf6 Bd3 c5 Nf3 Be7 Bf4, reaching -4.34 for the side to move \u2014 491 centipawns worse than Nf3.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nf6+ is a blunder",
+      "Ngxf6 refutes it",
+      "Nf3 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "blunder"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "blunder",
+    "_expected_sound": false,
+    "_cp_loss": 491,
+    "_expected_reply": "Ngxf6",
+    "_expected_line": [
+      "Ngxf6",
+      "Bd3",
+      "c5",
+      "Nf3",
+      "Be7",
+      "Bf4"
+    ]
+  },
+  {
+    "id": "book-move-bad-g16-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 16, ply 4)",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1b5"
+    ],
+    "student_message": "I was thinking about playing Nxe5 here. Is that a good move?",
+    "student_move": "f3e5",
+    "engine_best_move": "f1b5",
+    "engine_refutation": "After Nxe5, the opponent's best answer is Nxe5 and play continues Nxe5 d4 Ng6 c4 c5 Nc3, reaching -2.54 for the side to move \u2014 295 centipawns worse than Bb5.",
+    "expected_weakness_tags": [
+      "accepting a tempting move without checking"
+    ],
+    "key_ideas": [
+      "Nxe5 is a mistake",
+      "Nxe5 refutes it",
+      "Bb5 is stronger"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "mistake"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "mistake",
+    "_expected_sound": false,
+    "_cp_loss": 295,
+    "_expected_reply": "Nxe5",
+    "_expected_line": [
+      "Nxe5",
+      "d4",
+      "Ng6",
+      "c4",
+      "c5",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g6-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 6, ply 8)",
+    "fen": "r1bqkbnr/pppp2pp/2n5/1B2p3/3Pp3/5N2/PPP2PPP/RNBQK2R w KQkq - 0 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b5c6"
+    ],
+    "student_message": "I was thinking about playing Bxc6 here. Is that a good move?",
+    "student_move": "b5c6",
+    "engine_best_move": "b5c6",
+    "engine_refutation": "After Bxc6, the opponent's best answer is dxc6 and play continues dxc6 Nxe5 Nf6 O-O Be7 Nc3, reaching +0.17 \u2014 0 centipawns off the engine's Bxc6, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Bxc6 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "dxc6",
+    "_expected_line": [
+      "dxc6",
+      "Nxe5",
+      "Nf6",
+      "O-O",
+      "Be7",
+      "Nc3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g7-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing exd5 here. Is that a good move?",
+    "student_move": "e4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After exd5, the opponent's best answer is exd5 and play continues exd5 Nf3 Nf6 Bd3 Bd6 O-O, reaching +0.27 \u2014 15 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "exd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 15,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nf3",
+      "Nf6",
+      "Bd3",
+      "Bd6",
+      "O-O"
+    ]
+  },
+  {
+    "id": "book-move-sound-g7-p5",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 7, ply 5)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR b KQkq - 1 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g8f6"
+    ],
+    "student_message": "I was thinking about playing dxe4 here. Is that a good move?",
+    "student_move": "d5e4",
+    "engine_best_move": "g8f6",
+    "engine_refutation": "After dxe4, the opponent's best answer is Nxe4 and play continues Nxe4 Nd7 Nf3 Ngf6 Nxf6+ Nxf6, reaching -0.51 \u2014 12 centipawns off the engine's Nf6, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "dxe4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 12,
+    "_expected_reply": "Nxe4",
+    "_expected_line": [
+      "Nxe4",
+      "Nd7",
+      "Nf3",
+      "Ngf6",
+      "Nxf6+",
+      "Nxf6"
+    ]
+  },
+  {
+    "id": "book-move-sound-g8-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 8, ply 6)",
+    "fen": "rnbqkb1r/ppp2ppp/4pn2/3p4/3P4/4PN2/PPP2PPP/RNBQKB1R w KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f1d3"
+    ],
+    "student_message": "I was thinking about playing Bb5+ here. Is that a good move?",
+    "student_move": "f1b5",
+    "engine_best_move": "f1d3",
+    "engine_refutation": "After Bb5+, the opponent's best answer is Bd7 and play continues Bd7 Bd3 c5 b3 Qa5+ Bd2, reaching +0.07 \u2014 13 centipawns off the engine's Bd3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Bb5+ is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 13,
+    "_expected_reply": "Bd7",
+    "_expected_line": [
+      "Bd7",
+      "Bd3",
+      "c5",
+      "b3",
+      "Qa5+",
+      "Bd2"
+    ]
+  },
+  {
+    "id": "book-move-sound-g10-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 10, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing exd5 here. Is that a good move?",
+    "student_move": "e4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After exd5, the opponent's best answer is exd5 and play continues exd5 Nf3 Nf6 Bd3 Bd6 O-O, reaching +0.27 \u2014 15 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "exd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 15,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nf3",
+      "Nf6",
+      "Bd3",
+      "Bd6",
+      "O-O"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing exd5 here. Is that a good move?",
+    "student_move": "e4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After exd5, the opponent's best answer is exd5 and play continues exd5 Nf3 Nf6 Bd3 Bd6 O-O, reaching +0.27 \u2014 15 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "exd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 15,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nf3",
+      "Nf6",
+      "Bd3",
+      "Bd6",
+      "O-O"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p5",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 5)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR b KQkq - 1 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "g8f6"
+    ],
+    "student_message": "I was thinking about playing dxe4 here. Is that a good move?",
+    "student_move": "d5e4",
+    "engine_best_move": "g8f6",
+    "engine_refutation": "After dxe4, the opponent's best answer is Nxe4 and play continues Nxe4 Nd7 Nf3 Ngf6 Nxf6+ Nxf6, reaching -0.51 \u2014 12 centipawns off the engine's Nf6, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "dxe4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 12,
+    "_expected_reply": "Nxe4",
+    "_expected_line": [
+      "Nxe4",
+      "Nd7",
+      "Nf3",
+      "Ngf6",
+      "Nxf6+",
+      "Nxf6"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p6",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 6)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/8/3Pp3/2N5/PPP2PPP/R1BQKBNR w KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "c3e4"
+    ],
+    "student_message": "I was thinking about playing Nxe4 here. Is that a good move?",
+    "student_move": "c3e4",
+    "engine_best_move": "c3e4",
+    "engine_refutation": "After Nxe4, the opponent's best answer is Nd7 and play continues Nd7 Nf3 Ngf6 Nxf6+ Nxf6 Bd3, reaching +0.51 \u2014 0 centipawns off the engine's Nxe4, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Nxe4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Nd7",
+    "_expected_line": [
+      "Nd7",
+      "Nf3",
+      "Ngf6",
+      "Nxf6+",
+      "Nxf6",
+      "Bd3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p10",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 10)",
+    "fen": "r1bqkb1r/pppn1ppp/4pn2/8/3PN3/5N2/PPP2PPP/R1BQKB1R w KQkq - 3 6",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e4f6"
+    ],
+    "student_message": "I was thinking about playing Nxf6+ here. Is that a good move?",
+    "student_move": "e4f6",
+    "engine_best_move": "e4f6",
+    "engine_refutation": "After Nxf6+, the opponent's best answer is Nxf6 and play continues Nxf6 Bd3 c5 Be3 Qc7 Qe2, reaching +0.58 \u2014 0 centipawns off the engine's Nxf6+, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Nxf6+ is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Nxf6",
+    "_expected_line": [
+      "Nxf6",
+      "Bd3",
+      "c5",
+      "Be3",
+      "Qc7",
+      "Qe2"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p11",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 11)",
+    "fen": "r1bqkb1r/pppn1ppp/4pn2/8/3PN3/3B1N2/PPP2PPP/R1BQK2R b KQkq - 4 6",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f6e4"
+    ],
+    "student_message": "I was thinking about playing Nxe4 here. Is that a good move?",
+    "student_move": "f6e4",
+    "engine_best_move": "f6e4",
+    "engine_refutation": "After Nxe4, the opponent's best answer is Bxe4 and play continues Bxe4 Nf6 Bd3 c5 Be3 Qc7, reaching -0.59 \u2014 0 centipawns off the engine's Nxe4, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Nxe4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Bxe4",
+    "_expected_line": [
+      "Bxe4",
+      "Nf6",
+      "Bd3",
+      "c5",
+      "Be3",
+      "Qc7"
+    ]
+  },
+  {
+    "id": "book-move-sound-g15-p12",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 15, ply 12)",
+    "fen": "r1bqk2r/pppnbppp/4pn2/8/3PN3/3B1N2/PPP2PPP/R1BQK2R w KQkq - 5 7",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e4f6"
+    ],
+    "student_message": "I was thinking about playing Nxf6+ here. Is that a good move?",
+    "student_move": "e4f6",
+    "engine_best_move": "e4f6",
+    "engine_refutation": "After Nxf6+, the opponent's best answer is Nxf6 and play continues Nxf6 Qe2 O-O Be3 a6 Ne5, reaching +0.81 \u2014 0 centipawns off the engine's Nxf6+, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Nxf6+ is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Nxf6",
+    "_expected_line": [
+      "Nxf6",
+      "Qe2",
+      "O-O",
+      "Be3",
+      "a6",
+      "Ne5"
+    ]
+  },
+  {
+    "id": "book-move-sound-g19-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 19, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing cxd5 here. Is that a good move?",
+    "student_move": "c4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After cxd5, the opponent's best answer is exd5 and play continues exd5 Nc3 c6 Bf4 Nf6 e3, reaching +0.26 \u2014 7 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 7,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nc3",
+      "c6",
+      "Bf4",
+      "Nf6",
+      "e3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g21-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 21, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing cxd5 here. Is that a good move?",
+    "student_move": "c4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After cxd5, the opponent's best answer is exd5 and play continues exd5 Nc3 c6 Bf4 Nf6 e3, reaching +0.26 \u2014 7 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 7,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nc3",
+      "c6",
+      "Bf4",
+      "Nf6",
+      "e3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g23-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 23, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing cxd5 here. Is that a good move?",
+    "student_move": "c4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After cxd5, the opponent's best answer is exd5 and play continues exd5 Nc3 c6 Bf4 Nf6 e3, reaching +0.26 \u2014 7 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 7,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nc3",
+      "c6",
+      "Bf4",
+      "Nf6",
+      "e3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g24-p5",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 24, ply 5)",
+    "fen": "rnbqkbnr/pp2pppp/8/2pp4/3P4/2P1P3/PP3PPP/RNBQKBNR b KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e7e6"
+    ],
+    "student_message": "I was thinking about playing cxd4 here. Is that a good move?",
+    "student_move": "c5d4",
+    "engine_best_move": "e7e6",
+    "engine_refutation": "After cxd4, the opponent's best answer is exd4 and play continues exd4 Nf6 Nf3 Nc6 Bf4 Bf5, reaching -0.23 \u2014 11 centipawns off the engine's e6, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 11,
+    "_expected_reply": "exd4",
+    "_expected_line": [
+      "exd4",
+      "Nf6",
+      "Nf3",
+      "Nc6",
+      "Bf4",
+      "Bf5"
+    ]
+  },
+  {
+    "id": "book-move-sound-g25-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 25, ply 8)",
+    "fen": "rnbqk2r/pp1p1ppp/4pn2/2p5/1bPP4/2N5/PPQ1PPPP/R1B1KBNR w KQkq - 0 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "d4c5"
+    ],
+    "student_message": "I was thinking about playing dxc5 here. Is that a good move?",
+    "student_move": "d4c5",
+    "engine_best_move": "d4c5",
+    "engine_refutation": "After dxc5, the opponent's best answer is Bxc5 and play continues Bxc5 Nf3 Nc6 a3 O-O e3, reaching +0.42 \u2014 0 centipawns off the engine's dxc5, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "dxc5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Bxc5",
+    "_expected_line": [
+      "Bxc5",
+      "Nf3",
+      "Nc6",
+      "a3",
+      "O-O",
+      "e3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g27-p7",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 27, ply 7)",
+    "fen": "r1bqkbnr/pp1p1ppp/2n1p3/2p5/3PP3/2N2N2/PPP2PPP/R1BQKB1R b KQkq - 0 4",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "c5d4"
+    ],
+    "student_message": "I was thinking about playing cxd4 here. Is that a good move?",
+    "student_move": "c5d4",
+    "engine_best_move": "c5d4",
+    "engine_refutation": "After cxd4, the opponent's best answer is Nxd4 and play continues Nxd4 Nf6 Nxc6 bxc6 e5 Nd5, reaching -0.52 \u2014 0 centipawns off the engine's cxd4, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Nxd4",
+    "_expected_line": [
+      "Nxd4",
+      "Nf6",
+      "Nxc6",
+      "bxc6",
+      "e5",
+      "Nd5"
+    ]
+  },
+  {
+    "id": "book-move-sound-g27-p8",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 27, ply 8)",
+    "fen": "r1bqkbnr/pp1p1ppp/2n1p3/8/3pP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "f3d4"
+    ],
+    "student_message": "I was thinking about playing Nxd4 here. Is that a good move?",
+    "student_move": "f3d4",
+    "engine_best_move": "f3d4",
+    "engine_refutation": "After Nxd4, the opponent's best answer is Nf6 and play continues Nf6 Bf4 d6 Nxc6 bxc6 e5, reaching +0.55 \u2014 0 centipawns off the engine's Nxd4, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "Nxd4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "best"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "best",
+    "_expected_sound": true,
+    "_cp_loss": 0,
+    "_expected_reply": "Nf6",
+    "_expected_line": [
+      "Nf6",
+      "Bf4",
+      "d6",
+      "Nxc6",
+      "bxc6",
+      "e5"
+    ]
+  },
+  {
+    "id": "book-move-sound-g30-p4",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 30, ply 4)",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "b1c3"
+    ],
+    "student_message": "I was thinking about playing cxd5 here. Is that a good move?",
+    "student_move": "c4d5",
+    "engine_best_move": "b1c3",
+    "engine_refutation": "After cxd5, the opponent's best answer is exd5 and play continues exd5 Nc3 c6 Bf4 Nf6 e3, reaching +0.26 \u2014 7 centipawns off the engine's Nc3, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "cxd5 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 7,
+    "_expected_reply": "exd5",
+    "_expected_line": [
+      "exd5",
+      "Nc3",
+      "c6",
+      "Bf4",
+      "Nf6",
+      "e3"
+    ]
+  },
+  {
+    "id": "book-move-sound-g31-p9",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 31, ply 9)",
+    "fen": "rn1qkb1r/pp2pppp/2p2n2/3p4/2PP2b1/3BPN2/PP3PPP/RNBQK2R b KQkq - 0 5",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "e7e6"
+    ],
+    "student_message": "I was thinking about playing dxc4 here. Is that a good move?",
+    "student_move": "d5c4",
+    "engine_best_move": "e7e6",
+    "engine_refutation": "After dxc4, the opponent's best answer is Bxc4 and play continues Bxc4 e6 Nc3 Bh5 h3 Nbd7, reaching -0.31 \u2014 15 centipawns off the engine's e6, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "dxc4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 15,
+    "_expected_reply": "Bxc4",
+    "_expected_line": [
+      "Bxc4",
+      "e6",
+      "Nc3",
+      "Bh5",
+      "h3",
+      "Nbd7"
+    ]
+  },
+  {
+    "id": "book-move-sound-g31-p17",
+    "source": "Chessbook - Irving Chernev - Logical Chess - Move by Move (reconstructed game 31, ply 17)",
+    "fen": "r2qk2r/pp1nbppp/2p1pn2/3p3b/2PP4/1P1BPN2/P1QN1PPP/R1B2RK1 b kq - 0 9",
+    "task": "mistake_diagnosis",
+    "solution_moves": [
+      "c6c5"
+    ],
+    "student_message": "I was thinking about playing dxc4 here. Is that a good move?",
+    "student_move": "d5c4",
+    "engine_best_move": "c6c5",
+    "engine_refutation": "After dxc4, the opponent's best answer is bxc4 and play continues bxc4 c5 Qb3 cxd4 exd4 b6, reaching -0.36 \u2014 9 centipawns off the engine's c5, so it is sound.",
+    "expected_weakness_tags": [
+      "talking a student out of a good move"
+    ],
+    "key_ideas": [
+      "dxc4 is playable",
+      "confirm, do not invent a problem"
+    ],
+    "theme": [
+      "move-evaluation",
+      "mistake-diagnosis",
+      "good"
+    ],
+    "level": "intermediate",
+    "extraction": {
+      "method": "book-text-reconstruction+stockfish",
+      "validated_by": [
+        "python-chess",
+        "stockfish"
+      ]
+    },
+    "_expected_verdict": "good",
+    "_expected_sound": true,
+    "_cp_loss": 9,
+    "_expected_reply": "bxc4",
+    "_expected_line": [
+      "bxc4",
+      "c5",
+      "Qb3",
+      "cxd4",
+      "exd4",
+      "b6"
+    ]
+  }
+]
