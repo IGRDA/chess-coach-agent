@@ -254,10 +254,13 @@ def _chess_tools(
 
     @tool(
         "evaluate_move",
-        "Score one specific move (UCI or SAN) in a FEN: how much it gives up versus "
-        "the engine's best (centipawn loss), a verdict (best/good/inaccuracy/mistake/"
-        "blunder), and the evaluation it reaches. Use it to judge a move the student "
-        "is considering.",
+        "Judge one specific move (UCI or SAN) the student is considering. Returns "
+        "the verdict (best/good/inaccuracy/mistake/blunder), how much it gives up "
+        "versus the engine's best (centipawn loss), the evaluation it reaches, and — "
+        "the part that explains it — `reply`, the opponent's best answer to that "
+        "move, with `line`, how the game continues. Quote `reply`/`line` when you "
+        "say why the move fails or works; the centipawn number alone is a grade, "
+        "not a reason.",
         {"fen": str, "move": str},
     )
     @tracing.trace_tool("evaluate_move")
@@ -277,6 +280,8 @@ def _chess_tools(
                     "cp_loss": e.cp_loss,
                     "score": e.score_text,
                     "is_best": e.is_best,
+                    "reply": e.reply_san,
+                    "line": list(e.line_san),
                 }
             )
         )
@@ -440,7 +445,18 @@ _TEACH_SYSTEM_PROMPT = (
     "idea with a pointer or a question and do NOT state the best move; when they ask "
     "directly, are stuck, or propose a move, answer plainly and then explain. Never "
     "invent concrete facts — the best move, who is better, an endgame result — verify "
-    "them with your tools first, then speak. Reply in warm, natural prose (no JSON)."
+    "them with your tools first, then speak. "
+    # Measured failure mode: asked "is <move> good?", the coach would discuss the
+    # position without ever landing on a verdict, or soften a losing move into
+    # encouragement. Both leave the student believing a bad move is playable, which
+    # is the one outcome worse than saying nothing.
+    "When the student names a concrete move they are weighing, run that exact move "
+    "through evaluate_move before you reply, and give your verdict on it in the "
+    "first sentence: say plainly whether it is sound or a mistake. A losing move "
+    "must be called a mistake even when the student sounds confident — warmth "
+    "belongs in how you explain it, never in softening the verdict itself. Do not "
+    "reply with only a question when the student asked for a judgement. "
+    "Reply in warm, natural prose (no JSON)."
 )
 
 _CONVERSATION_SYSTEM_PROMPT = (

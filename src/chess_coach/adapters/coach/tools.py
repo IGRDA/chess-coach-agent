@@ -42,6 +42,11 @@ _LOSS_CAP = 2000
 # beats a slower one, and being mated sooner is worse than being mated later.
 _MATE_VALUE = 100_000
 
+# How much of the continuation after the student's move to hand back. Long enough to
+# show why the move fails (or works), short enough that a coach quotes it rather than
+# reciting it.
+_LINE_PLIES = 6
+
 _PIECE_VALUE = {
     chess.PAWN: 1,
     chess.KNIGHT: 3,
@@ -74,7 +79,15 @@ class PositionFeatures:
 
 @dataclass(frozen=True)
 class MoveEval:
-    """The engine's verdict on one specific move, relative to the best available."""
+    """The engine's reading of one specific move: its grade *and* its consequence.
+
+    ``cp_loss`` and ``verdict`` answer "how does this compare with the best move?" —
+    a fact about the other move. ``reply_san`` and ``line_san`` answer the question
+    the student actually asked, "what happens if I play *this*?": the opponent's best
+    answer and how the game continues. For a losing move that line is the refutation;
+    for a sound one it is the justification. Both are empty when the move ends the
+    game, because there is no reply to a checkmate.
+    """
 
     move_uci: str
     move_san: str
@@ -82,6 +95,8 @@ class MoveEval:
     verdict: str  # best | good | inaccuracy | mistake | blunder
     is_best: bool
     score_text: str  # resulting evaluation from the mover's point of view
+    reply_san: str = ""  # the opponent's best answer to this move
+    line_san: tuple[str, ...] = ()  # the continuation, starting with that answer
 
 
 def _board(fen: str) -> chess.Board:
@@ -227,7 +242,30 @@ def evaluate_move(analyzer: PositionAnalyzer, fen: str, move: str) -> MoveEval:
     best = analyzer.analyze(fen)
     best_value = _value_cp(best.cp, best.mate)
     is_best = move_uci == best.best_move_uci
+
+    board.push(parsed)
+    reply_san, line_san = "", ()
+    if board.is_checkmate():
+        move_cp, move_mate = None, 0  # mate delivered now
+    elif board.is_game_over():  # stalemate, insufficient material, etc. → draw
+        move_cp, move_mate = 0, None
+    else:
+        # The child search does two jobs: it values the move (flipped back to the
+        # mover's point of view — a mate for them is a mate against us), and it
+        # supplies the consequence, which is what the student asked about.
+        after = analyzer.analyze(board.fen())
+        reply_san = after.best_move_san
+        line_san = tuple(after.pv_san[:_LINE_PLIES])
+        if after.mate is not None:
+            move_cp, move_mate = None, -after.mate
+        else:
+            assert after.cp is not None
+            move_cp, move_mate = -after.cp, None
+
     if is_best:
+        # The engine's own move is worth exactly what its own search said. Scoring it
+        # from the child instead would compare two searches one ply apart and could
+        # report a non-zero loss for the move the engine just chose.
         return MoveEval(
             move_uci=move_uci,
             move_san=move_san,
@@ -235,22 +273,9 @@ def evaluate_move(analyzer: PositionAnalyzer, fen: str, move: str) -> MoveEval:
             verdict="best",
             is_best=True,
             score_text=best.score_text(),
+            reply_san=reply_san,
+            line_san=line_san,
         )
-
-    board.push(parsed)
-    if board.is_checkmate():
-        move_cp, move_mate = None, 0  # mate delivered now
-    elif board.is_game_over():  # stalemate, insufficient material, etc. → draw
-        move_cp, move_mate = 0, None
-    else:
-        # Flip the resulting position (scored from the opponent's point of view)
-        # back to the mover's: a mate for them is a mate against us, and vice versa.
-        after = analyzer.analyze(board.fen())
-        if after.mate is not None:
-            move_cp, move_mate = None, -after.mate
-        else:
-            assert after.cp is not None
-            move_cp, move_mate = -after.cp, None
 
     move_value = _value_cp(move_cp, move_mate)
     cp_loss = min(max(0, best_value - move_value), _LOSS_CAP)
@@ -261,6 +286,8 @@ def evaluate_move(analyzer: PositionAnalyzer, fen: str, move: str) -> MoveEval:
         verdict=_verdict(cp_loss, is_best),
         is_best=is_best,
         score_text=format_score(move_cp, move_mate),
+        reply_san=reply_san,
+        line_san=line_san,
     )
 
 

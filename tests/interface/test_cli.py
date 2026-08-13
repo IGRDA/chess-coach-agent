@@ -64,6 +64,34 @@ def test_coach_command_defaults_to_best_move(wired: FakeCoach) -> None:
     assert wired.calls[0].level is None
 
 
+def test_coach_command_forwards_candidate_move(wired: FakeCoach) -> None:
+    """``--move`` is the terminal's way to ask about a concrete move."""
+    result = runner.invoke(app, ["coach", SCHOLARS_FEN, "--move", "Qxf7"])
+
+    assert result.exit_code == 0, result.output
+    assert wired.calls[0].candidate_move == "Qxf7"
+
+
+def test_coach_command_without_move_leaves_candidate_unset(wired: FakeCoach) -> None:
+    runner.invoke(app, ["coach", SCHOLARS_FEN])
+
+    assert wired.calls[0].candidate_move is None
+
+
+def test_coach_command_move_shorthand(wired: FakeCoach) -> None:
+    runner.invoke(app, ["coach", SCHOLARS_FEN, "-m", "f3f7"])
+
+    assert wired.calls[0].candidate_move == "f3f7"
+
+
+def test_coach_command_echoes_the_move_under_review(wired: FakeCoach) -> None:
+    """The rendered answer names the move asked about, so the output stands alone."""
+    result = runner.invoke(app, ["coach", SCHOLARS_FEN, "--move", "Qxf7"])
+
+    assert result.exit_code == 0, result.output
+    assert "Qxf7" in result.output
+
+
 def test_unknown_task_exits_nonzero_without_calling_coach(wired: FakeCoach) -> None:
     result = runner.invoke(app, ["coach", START_FEN, "--task", "tablebase"])
 

@@ -25,6 +25,10 @@ _FIELDS: tuple[tuple[str, str], ...] = (
 def present_coaching(request: CoachingRequest, result: CoachingResult) -> str:
     """Compose the full coaching answer for a position into printable text."""
     lines = [board_diagram(request.fen), ""]
+    # Name the move under review before the verdict, so the output stands alone
+    # when it is piped somewhere the original command line is not visible.
+    if request.candidate_move:
+        lines.append(field_line("Your move", request.candidate_move))
     for attr, label in _FIELDS:
         value = getattr(result, attr)
         if value:

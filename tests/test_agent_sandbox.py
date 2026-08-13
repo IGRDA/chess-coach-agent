@@ -50,6 +50,26 @@ def test_all_tools_constant_is_only_the_chess_kernel() -> None:
     assert all(name.startswith(_MCP_PREFIX) for name in agent_mod._ALL_TOOLS)
 
 
+def test_move_evaluation_is_reachable_from_every_position_entry_point(
+    coach: AgentCoach,
+) -> None:
+    """Judging a concrete move is a coaching primitive, not an optional extra.
+
+    Every entry point that carries a board must expose it; ``general_chat`` has no
+    position, so it is excluded by design (asserted separately).
+    """
+    positional = {k: v for k, v in _all_options(coach).items() if k != "general_chat"}
+    for name, options in positional.items():
+        assert agent_mod._EVALUATE in (options.allowed_tools or []), (
+            f"{name} cannot evaluate a concrete move"
+        )
+
+
+def test_the_evaluate_move_tool_name_matches_the_mcp_convention() -> None:
+    assert agent_mod._EVALUATE == f"{_MCP_PREFIX}evaluate_move"
+    assert agent_mod._EVALUATE in agent_mod._ALL_TOOLS
+
+
 def test_no_options_allowlist_grants_a_file_or_shell_tool(coach: AgentCoach) -> None:
     for name, options in _all_options(coach).items():
         allowed = set(options.allowed_tools or [])

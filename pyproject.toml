@@ -35,6 +35,7 @@ evals = [
     "anthropic>=0.40",         # Claude judge + vision extraction (Messages API)
     "pdf2image>=1.17",         # render curated book pages for vision extraction
     "pillow>=10",              # image handling for the extraction tool
+    "pypdf>=4",                # read a book's PDF text layer (evals/tools/book_games)
     "arize-phoenix-client>=2", # push goldens as datasets + run experiments (evals/phoenix)
 ]
 # OpenTelemetry tracing for the coaching agent (adapters layer only). Off unless
