@@ -31,6 +31,12 @@ the CLI or TUI presents it to the student.
   <a href="docs/assets/chess-coach-demo-github.mp4">Watch the chess coach demo</a>.
 </video>
 
+
+
+https://github.com/user-attachments/assets/f7809b0b-b0e2-495c-9a27-6ab5e6f846ca
+
+
+
 If the embedded player is unavailable,
 [watch or download the demo](docs/assets/chess-coach-demo-github.mp4).
 
