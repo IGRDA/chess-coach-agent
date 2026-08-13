@@ -72,9 +72,15 @@ def coach(
     level: str | None = typer.Option(
         None, "--level", "-l", help="Audience level, e.g. beginner (tunes the pitch)."
     ),
+    move: str | None = typer.Option(
+        None,
+        "--move",
+        "-m",
+        help="A concrete move to evaluate (UCI or SAN), e.g. Nxe5 or f3f7.",
+    ),
 ) -> None:
     """Coach a single position: the engine-grounded move, assessment and why."""
-    request = CoachingRequest(fen=fen, task=task, level=level)
+    request = CoachingRequest(fen=fen, task=task, level=level, candidate_move=move)
     try:
         with coach_service(load_settings()) as service:
             output = coach_command.run(service, request)
