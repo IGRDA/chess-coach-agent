@@ -25,6 +25,17 @@ theory and exact endgame results. The agent turns those facts into level-appropr
 teaching. Finally, the harness parses and validates the structured response before
 the CLI or TUI presents it to the student.
 
+## Agent observability
+
+The coach emits OpenTelemetry traces for each agent turn and chess-tool call. In
+Phoenix, a trace shows the complete span waterfall together with tool choices and
+the provider-exposed reasoning summaries that led to the final coaching response:
+
+![OpenTelemetry trace of a coaching agent and its reasoning in Phoenix](docs/assets/opentelemetry-agent-trace.png)
+
+See the [observability guide](src/chess_coach/adapters/observability/observability.md)
+for local Phoenix setup, trace contents, and configuration.
+
 ## Demo and evaluations
 
 <video src="docs/assets/chess-coach-demo-github.mp4" controls width="100%">
