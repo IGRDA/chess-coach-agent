@@ -14,7 +14,7 @@ from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
 
 from chess_coach.adapters.coach.analysis import PositionAnalysis
 from chess_coach.adapters.coach.codex_agent import CodexCoach, CommandResult
-from chess_coach.adapters.observability import tracing
+from chess_coach.adapters.observability import latency, tracing
 
 
 @pytest.fixture(autouse=True)
@@ -63,6 +63,54 @@ def test_disabled_is_a_noop() -> None:
             tool.set_attribute("k", "v")
         tracing.record_result(span, _FakeResult())
     # No exporter, no provider — the point is simply that nothing raised.
+
+
+def test_latency_is_sampled_even_when_tracing_is_off() -> None:
+    """The p50/p90 report must work without a backend — that is its whole point.
+
+    Tracing is opt-in and usually off; the sampler is not, so a coach run on a
+    plain laptop still yields a latency distribution.
+    """
+    tracing.use_tracer(None)
+    latency.reset()
+
+    with tracing.turn_span("coach.answer", {"chess.fen": "x"}):
+        with tracing.tool_span("tool.evaluate_move", {"chess.fen": "x"}):
+            pass
+
+    assert latency.SAMPLER.samples("coach.answer.latency_ms")
+    assert latency.SAMPLER.samples("tool.evaluate_move.latency_ms")
+
+
+def test_tokens_are_sampled_from_a_result(spans: InMemorySpanExporter) -> None:
+    latency.reset()
+    with tracing.turn_span("coach.answer", {}) as span:
+        tracing.record_result(span, _FakeResult())
+
+    assert latency.SAMPLER.samples("tokens.prompt") == [1200.0]
+    assert latency.SAMPLER.samples("tokens.completion") == [300.0]
+    assert latency.SAMPLER.samples("tokens.total") == [1500.0]
+
+
+def test_usage_can_be_recorded_without_a_span() -> None:
+    """Providers with no SDK ResultMessage (Codex) still report their usage."""
+    latency.reset()
+    tracing.record_usage(10, 5, 0.02)
+
+    assert latency.SAMPLER.samples("tokens.total") == [15.0]
+    assert latency.SAMPLER.samples("cost.usd") == [0.02]
+
+
+def test_a_failing_turn_still_records_its_latency() -> None:
+    """A timeout is a latency data point, not a hole in the distribution."""
+    tracing.use_tracer(None)
+    latency.reset()
+
+    with pytest.raises(RuntimeError):
+        with tracing.turn_span("coach.answer", {}):
+            raise RuntimeError("model exploded")
+
+    assert len(latency.SAMPLER.samples("coach.answer.latency_ms")) == 1
 
 
 def test_turn_and_tool_spans_nest(spans: InMemorySpanExporter) -> None:

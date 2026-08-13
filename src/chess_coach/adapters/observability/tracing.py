@@ -28,8 +28,11 @@ import contextlib
 import contextvars
 import functools
 import json
+import time
 from collections.abc import Awaitable, Callable, Iterator
 from typing import Any
+
+from chess_coach.adapters.observability import latency
 
 try:  # OpenTelemetry is an optional extra ([tracing]); absence means "no-op".
     # Only the trace *API* is needed to record spans; the SDK pipeline and the OTLP
@@ -146,9 +149,17 @@ def turn_span(name: str, attributes: dict[str, Any]) -> Iterator[Any]:
 
     Yields the span (or a no-op) so the caller can attach the final
     :class:`ResultMessage` via :func:`record_result`.
+
+    The wall-clock stopwatch runs whether or not spans are being exported: it is
+    the only latency figure available for providers that report none of their own
+    (Codex), and it is what :mod:`latency` builds the p50/p90 report from.
     """
+    started = time.perf_counter()
     if not is_enabled():
-        yield _NOOP_SPAN
+        try:
+            yield _NOOP_SPAN
+        finally:
+            _record_elapsed(_NOOP_SPAN, name, started)
         return
 
     span = _tracer.start_span(name, attributes=_clean_attrs(attributes))
@@ -161,14 +172,19 @@ def turn_span(name: str, attributes: dict[str, Any]) -> Iterator[Any]:
         raise
     finally:
         _run_ctx.reset(token)
+        _record_elapsed(span, name, started)
         span.end()
 
 
 @contextlib.contextmanager
 def tool_span(name: str, attributes: dict[str, Any]) -> Iterator[Any]:
     """Open a span for one in-process tool call, parented to the active turn."""
+    started = time.perf_counter()
     if not is_enabled():
-        yield _NOOP_SPAN
+        try:
+            yield _NOOP_SPAN
+        finally:
+            _record_elapsed(_NOOP_SPAN, name, started)
         return
 
     span = _tracer.start_span(
@@ -180,7 +196,15 @@ def tool_span(name: str, attributes: dict[str, Any]) -> Iterator[Any]:
         _mark_error(span, exc)
         raise
     finally:
+        _record_elapsed(span, name, started)
         span.end()
+
+
+def _record_elapsed(span: Any, name: str, started: float) -> None:
+    """Stamp the measured wall-clock latency on the span and into the sampler."""
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
+    latency.record(f"{name}.latency_ms", elapsed_ms)
+    _set(span, "latency_ms", round(elapsed_ms, 3))
 
 
 def trace_tool(
@@ -205,9 +229,38 @@ def trace_tool(
     return decorate
 
 
+def record_usage(prompt: int | None, completion: int | None, cost: float | None) -> None:
+    """Feed token counts and cost into the sampler, independent of any span.
+
+    Providers that report usage without an SDK ``ResultMessage`` (Codex) call this
+    directly, so the token report covers every provider rather than only Claude.
+    """
+    if isinstance(prompt, int):
+        latency.record("tokens.prompt", float(prompt))
+    if isinstance(completion, int):
+        latency.record("tokens.completion", float(completion))
+    if isinstance(prompt, int) and isinstance(completion, int):
+        latency.record("tokens.total", float(prompt + completion))
+    if isinstance(cost, (int, float)):
+        latency.record("cost.usd", float(cost))
+
+
 def record_result(span: Any, result: Any) -> None:
-    """Copy the SDK ``ResultMessage`` summary (cost, tokens, latency) onto the span."""
-    if span is _NOOP_SPAN or result is None:
+    """Copy the SDK ``ResultMessage`` summary (cost, tokens, latency) onto the span.
+
+    Also mirrors the usage into the sampler so a run's token totals can be
+    summarised in-process, with or without a tracing backend attached.
+    """
+    if result is None:
+        return
+    usage = getattr(result, "usage", None)
+    if isinstance(usage, dict):
+        record_usage(
+            usage.get("input_tokens"),
+            usage.get("output_tokens"),
+            getattr(result, "total_cost_usd", None),
+        )
+    if span is _NOOP_SPAN:
         return
     _set(span, "coach.cost_usd", getattr(result, "total_cost_usd", None))
     _set(span, "coach.duration_ms", getattr(result, "duration_ms", None))
