@@ -38,6 +38,7 @@ import anyio
 from chess_coach.adapters.coach.analysis import DEFAULT_DEPTH, StockfishAnalyzer
 from chess_coach.adapters.coach.codex_agent import CodexCoach
 from chess_coach.adapters.coach.opening_book import OpeningBook
+from chess_coach.adapters.coach.skills import fingerprint_text
 from evals.data.loader import (
     coach_input,
     load_goldens,
@@ -118,7 +119,7 @@ def _judge(
 
 
 def _fp(variant: str, model: str | None, effort: str, depth: int) -> str:
-    raw = f"judged|{variant}|{model}|{effort}|{depth}"
+    raw = f"judged|{variant}|{model}|{effort}|{depth}|{fingerprint_text()}"
     return hashlib.sha256(raw.encode()).hexdigest()[:12]
 
 

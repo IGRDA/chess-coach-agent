@@ -40,6 +40,7 @@ from chess_coach.adapters.coach.analysis import (
 )
 from chess_coach.adapters.coach.codex_agent import CodexCoach
 from chess_coach.adapters.coach.opening_book import OpeningBook
+from chess_coach.adapters.coach.skills import fingerprint_text
 from chess_coach.adapters.observability import tracing
 from chess_coach.composition.config import Settings
 from evals.data.loader import (
@@ -103,7 +104,7 @@ def _fingerprint(
     model: str | None, effort: str | None, depth: int, solve: str | None = None
 ) -> str:
     """Invalidate cached answers when model, effort, depth, or solve mode changes."""
-    raw = f"codex|{model}|{effort}|{depth}|solve={solve}"
+    raw = f"codex|{model}|{effort}|{depth}|solve={solve}|{fingerprint_text()}"
     return hashlib.sha256(raw.encode()).hexdigest()[:12]
 
 

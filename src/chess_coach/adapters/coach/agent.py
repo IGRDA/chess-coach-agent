@@ -9,9 +9,9 @@ structured answer plus a coach's explanation.
 
 Deep module: the interface is one call, :meth:`AgentCoach.answer`. Hidden inside
 are the Claude Agent SDK wiring, the in-process MCP tool server, a deliberately
-tight tool allowlist (the agent may touch *only* the two chess tools — no shell,
-no web, no filesystem), skill loading, model selection, and the parsing of the
-model's final JSON back into a typed answer.
+tight tool allowlist (the agent may touch only the capabilities required by the
+selected coaching skill — no shell, web, or filesystem), model selection, and the
+parsing of the model's final JSON back into a typed answer.
 
 Why the tools return the truth the answer is graded on: a coach that invents an
 evaluation is worse than useless. Grounding every structured field in Stockfish is
@@ -51,6 +51,11 @@ from chess_coach.adapters.coach.prompts import (
     build_claude_prompt,
     build_claude_teach_prompt,
 )
+from chess_coach.adapters.coach.skills import (
+    capabilities_for,
+    claude_system_prompt,
+    skill_for_task,
+)
 from chess_coach.adapters.coach.tablebase import Tablebase
 from chess_coach.adapters.observability import tracing
 
@@ -60,13 +65,14 @@ TaskType = Literal["best_move", "eval_bucket", "endgame", "explain", "deep_line"
 # governs tool-use reliability and explanation quality rather than chess strength.
 DEFAULT_MODEL = "claude-sonnet-4-5"
 
-# The skill library. Each skill declares its own least-authority tool subset in its
-# frontmatter; the model loads the one that fits the task (progressive disclosure).
+# The canonical skill library is provider-neutral under ``.agents/skills``.  Claude
+# receives one selected skill inline plus the least-authority MCP capability subset.
 DEFAULT_SKILLS = [
     "tactics-coach",
     "assessment-coach",
     "endgame-coach",
     "interactive-coach",
+    "general-coach",
 ]
 
 # Compatibility for evaluators and callers that use the old module-local assets.
@@ -101,6 +107,22 @@ _ALL_TOOLS = [
     _COMPARE,
     _TABLEBASE,
 ]
+_TOOL_BY_CAPABILITY = {
+    "analyze_position": _ANALYZE,
+    "opening_lookup": _OPENING,
+    "position_features": _FEATURES,
+    "legal_moves": _LEGAL,
+    "evaluate_move": _EVALUATE,
+    "compare_candidates": _COMPARE,
+    "probe_tablebase": _TABLEBASE,
+}
+
+
+def _tools_for_skills(skill_names: list[str]) -> list[str]:
+    """Translate logical skill capabilities to Claude MCP tool identifiers."""
+    return [
+        _TOOL_BY_CAPABILITY[capability] for capability in capabilities_for(skill_names)
+    ]
 
 
 @dataclass(frozen=True)
@@ -412,20 +434,34 @@ class AgentCoach:
         self._skills = skills if skills is not None else list(DEFAULT_SKILLS)
         self._max_turns = max_turns
 
-    def _options(self) -> ClaudeAgentOptions:
+    def _selected_skill(self, task_type: str) -> str:
+        """Choose the task's method while respecting an injected skill subset."""
+        preferred = skill_for_task(task_type)
+        if preferred in self._skills:
+            return preferred
+        if self._skills:
+            return self._skills[0]
+        raise ValueError("AgentCoach needs at least one coaching skill")
+
+    def _options(self, skill_name: str | None = None) -> ClaudeAgentOptions:
+        """Build isolated Claude options with canonical skills rendered inline."""
+        selected = [skill_name] if skill_name else self._skills
         server = _chess_tools(self._analyzer, self._book, self._tablebase)
+        system_prompt = _SYSTEM_PROMPT
+        for name in selected:
+            system_prompt = claude_system_prompt(name, system_prompt)
         return ClaudeAgentOptions(
             model=self._model,
-            system_prompt=_SYSTEM_PROMPT,
+            system_prompt=system_prompt,
             mcp_servers={_MCP_SERVER: server},
-            # Tool filtering at the agent boundary: the coach may use *only* the
-            # chess kernel tools; each skill narrows that further in its frontmatter.
-            # Everything else (shell, web, files) is off the table.
-            allowed_tools=list(_ALL_TOOLS),
+            allowed_tools=_tools_for_skills(selected),
             disallowed_tools=["Bash", "Read", "Write", "Edit", "WebFetch", "WebSearch"],
             permission_mode="bypassPermissions",
-            skills=self._skills,
-            setting_sources=["project"],
+            # The selected canonical skill is already in the system prompt.  Disable
+            # ambient Claude skills/settings so application behavior does not depend
+            # on the launch directory or a user's local configuration.
+            skills=[],
+            setting_sources=[],
             max_turns=self._max_turns,
             # Empty unless native subprocess telemetry is enabled; the SDK merges it
             # over the inherited environment, so {} is a no-op.
@@ -442,6 +478,7 @@ class AgentCoach:
     ) -> CoachAnswer:
         """Run the agent on one position and return its structured answer."""
         prompt = _build_prompt(fen, task_type, level, question, candidate_move)
+        skill_name = self._selected_skill(task_type)
         final = ""
         transcript: list[str] = []
         with tracing.turn_span(
@@ -452,14 +489,16 @@ class AgentCoach:
                 input_value=prompt,
                 provider="claude",
                 system_prompt=_SYSTEM_PROMPT,
-                skills=self._skills,
-                skill_mode="dynamic",
+                skills=[skill_name],
+                skill_mode="inline",
             )
             async with anyio.create_task_group() as tg:
                 # Warm the engine while the model reads the prompt, so its first
                 # analyze_position call hits a ready result instead of waiting.
                 tg.start_soon(anyio.to_thread.run_sync, self._analyzer.prefetch, fen)
-                async for message in query(prompt=prompt, options=self._options()):
+                async for message in query(
+                    prompt=prompt, options=self._options(skill_name)
+                ):
                     if isinstance(message, AssistantMessage):
                         tracing.record_model_message(span, message)
                         for block in message.content:
@@ -489,27 +528,30 @@ class AgentCoach:
         server = _chess_tools(self._analyzer, self._book, self._tablebase)
         return ClaudeAgentOptions(
             model=self._model,
-            system_prompt=_TEACH_SYSTEM_PROMPT,
+            system_prompt=claude_system_prompt(
+                _INTERACTIVE_SKILL, _TEACH_SYSTEM_PROMPT
+            ),
             mcp_servers={_MCP_SERVER: server},
-            allowed_tools=list(_ALL_TOOLS),
+            allowed_tools=_tools_for_skills([_INTERACTIVE_SKILL]),
             disallowed_tools=["Bash", "Read", "Write", "Edit", "WebFetch", "WebSearch"],
             permission_mode="bypassPermissions",
-            skills=[_INTERACTIVE_SKILL],
-            setting_sources=["project"],
+            skills=[],
+            setting_sources=[],
             max_turns=self._max_turns,
             env=tracing.claude_env(),
         )
 
     def _general_chat_options(self) -> ClaudeAgentOptions:
         """Options for non-position chess Q&A: prose reply, no board tools."""
+        skill_name = skill_for_task("general_chat")
         return ClaudeAgentOptions(
             model=self._model,
-            system_prompt=_GENERAL_CHAT_SYSTEM_PROMPT,
+            system_prompt=claude_system_prompt(skill_name, _GENERAL_CHAT_SYSTEM_PROMPT),
             allowed_tools=[],
             disallowed_tools=["Bash", "Read", "Write", "Edit", "WebFetch", "WebSearch"],
             permission_mode="bypassPermissions",
-            skills=[_INTERACTIVE_SKILL],
-            setting_sources=["project"],
+            skills=[],
+            setting_sources=[],
             max_turns=self._max_turns,
             env=tracing.claude_env(),
         )
@@ -533,7 +575,7 @@ class AgentCoach:
                 provider="claude",
                 system_prompt=_TEACH_SYSTEM_PROMPT,
                 skills=[_INTERACTIVE_SKILL],
-                skill_mode="dynamic",
+                skill_mode="inline",
             )
             async with anyio.create_task_group() as tg:
                 tg.start_soon(anyio.to_thread.run_sync, self._analyzer.prefetch, fen)
@@ -560,6 +602,7 @@ class AgentCoach:
     async def general_chat(self, message: str, level: str | None = None) -> str:
         """Answer a non-position chess coaching question in prose."""
         prompt = _build_general_chat_prompt(message, level)
+        skill_name = skill_for_task("general_chat")
         final = ""
         transcript: list[str] = []
         with tracing.turn_span(
@@ -570,8 +613,8 @@ class AgentCoach:
                 input_value=prompt,
                 provider="claude",
                 system_prompt=_GENERAL_CHAT_SYSTEM_PROMPT,
-                skills=[_INTERACTIVE_SKILL],
-                skill_mode="dynamic",
+                skills=[skill_name],
+                skill_mode="inline",
             )
             async for msg in query(prompt=prompt, options=self._general_chat_options()):
                 if isinstance(msg, AssistantMessage):
@@ -592,13 +635,15 @@ class AgentCoach:
         server = _chess_tools(self._analyzer, self._book, self._tablebase)
         return ClaudeAgentOptions(
             model=self._model,
-            system_prompt=_CONVERSATION_SYSTEM_PROMPT,
+            system_prompt=claude_system_prompt(
+                _INTERACTIVE_SKILL, _CONVERSATION_SYSTEM_PROMPT
+            ),
             mcp_servers={_MCP_SERVER: server},
-            allowed_tools=list(_ALL_TOOLS),
+            allowed_tools=_tools_for_skills([_INTERACTIVE_SKILL]),
             disallowed_tools=["Bash", "Read", "Write", "Edit", "WebFetch", "WebSearch"],
             permission_mode="bypassPermissions",
-            skills=[_INTERACTIVE_SKILL],
-            setting_sources=["project"],
+            skills=[],
+            setting_sources=[],
             max_turns=self._max_turns,
             env=tracing.claude_env(),
         )
@@ -623,7 +668,7 @@ class AgentCoach:
                 provider="claude",
                 system_prompt=_CONVERSATION_SYSTEM_PROMPT,
                 skills=[_INTERACTIVE_SKILL],
-                skill_mode="dynamic",
+                skill_mode="inline",
             )
             async with anyio.create_task_group() as tg:
                 if fen:  # a conversation turn may carry no board

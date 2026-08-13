@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from chess_coach.adapters.coach import agent, chat, codex_agent, open_chat, prompts
 from chess_coach.adapters.coach.analysis import PositionAnalysis
+from chess_coach.adapters.coach.skills import codex_skill_prompt
 
 
 def test_claude_adapter_keeps_legacy_prompt_exports_from_catalog() -> None:
@@ -67,6 +68,7 @@ def test_codex_answer_builder_delegates_without_changing_rendered_prompt() -> No
         truth=truth,
     )
 
-    assert rendered == prompts.build_codex_prompt(
-        "<fen>", "best_move", "beginner", "Why?", truth
+    assert rendered == codex_skill_prompt(
+        "tactics-coach",
+        prompts.build_codex_prompt("<fen>", "best_move", "beginner", "Why?", truth),
     )
